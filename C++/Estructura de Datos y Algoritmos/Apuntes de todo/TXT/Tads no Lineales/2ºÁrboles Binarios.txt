@@ -1,0 +1,137 @@
+ElementoArbolBinario.h
+
+Cada elemento contiene datos y punteros a los hijos izquierdo y derecho
+
+class ElementoArbolBinario {
+    public:
+        // Members
+        TipoDato dato;
+        std::shared_ptr<ElementoArbolBinario> left = nullptr;
+        std::shared_ptr<ElementoArbolBinario> right = nullptr;
+    public:
+        // Constructor 
+        ElementoArbolBinario(const TipoDato& dato_) : dato{dato_} {};
+};
+********************************************************************************
+BinaryTree.h
+
+El árbol es el puntero al nodo raíz y las operaciones que pueden realizarse con él.
+	
+class BinaryTree {	
+    protected:	
+        std::shared_ptr<ElementoArbolBinario> root = nullptr;
+	
+	
+    public:
+	BinaryTree();  // Creates empty tree	
+        BinaryTree(const TipoDato& dato);  // Creates tree with root node
+ 	
+        // Member functions (properties of the tree structure)	
+        int height() const;	
+        int size() const; // Returns number of nodes
+	
+        // A way to add subtrees to an existing tree	
+        void add_left_subtree(const BinaryTree& subtree);	
+        void add_right_subtree(const BinaryTree& subtree);
+}
+**********************************************************************************
+BinaryTree.cpp
+
+La implementación es igual a la de un árbol normal
+
+// Constructor for an empty tree
+BinaryTree::BinaryTree() {}
+
+// Constructor for a tree with the root node
+BinaryTree::BinaryTree(const TipoDato& dato) {
+    root = std::make_shared<ElementoArbolBinario>(ElementoArbolBinario{dato});
+}
+
+void BinaryTree::add_left_subtree(const BinaryTree& subtree) {
+    root->left = subtree.root;
+}
+
+void BinaryTree::add_right_subtree(const BinaryTree& subtree) {
+    root->right = subtree.root;
+}
+
+*************************************************************************************
+Altura (recuerda cuál era la altura del árbol vacío):
+
+#include <algorithm>
+
+int _height(std::shared_ptr<ElementoArbolBinario> element) {
+    if (element == nullptr) {
+        return -1;
+    }
+    else {
+        int height_left = _height(element->left);
+        int height_right = _height(element->right);
+        return 1 + std::max(height_left, height_right);
+    }
+}
+
+int BinaryTree::height() const {
+    return _height(root);
+}
+*********************************************************************************
+Tamaño
+
+int _size(std::shared_ptr<ElementoArbolBinario> element) {
+    if (element == nullptr) {
+        return 0;
+    }
+    else {
+        int size_left = _size(element->left);
+        int size_right = _size(element->right);
+        return 1 + size_left + size_right;
+    }
+}
+
+int BinaryTree::size() const {
+    return _size(root);
+}
+************************************************************************************
+Por supuesto, también se pueden visitar/recorrer...
+
+	
+class BinaryTree {
+   protected:	
+        std::shared_ptr<ElementoArbolBinario> root = nullptr;
+	
+    public:
+	
+     BinaryTree();  // Creates empty tree
+     BinaryTree(const TipoDato& dato);  // Creates tree with root node
+	
+        // ... more functions
+	
+        // Depth-first search	
+        void dfs_preorder(std::function<void (TipoDato&)> action) const;	
+        void dfs_postorder(std::function<void (TipoDato&)> action) const;	
+        void dfs_inorder(std::function<void (TipoDato&)> action) const;	
+ 	
+        // Breadth-first search	
+        void bfs(std::function<void (TipoDato&)> action) const;
+	
+}
+}
+************************************************************************************
+Implementación en C++
+
+class CompleteBinaryTree {
+    public:
+        CompleteBinaryTree();
+
+        int height() const;
+        int size() const;
+
+        void push(const TipoDato& dato); // Adds element at the end
+
+        void bfs(std::function<void (TipoDato&)> action) const; // Trivial
+    protected:
+        std::vector<TipoDato> _data;
+};
+¡No hay punteros!
+
+Si nos dicen la altura 'h' máxima del árbol podríamos utilizar un 'std::array<TipoDato, n>', donde 'n' es el número máximo de nodos: '2^(h+1)-1' 

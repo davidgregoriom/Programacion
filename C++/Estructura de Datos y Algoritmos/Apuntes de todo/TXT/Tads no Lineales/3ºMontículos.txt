@@ -1,0 +1,222 @@
+Implementación en C++
+
+Esta cola sí tiene una interfaz standard (cppreference):
+
+class PriorityQueue {
+    public:
+        PriorityQueue();
+
+        int size() const;
+        bool empty() const;
+
+        const TipoDato& top() const;
+
+        void push(const TipoDato& dato);
+        void pop();
+
+    protected:
+        std::vector<TipoDato> _data;
+};
+****************************************************************
+Algunos métodos son triviales
+
+PriorityQueue::PriorityQueue() {}
+
+int PriorityQueue::size() const {
+    return _data.size();
+}
+
+bool PriorityQueue::empty() const {
+    return _data.empty();
+}
+******************************************************************
+El primer elemento es el de mayor prioridad, coincide con la raíz del montículo
+
+const TipoDato& PriorityQueue::top() const {
+    return _data.at(0);
+}
+*******************************************************************
+Inserción de un elemento
+	
+// Recursive heapify-up algorithm	
+void PriorityQueue::heapify_up(int i) {
+	
+    if (i == 0) { return;}	
+    // check if the node at index `i` and its parent violate the heap property	
+    if (_data.at(parent(i)) > _data.at(i)) {	
+        // swap the two if heap property is violated	
+        std::swap(_data[i], _data[parent(i)]);	
+       // call heapify-up on the parent	
+        heapify_up(parent(i));	
+    }
+	
+}
+	
+ 
+	
+void PriorityQueue::push(const TipoDato& dato) {	
+    // Insert at the end:	
+    _data.push_back(dato);	
+ 	
+    // Get element index and call heapify-up procedure	
+    int index = this->size() - 1;	
+    heapify_up(index);	
+}
+*********************************************************************
+Eliminar el primer elemento (la raíz del montículo)
+	
+// Recursive heapify-down algorithm.	
+void PriorityQueue::heapify_down(int i)	
+{	
+    // get left and right child of node at index `i`	
+    int idx_left = left(i);	
+    int idx_right = right(i);	
+
+	
+    // Identify lowest element	
+    int idx_lowest = i;	 
+    if (idx_left < this->size() && _data.at(idx_lowest) > _data.at(idx_left)) {	
+        idx_lowest = idx_left;	
+    }	
+    if (idx_right < this->size() && _data.at(idx_lowest) > _data.at(idx_right)) {	
+        idx_lowest = idx_right;	
+    }	
+ 
+	
+    // swap with a child having lowest value and	
+    // call heapify-down on the child	
+    if (idx_lowest != i)	
+    {	
+        std::swap(_data[i], _data[idx_lowest]);	
+        heapify_down(idx_lowest);	
+    }	
+}
+		
+void PriorityQueue::pop() {
+  if (this->empty()) {return;}	
+
+	
+    // replace the root of the heap with the last element (and remove it)	
+    _data[0] = _data.back();	
+    _data.pop_back();
+	
+ 
+	
+    // call heapify-down on the root node	
+    heapify_down(0);	
+}
+****************************************************************************
+Funciones auxiliares
+
+Hemos utilizado algunas funciones auxiliares: parent, left, right
+
+class PriorityQueue {
+    public:
+        PriorityQueue();
+
+        // ... other methods
+
+    private:
+        // These functions are private
+        void heapify_down(int i);
+        void heapify_up(int i);
+
+        int parent(int index) const;
+        int left(int index) const;
+        int right(int index) const;
+};
+******************************************************************************
+¡Atención! En el std::vector empezamos a contar en '0'.
+
+int PriorityQueue::parent(int index) const {
+    return (index-1) / 2;
+}
+
+int PriorityQueue::left(int index) const {
+    return (index*2 + 1);
+}
+
+int PriorityQueue::right(int index) const {
+    return (index*2 + 2);
+}
+*****************************************************************************
+Alternativa 1:
+
+Insertar los n elementos del array uno por uno
+
+int main() {
+    std::vector<int> values{3, 5, 1, 8, 2};
+
+    PriorityQueue pqueue;
+    for (auto v: values) {
+        pqueue.push();
+    }
+}
+
+Problema: duplicamos la memoria, dentro de la PriorityQueue hay otro std::vector
+
+*******************************************************************************
+Alternativa 2 (1/2):
+
+Utilizamos el propio vector para construir el montículo
+
+class PriorityQueue {
+    public:
+        PriorityQueue();
+        // ... more functions
+        void create_from(const std::vector<TipoDato>& values);
+    private:
+        std::vector<TipoDato> _data;
+};
+******************************************************************************
+Alternativa 2 (2/2):
+
+Utilizamos el propio vector para construir el montículo
+
+void PriorityQueue::create_from(const std::vector<TipoDato>& values) {
+    _data = values;
+    for(int i = (_data.size()‐2)/2; i >= 0; i‐‐) {
+        heapify_down(i);
+    }
+}
+
+No utilizo memoria extra y el número de operaciones sigue siendo O(n).
+*******************************************************************************
+Necesito una variable adicional para almacenar el tamaño del montículo (int _size):
+
+class PriorityQueue {
+    public:
+        PriorityQueue();
+        // ... more functions
+        void create_from(const std::vector<TipoDato>& values);
+    private:
+        std::vector<TipoDato> _data;
+        int _size;
+};
+*******************************************************************************
+Las funciones correspondientes deberán actualizar el valor de esta variable:
+
+void PriorityQueue::create_from(const std::vector<TipoDato>& values) {
+    _data = values;
+    _size = _data.size();
+
+    // Regular operations to satisfy heap property
+    for(int i = (_data.size()‐2)/2; i >= 0; i‐‐) {
+        heapify_down(i);
+    }
+}
+*******************************************************************************
+En vez de borrar los elementos simplemente actualizamos el número
+
+void PriorityQueue::pop() {
+    if (this->empty()) {return;}
+
+    // replace the root of the heap with the last element
+    std::swap(data.at(0), data.at(_size-1));
+    _size = _size - 1;
+
+    // call heapify-down on the root node
+    heapify_down(0);
+}
+
+

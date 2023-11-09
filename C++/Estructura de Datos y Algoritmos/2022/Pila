@@ -1,0 +1,48 @@
+struct ListNode{
+    int element;
+    ListNode* next;
+};
+
+class StackInt{
+public:
+    StackInt();
+    ListNode *topofStack;
+
+private:
+
+};
+
+
+int main()
+{
+  StackInt pila = StackInt();
+  pila.push(7);
+  cout << pila.top() << endl;
+}
+
+StackInt(){
+    topofStack =nullptr;
+}
+
+bool is_empty(){
+    return(topofStack==nullptr);
+}
+
+void push(const int& x){
+
+    topofStack= new ListNode(x,topofStack);
+
+}
+
+top(){
+    if (is_empty())throw Ex;
+    topofStack->x;
+}
+
+pop(){
+    if (is_empty())throw Ex;
+    ListNode ->
+    topofStack = old->next;
+
+}
+

@@ -1,0 +1,47 @@
+Una cola (queue) es una clase con estos métodos
+class Queue {
+    public:
+        Queue();
+
+        int size() const;
+        bool empty() const;
+
+        TipoDato& front() const;
+        TipoDato& back() const;
+
+        void push(const TipoDato& dato);
+        void pop();
+    protected:
+        std::shared_ptr<ElementListaDoble> _front = nullptr;
+        std::shared_ptr<ElementListaDoble> _back = nullptr;
+    };
+*************************************************************************
+Queue::push 
+// Inserts an element, it will become the latest in the queue
+void Queue::push(const TipoDato& dato) {
+    // TODO: Exactly the same implementation 
+    //       as DoubleLinkedList::push_back
+}
+*************************************************************************
+Queue::pop
+// Removes the first element from the queue
+void Queue::pop() {
+    // TODO: Exactly the same implementation
+    //       as DoubleLinkedList::pop_front
+}
+************************************************************************
+Queue::front 
+// Removes the first element from the queue
+TipoDato& Queue::front() {
+    // TODO: Exactly the same implementation
+    //       as DoubleLinkedList::front
+}
+***********************************************************************
+Queue::back
+// Removes the first element from the queue
+TipoDato& Queue::back() {
+    // TODO: Exactly the same implementation
+    //       as DoubleLinkedList::back
+}
+************************************************************************
+

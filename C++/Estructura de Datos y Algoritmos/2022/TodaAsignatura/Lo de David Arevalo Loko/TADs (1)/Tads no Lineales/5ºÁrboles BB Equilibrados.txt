@@ -1,0 +1,91 @@
+AVLTree.h
+
+class AVLTree {
+    public:
+        AVLTree();
+
+        // ... same as BinarySearchTree
+
+    private:
+        void rebalance(); // Function to call after every insertion/removal
+};
+*******************************************************************************
+AVLTree::push
+
+Después de insertar el elemento, rebalanceamos
+
+void AVLTree::push(const TipoDato& dato) {
+    _push(root, dato);
+    rebalance();
+}
+*******************************************************************************
+AVLTree::remove
+
+Después de eliminar el elemento, rebalanceamos
+
+void AVLTree::remove(const TipoDato& dato) {
+    // ... same as BinarySearchTree::remove
+
+    // After everything is done, rebalance
+    rebalance();
+}
+*******************************************************************************
+AVLTree::rebalance
+
+Después de eliminar el elemento, rebalanceamos
+	
+void _rebalance(std::shared_ptr<ElementoArbolBinario>& element) { // Note the reference
+    // DFS post-order strategy:
+    if (element->left) {
+        _rebalance(element->left);
+    }	
+    else if (element->right) {	
+        _rebalance(element->right);	
+    }
+	
+    if (factor_equilibrio(element) == -2) {	
+        if (factor_equilibrio(element->left) == 1) {	
+            // First, rotate the child right	
+            rotate_right(element->left);	
+        }	
+        rotate_left(element);	
+    }	
+    else if (factor_equilibrio(element) == 2) {	
+        if (factor_equilibrio(element->right) == -1) {	
+            // First, rotate the child left	
+           rotate_left(element->right);	
+        }	
+        rotate_right(element);	
+    }	
+}
+	
+void AVLTree::rebalance() {	
+    if (root != nullptr) {	
+        _rebalance(root);	
+    }	
+}
+*******************************************************************************
+Función auxiliar factor_equilibrio:
+
+int factor_equilibrio(std::shared_ptr<ElementoArbolBinario> element) {
+    return _height(element->right) - _height(element->left);
+}
+*******************************************************************************
+Función auxiliar rotate_left:
+
+void rotate_left(std::shared_ptr<ElementoArbolBinario>& element) { // Note the reference
+    auto old_parent = element;
+    element = element->left;
+    old_parent->left = element->right;
+    element->right = old_parent;
+}
+*******************************************************************************
+Función auxiliar rotate_right:
+
+void rotate_right(std::shared_ptr<ElementoArbolBinario>& element) { // Note the reference
+    auto old_parent = element;
+    element = element->right;
+    old_parent->right = element->left;
+    element->left = old_parent;
+}
+*******************************************************************************

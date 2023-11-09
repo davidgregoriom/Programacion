@@ -1,0 +1,205 @@
+ElementoArbolBinario.h
+
+Cada elemento contiene datos y punteros a los hijos izquierdo y derecho
+
+class ElementoArbolBinario {
+    public:
+        // Members
+        TipoDato dato;
+        std::shared_ptr<ElementoArbolBinario> left = nullptr;
+        std::shared_ptr<ElementoArbolBinario> right = nullptr;
+    public:
+        // Constructor 
+        ElementoArbolBinario(const TipoDato& dato_) : dato{dato_} {};
+};
+************************************************************************************
+BinarySearchTree.h
+
+El árbol es el puntero al nodo raíz y las operaciones que pueden realizarse con él.
+
+	
+class BinarySearchTree {
+    protected:	
+        std::shared_ptr<ElementoArbolBinario> root = nullptr;
+	
+ 
+	
+    public:	
+        BinarySearchTree();  // Creates empty tree	
+        BinarySearchTree(const TipoDato& dato);  // Creates tree with root node	
+	
+        // Same as BinaryTree	
+        int height() const;	
+        int size() const; // Number of nodes	
+ 
+	
+        // Get data
+        const TipoDato& min() const;
+        const TipoDato& max() const;
+	
+	
+        // Traverse the tree	
+        void dfs_inorder(std::function<void (const TipoDato&)> action) const;	
+ 
+	
+        // Operations	
+        bool find(const TipoDato&) const;	
+        void push(const TipoDato&);	
+        void remove(const TipoDato&);
+**************************************************************************************
+BinarySearchTree::min
+
+Acceso al mínimo
+
+const TipoDato& _min(std::shared_ptr<ElementoArbolBinario> element) {
+    if (element->left != nullptr) {
+        return _min(element->left);
+    }
+    else {
+        return element->dato;
+    }
+}
+
+const TipoDato& BinarySearchTree::min() const {
+    return _min(root);
+}
+***************************************************************************************
+BinarySearchTree::max
+
+Acceso al máximo
+
+const TipoDato& _max(std::shared_ptr<ElementoArbolBinario> element) {
+    if (element->right != nullptr) {
+        return _max(element->right);
+    }
+    else {
+        return element->dato;
+    }
+}
+
+const TipoDato& BinarySearchTree::max() const {
+    return _max(root);
+}
+**************************************************************************************
+BinarySearchTree::find (recursivo)
+
+Búsqueda de un elemento
+
+	
+bool _find(std::shared_ptr<ElementoArbolBinario> element,const TipoDato& dato) {	
+    // Handle corner case	
+    if (element == nullptr) {	
+        return false;	
+    }	
+ 	
+    // Do actual work	
+    if (element->dato > dato) {	
+        return _find(element->left, dato);	
+    }
+	
+    else if (element->dato < dato) {	
+        return _find(element->right, dato);	
+    }	
+    else {	
+        return element->dato == dato;	
+    }	
+}
+		
+bool BinarySearchTree::find(const TipoDato& dato) const {	
+    return _find(root, dato);	
+}
+****************************************************************************************
+BinarySearchTree::find (iterativo)
+
+Todo lo recursivo puede expresarse como iterativo
+
+bool BinarySearchTree::find(const TipoDato& dato) const {
+    auto elem = root;
+    while (elem != nullptr) {
+        if (elem->dato == dato) {
+            break;
+        }
+        else {
+            elem = (dato < elem->dato) ? elem->left : elem->right;  // This is called ternary operator
+        }
+    }
+    return elem != nullptr;
+}
+****************************************************************************************
+BinarySearchTree::push
+
+	
+void _push(std::shared_ptr<ElementoArbolBinario>& element, // Note the reference //const TipoDato& dato) {
+	
+    // Handle corner case
+    if (element == nullptr) {
+        element = std::make_shared<ElementoArbolBinario>(dato);
+        return;
+    }
+	
+    // Do actual work	
+    if (element->dato > dato) {	
+        _push(element->left, dato);	
+    }else if (element->dato < dato) {	
+        _push(element->right, dato);	
+    }else{	
+        // It is a duplicated element! Do nothing, raise exception,...	
+    }	
+}
+	
+void BinarySearchTree::push(const TipoDato& dato) {	
+    return _push(root, dato);	
+}
+***************************************************************************************
+BinarySearchTree::remove
+
+Eliminar un elemento
+
+	
+void BinarySearchTree::remove(const TipoDato& dato) {	
+    // Find the element (keep a reference to its parent)	
+    auto elem = root;	
+    std::shared_ptr<ElementoArbolBinario> parent = nullptr;	
+    while (elem != nullptr) {	
+        if (elem->dato == dato) {	
+            break;	
+        }
+        parent = elem;
+        elem = (dato < elem->dato) ? elem->left : elem->right;
+    }
+	
+ 
+	
+    // If not found, nothing to do
+    if (elem == nullptr) {
+        return;
+    }
+	
+    // If it has two childs, replace with the max element in the subtree
+    if (elem->left != nullptr && elem->right != nullptr) {
+        elem->dato = _max(elem->left);
+	
+        // Now the element to remove is the one at that max position
+        parent = elem;
+        elem = elem->left;
+        while (elem->right != nullptr) {
+            parent = elem;
+            elem = elem->right;	
+        }
+    }
+	
+    // Now the node to remove only has 1 or 0 childs
+    auto next = (elem->left != nullptr) ? elem->left : elem->right;
+    if (parent == nullptr) {
+        root = next;
+    }
+    else {
+        if (parent->left == elem) {
+            parent->left = next;
+        }else{
+            parent->right = next;
+        }
+    }	
+}
+*******************************************************************************
+

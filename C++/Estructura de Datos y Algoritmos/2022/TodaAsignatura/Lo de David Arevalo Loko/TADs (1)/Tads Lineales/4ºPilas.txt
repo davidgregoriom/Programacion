@@ -1,0 +1,45 @@
+Una pila (stack) es una clase con estos métodos
+class Stack {
+    public:
+        Stack();
+
+        int size() const;
+        bool empty() const;
+
+        void push(const TipoDato& dato);
+        void pop() const;
+        TipoDato& top() const;
+    protected:
+        std::shared_ptr<ElementListaSimple> front = nullptr;
+};
+****************************************************************
+Stack::push 
+// Inserts an element to the top of the stack (first element in list)
+void Stack::push(const TipoDato& dato) {
+    auto elem = std::make_shared<ElementListaSimple>(ElementListaSimple{dato});
+    if (front != nullptr) {
+        elem->next = front->next;
+        front = elem;
+    }
+    else {
+        front = elem;
+    }
+}
+Es igual que LinkedList::push_front
+**********************************************************************
+Stack::pop
+// Removes the element at the top of the stack (removes first element)
+void Stack::pop() {
+    if (front != nullptr) {
+        front = front->next;
+    }
+}
+Es igual que LinkedList::pop_front
+************************************************************************
+Stack::top
+// Returns the element at the top of the stack (returns first element)
+TipoDato& Stack::top() {
+    return front->dato;
+}
+Es igual que LinkedList::front
+*******************************************************************

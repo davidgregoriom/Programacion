@@ -1,0 +1,421 @@
+La lista ES una class
+class LinkedList {
+    ...
+};
+********************************************************
+Cada elemento de la lista es igual que en el caso de funciones libres
+class ElementListaSimple {
+    public:
+        // Members
+        TipoDato dato;
+        std::shared_ptr<ElementListaSimple> next = nullptr;
+    public:
+        // Constructor 
+        ElementListaSimple(const TipoDato& dato_) : dato{dato_} {};
+};
+********************************************************
+Cada elemento de la lista es igual que en el caso de funciones libres
+class ElementListaDoble {
+    public:
+        // Members
+        TipoDato dato;
+        std::shared_ptr<ElementListaDoble> next = nullptr;
+        std::shared_ptr<ElementListaDoble> prev = nullptr;
+    public:
+        // Constructor 
+        ElementListaDoble(const TipoDato& dato_) : dato{dato_} {};
+};
+*******************************************************
+Lista simple
+class LinkedList {
+    public:
+        // Lots of methods
+    protected:
+        // Simple list: only the pointer to the first element
+        std::shared_ptr<ElementListaSimple> front;
+}
+********************************************************
+Lista doblemente enlazada
+class DoubleLinkedList {
+    public:
+        // Lots of methods
+    protected:
+        // Double linked list: only the pointer to the first element
+        std::shared_ptr<ElementListaDoble> front;
+};
+Recuerda que los punteros al elemento siguiente/anterior los almacenan los elementos
+***************************************************************************************************
+Lista simple completa
+A veces es útil tener el puntero al último elemento también
+class LinkedList {
+    public:
+        // Lots of methods
+    protected:
+        std::shared_ptr<ElementListaSimple> front;
+        std::shared_ptr<ElementListaSimple> back;
+};
+****************************************************************
+Lista doble completa
+A veces es útil tener el puntero al último elemento también
+class DoubleLinkedList {
+    public:
+        // Lots of methods
+    protected:
+        std::shared_ptr<ElementListaDoble> front;
+        std::shared_ptr<ElementListaDoble> back;
+};
+****************************************************************
+Podemos construirla vacía o empezar con un elemento
+class LinkedList {
+    public:
+        LinkedList();
+        LinkedList(const TipoDato&);
+
+        // More methods
+    protected:
+        std::shared_ptr<ElementListaSimple> front = nullptr;
+        std::shared_ptr<ElementListaSimple> back = nullptr;
+};
+****************************************************************
+Constructor de una lista vacía
+LinkedList::LinkedList() : front{nullptr}, back{nullptr} {
+}
+****************************************************************
+Constructor de una lista con un elemento
+LinkedList::LinkedList(const TipoDato& dato) {
+    front = std::make_shared<ElementListaSimple>(ElementListaSimple{dato});
+    back = front; // both are pointing to the same element
+}
+***************************************************************************
+Declaración de los métodos en LinkedList.h
+class LinkedList {
+    public:
+        LinkedList();
+        LinkedList(const TipoDato&);
+
+        void for_each(std::function<void (TipoDato&)> action) const;
+        void enumerate(std::function<void (int, TipoDato&)> action) const;
+    protected:
+        std::shared_ptr<ElementListaSimple> front = nullptr;
+        std::shared_ptr<ElementListaSimple> back = nullptr;
+};
+**************************************************************************
+Implementación en LinkedList.cpp
+void LinkedList::for_each(std::function<void (TipoDato&)> action) const {
+    // Iterate the list as usual
+    std::shared_ptr<ElementListaSimple> iterator = front;
+    while (iterator != nullptr) {
+        action(iterator->dato); // Call the action
+        iterator = iterator->next;
+    }
+}
+
+void LinkedList::enumerate(std::function<void (int, TipoDato&)> action) const {
+    // Iterate the list as usual
+    std::shared_ptr<ElementListaSimple> iterator = front;
+    int idx = 0;
+    while (iterator != nullptr) {
+        action(idx, iterator->dato); // Call the action
+        iterator = iterator->next;
+        idx++;
+    }
+}
+**********************************************************************************
+Declaración de los métodos en LinkedList.h
+	
+class LinkedList {	
+    public:
+       LinkedList();
+        LinkedList(const TipoDato&);
+
+        void for_each(std::function<void (TipoDato&)> action) const;	
+        void enumerate(std::function<void (int, TipoDato&)> action) const;
+		
+        int size() const;	
+        bool empty() const;	
+    protected:
+	
+        std::shared_ptr<ElementListaSimple> front = nullptr;	
+        std::shared_ptr<ElementListaSimple> back = nullptr;	
+};
+*************************************************************************
+Implementación en LinkedList.cpp
+int LinkedList::size() const {	
+    // Implementation
+	
+}
+	
+bool LinkedList::empty() const {	
+    // Implementation
+	
+}
+*************************************************************************
+Acceso
+class LinkedList {	
+    public:	
+        LinkedList();	
+        LinkedList(const TipoDato&);	
+ 
+	
+        void for_each(std::function<void (TipoDato&)> action) const;	
+        void enumerate(std::function<void (int, TipoDato&)> action) const;	
+ 
+	
+        int size() const;	
+        bool empty() const;	
+ 
+	
+        TipoDato& front() const;	
+        TipoDato& back() const;	
+        TipoDato& at(int pos) const;	
+    protected:	
+        std::shared_ptr<ElementListaSimple> front = nullptr;	
+        std::shared_ptr<ElementListaSimple> back = nullptr;	
+};
+*****************************************************************************
+Inserción:
+	
+class LinkedList {
+   public:
+	
+        LinkedList();	
+        LinkedList(const TipoDato&);	
+ 
+	
+        void for_each(std::function<void (TipoDato&)> action) const;	
+        void enumerate(std::function<void (int, TipoDato&)> action) const;	
+ 
+	
+        int size() const;	
+        bool empty() const;	
+ 
+	
+        TipoDato& front() const;	
+        TipoDato& back() const;	
+        TipoDato& at(int pos) const;
+	
+        void push_back(const TipoDato& dato);	
+        void push_front(const TipoDato& dato);	
+        void insert(const TipoDato& dato, int pos);
+   protected:
+	
+        std::shared_ptr<ElementListaSimple> front = nullptr;	
+        std::shared_ptr<ElementListaSimple> back = nullptr;	
+};
+*************************************************************************
+Borrado:
+class LinkedList {	
+    public:	
+        LinkedList();	
+        LinkedList(const TipoDato&);	
+ 
+	
+        void for_each(std::function<void (TipoDato&)> action) const;	
+        void enumerate(std::function<void (int, TipoDato&)> action) const;	
+ 
+	
+        int size() const;	
+        bool empty() const;	
+ 
+	
+        TipoDato& front() const;	
+        TipoDato& back() const;	
+        TipoDato& at(int pos) const;	
+ 
+	
+        void push_back(const TipoDato& dato);	
+        void push_front(const TipoDato& dato);	
+        void insert(const TipoDato& dato, int pos);	
+ 
+	
+        void pop_back();	
+        void pop_front();	
+        void clear();
+        void erase(int pos);	
+    protected:	
+    
+        std::shared_ptr<ElementListaSimple> front = nullptr;	
+        std::shared_ptr<ElementListaSimple> back = nullptr;
+	
+};
+************************************************************************
+Otras operaciones:
+class LinkedList {	
+    public:
+        LinkedList();	
+        LinkedList(const TipoDato&);	
+ 
+	
+        void for_each(std::function<void (TipoDato&)> action) const;	
+        void enumerate(std::function<void (int, TipoDato&)> action) const;	
+ 
+	
+        int size() const;	
+        bool empty() const;	
+ 
+	
+        TipoDato& front() const;	
+        TipoDato& back() const;	
+        TipoDato& at(int pos) const;	
+ 
+	
+        void push_back(const TipoDato& dato);	
+        void push_front(const TipoDato& dato);	
+        void insert(const TipoDato& dato, int pos);	
+ 
+	
+        void pop_back();	
+        void pop_front();	
+        void clear();	
+        void erase(int pos);	
+ 
+	
+        void swap(int pos1, int pos2);	
+        int find(const TipoDato& dato) const;	
+    protected:	
+        std::shared_ptr<ElementListaSimple> front = nullptr;	
+        std::shared_ptr<ElementListaSimple> back = nullptr;
+	
+};
+*************************************************************************
+Ordenación:
+	
+class LinkedList {	
+    public:
+	 LinkedList();	
+        LinkedList(const TipoDato&);
+
+	
+        void for_each(std::function<void (TipoDato&)> action) const;	
+        void enumerate(std::function<void (int, TipoDato&)> action) const;	
+ 
+	
+        int size() const;	
+        bool empty() const;	
+ 
+	
+        TipoDato& front() const;	
+        TipoDato& back() const;	
+        TipoDato& at(int pos) const;	
+ 
+	
+        void push_back(const TipoDato& dato);	
+        void push_front(const TipoDato& dato);	
+        void insert(const TipoDato& dato, int pos);	
+ 
+	
+        void pop_back();	
+        void pop_front();	
+        void clear();	
+        void erase(int pos);	
+ 
+	
+        void swap(int pos1, int pos2);	
+        int find(const TipoDato& dato) const;	
+ 
+	
+        void sort();
+        bool is_sorted() const;
+	
+    protected:
+	
+        std::shared_ptr<ElementListaSimple> front = nullptr;	
+        std::shared_ptr<ElementListaSimple> back = nullptr;
+	
+};
+******************************************************************************
+Es una lista, así que su interfaz tiene los mismos métodos que la lista simple
+#include "ElementListaDoble.h"
+
+class DoubleLinkedList {
+    public:
+        DoubleLinkedList();
+
+        // Iterate
+        void for_each(std::function<void (TipoDato&)> action) const;
+        void enumerate(std::function<void (int, TipoDato&)> action) const;
+
+        // Size-related methods
+        int size() const;
+        bool empty() const;
+
+        // Access to data
+        TipoDato& front() const;
+        TipoDato& back() const;
+        TipoDato& at(int pos) const;
+
+        // Insertion
+        void push_back(const TipoDato& dato);
+        void push_front(const TipoDato& dato);
+        void insert(const TipoDato& dato, int pos);
+
+        // Removal
+        void pop_back();
+        void pop_front();
+        void clear();
+        void erase(int pos);
+
+        // Other methods
+        void swap(int pos1, int pos2);
+        int search(const TipoDato& dato) const;
+        void sort();
+
+    protected:
+        std::shared_ptr<ElementListaDoble> front = nullptr;
+        std::shared_ptr<ElementListaDoble> back = nullptr;
+};
+*********************************************************************************
+Implementación:
+	
+#include "DoubleLinkedList.h"
+	
+ 
+	
+/* ... there are many more functions in this file... */
+	
+ 
+	
+void DoubleLinkedList::pop_back() {
+	
+    if (front != back) {	
+        // Take the element before the latest one	
+        auto prevprev = back->prev;	
+        // The next element now is 'nullptr'	
+        prevprev->next = nullptr;
+	
+ 	
+        // Update the value of 'back'	
+        back = prevprev;	
+    }else { // If there is only one element in the list
+        this->clear(); // Just clear the list	
+    }
+	
+}
+************************************************************
+Implementación
+#include "DoubleLinkedList.h"
+
+/* ... there are many more functions in this file... */
+void DoubleLinkedList::insert(const TipoDato& dato, int pos) {	
+    if (pos == 0) { // This is a particular scenario	
+        this->push_front(dato);
+        return;	
+    }	
+ 	
+    // Create the element we are going to insert	
+    auto elem = std::make_shared<ElementListaDoble>(ElementListaDoble{dato});
+	
+    // Search for the position where we are going to insert	
+    auto iterator = front;	
+    int idx = 0;	
+    while (idx != pos) {	
+        iterator = iterator->next;	
+        idx++;	
+    }	
+	
+    // Now assign the pointers properly	
+    elem->next = iterator;	
+    elem->prev = iterator->prev;	
+    elem->next->prev = elem;	
+    elem->prev->next = elem;	
+}

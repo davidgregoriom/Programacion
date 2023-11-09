@@ -1,0 +1,91 @@
+#include <memory>
+#include <iostream>
+	
+	
+struct TipoDato {}; // Any datatype: int, std::string, float,...	
+ 
+	
+class Element { // Also known as Node sometimes
+    public:
+        // Members
+        TipoDato dato;
+        std::shared_ptr<Element> next = nullptr;
+    public:
+        // Constructor 	
+        Element(const TipoDato& dato_) : dato{dato_} {};
+	
+};
+****************************************************************
+#include <memory>	
+#include <iostream>
+	
+struct TipoDato {};
+		
+class ElementListaDoble {
+    public:
+        // Members
+        TipoDato dato;
+        std::shared_ptr<ElementListaDoble> next = nullptr;
+        std::shared_ptr<ElementListaDoble> prev = nullptr;	
+    public:	
+        // Constructor 	
+        ElementListaDoble(const TipoDato& dato_) : dato{dato_} {};	
+};
+****************************************************
+#include <memory>	
+#include <iostream>
+		
+struct TipoDato { std::string name; };
+	
+class Element {
+    public:
+        // Members
+        TipoDato dato;
+        std::shared_ptr<Element> next = nullptr;
+    public:
+
+        // Constructor
+        Element(const TipoDato& dato_) : dato{dato_} {};
+};
+	
+ 
+	
+int main() {
+    // Tenemos algunos datos
+    TipoDato t1{"nicolás"};
+    TipoDato t2{"marina"};
+    TipoDato t3{"humberto"};
+	
+    // Tenemos elementos que almacenan los datos
+    std::shared_ptr<Element> e1 = std::make_shared<Element>(Element{t1});
+    std::shared_ptr<Element> e2 = std::make_shared<Element>(Element{t2});
+    std::shared_ptr<Element> e3 = std::make_shared<Element>(Element{t3});
+	
+    // Los podemos poner en "orden" (uno detrás de otro)
+    e1->next = e2;
+    e2->next = e3;
+	
+    // La lista la representamos por el primer elemento
+    std::shared_ptr<Element> lista = e1;
+ 
+	
+    // Los podemos imprimir, del primero al último:
+    std::shared_ptr<Element> iterator = lista;  // primer elemento
+    while (iterator != nullptr) {
+        std::cout << iterator->dato.name << std::endl;
+        iterator = iterator->next;  // el iterador apunta al siguiente elemento
+    }	
+}
+**********************************************************************************
+class List {
+    public:
+        List();
+        void push_back(const TipoDato&);
+        void push_front(const TipoDato&);
+
+        // more functions
+    protected:
+        std::shared_ptr<Element> front;
+};
+
+

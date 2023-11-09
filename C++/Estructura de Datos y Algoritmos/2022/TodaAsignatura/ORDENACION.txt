@@ -1,0 +1,132 @@
+//Bubble Sort --> Mejor Complejidad O(n). Peor Complejidad O(n^2)
+void bubbleSort(int array[],int size){
+    for(int s=0;s<size;++s){
+        for(int i=0;i<size-s;++i){
+            if(array[i]>array[i+1]){
+                int temp=array[i];
+                array[i]=array[i+1];
+                array[i+1]=temp;
+            }
+        }
+    }
+}
+//Selection Sort --> Complejidad O(n^2)
+/*
+ * Se busca el mínimo elemento de la lista, se intercambia con el primero, se busca el siguiente minimo en el
+ * resto de la lista y se vuelve a intercambiar con el segundo, y asi sucesivamente.
+ */
+
+void selectionSort(int array[],int size){
+    for(int s=0;s<size-1;s++){
+        int min=s;
+        for(int i=s+1;i<size;i++){
+            if(array[i]<array[min]){
+                min=i;
+            }
+        }
+
+        swap(array[min],array[s]);
+    }
+}
+
+
+template<typename Comparable>
+void insertionSort(vector<Comparable>&a){
+    for(int p=1;p<a.size();p++){
+        Comparable t=move(a[p]);
+        int j;
+        for(j=p;j>0&&t<a[j-1];--j){
+            a[j]=move(a[j-1]);
+        }
+        a[j]=move(t);
+    }
+}
+//Merge Sort --> Complejidad O(n log n)
+/*
+ * Se comprueba si el tamaño de la lista es 0 o 1 para saber si esta ya ordenada. Si no, se divide la lista
+ * desordenada en dos sublistas, se ordena cada sublista recursivamente, y luego se juntan ambas listas.
+ */
+
+template<typename Comparable>
+void mergeSort(vector<Comparable> &a){
+    vector<Comparable>A(a.size());
+    mergeSort(a,A,0,a.size()-1);
+}
+
+
+template<typename Comparable>
+void mergeSort(vector<Comparable> &a, vector<Comparable> &t, int iz, int de){
+    if(iz<de){
+        int cen=(iz+de)/2;
+        mergeSort(a,t,iz,cen);
+        mergeSort(a,t,cen+1,de);
+        merge(a,t,iz,cen+1,de);
+    }
+}
+
+template<typename Comparable>
+void merge(vector<Comparable>&a,vector<Comparable>&tArray,int iz,int de,int definal){
+    int izfinal=de-1;
+    int tPos=iz;
+    int numeroElementos=definal-iz+1;
+
+    while(de<=definal&&iz<=izfinal){
+        if(a[iz]<=a[de]){
+            tArray[tPos++]=move(a[iz++]);
+        }else{
+            tArray[tPos++]=move(a[de++]);
+        }
+    }
+    while(iz<=izfinal){.
+        tArray[tPos]=move(a[iz++]);
+    }
+    while(de<=definal){
+         tArray[tPos]=move(a[de++]);
+    }
+    for(int i=0;i<numeroElementos;++i,--de){
+        a[definal]=move(tArray[de]);
+    }
+}
+
+//QuickSort --> Complejidad habitual O(n log n). En el peor de los casos O(n^2)
+/*
+ * Se elige un elemento del vector llamado pivote. Resituamos el resto de elementos a cada lado del pivote,
+ * un lado queden todos los menores que él, y al otro los mayores. La lista queda separada en dos sublistas,
+ * una formada por los elementos a la izquierda del pivote, y otra por los elementos a su derecha.
+ * Se repite este proceso de manera recursiva hasta que esten ordenados.
+ */
+template<typename Comparable>
+void quickSort(vector<Comparable>&a,int ba,int al){
+    if(ba>=al){
+        insertionSort(a,ba,al);
+    }else{
+        int medio=(ba+al)/2;
+        if(a[medio]<a[ba]){
+            swap(a[ba],a[medio]);
+        }
+        if(a[al]<a[ba]){
+            swap(a[ba],a[al]);
+        }
+        if(a[al]<a[medio]){
+            swap(a[medio],a[al]);
+        }
+        Comparable pivote=a[medio];
+        swap(a[medio],a[al-1]);
+
+        int i,j;
+        for(i=ba,j=al-1;;){
+            while(a[++i]<pivote){}
+            while(pivote<a[--j]){}
+            if(i<j){
+                swap(a[i],a[j]);
+            }else{
+                break;
+            }
+            swap(a[i],a[al-1]);
+
+            quickSort(a,ba,i-1);
+            quickSort(a,i+1,al);
+        }
+    }
+}
+

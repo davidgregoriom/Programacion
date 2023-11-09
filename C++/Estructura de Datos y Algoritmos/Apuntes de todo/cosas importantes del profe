@@ -1,0 +1,179 @@
+saber como hacer los algoritmos de ordenacion, entender como hacerlo.
+tema de listas como hacerlos.
+repasar los arboles
+arboles binarios balanceados, porque surge , el sentido.
+grafos , conceptualmente sencillo. grafo conexo.
+prim y k para el arbol de conceptura minimo
+prim y d para caminos minimos.
+
+
+grafos, no se puede porque se no sale de las manos
+nos confiamos mucho
+
+d , necesitamos tabla, debemos hacer la tabla,
+
+dfs preorder: primero yo , despues mis hijos y recursivamente, pila;
+bfs , se hace como una cola(queue).
+arboles binarios, in order.
+
+AST. abstract syntax TREE
+
+calcular la altura de arbol
+practicar recursividad(degenerado)
+
+
+
+BFS:
+ 
+Meto el primer nodo en la cola
+
+Saco un nodo de la cola
+
+Visito ese nodo
+
+Meto en la cola sus nodos adyacentes
+
+Vuelta al paso 2 hasta que la cola esté vacía
+
+DFS :
+Meto el primer nodo en la pila
+
+Saco un nodo de la pila
+
+Visito ese nodo
+
+Meto en la cola sus nodos adyacentes
+
+Vuelta al paso 2 hasta que la cola esté vacía
+
+*********************************************************************
+Los algoritmos de ordenación, tienes que saber cuál es su fundamento (por qué funcionan) y también implementarlos,
+20:38
+De listas/colas/pilas, además de entenderlas, haz ejercicios de código, cualquier ejemplo chorra que se te ocurra: insertar, eliminar, implemetar un BFS con una cola, un DFS con una pila,… kruskal con una pila. Aunque en el examen seguramente no tengas que implementar nada tan largo, hacerlo en casa con tiempo te va a servir como práctica
+20:39
+El mundo de los árboles, es el mundo de casos prácticos de recursividad: calcular la altura, árboles degenerados,… muchos de esos problemas tienen solución recursiva sencilla, hacer esos ejercicios y coger práctica también te será útil
+20:40
+Y del resto, más o menos lo que has indicado
+
+*******************************************************************
+// TODO: You will need to add some 'std::cout << "("' at some points.
+void _print_infix(std::shared_ptr<ElementoArbol> root) {
+    if (!root->children.empty()) {
+        _print_infix(root->children[0]);
+    }
+    std::cout << root->dato;
+
+    for (int i=1; i<root->children.size(); i++) {
+        _print_infix(root->children[i]);
+    }
+}
+
+void Tree::_print_infix() const {
+    _print_infix(root);
+}
+****************************************************************************
+void _dfs_preorder(const CompleteBinaryTree& tree,
+                   int idx_node,
+                   std::function<void (const TipoDato&)> action) {
+    if (idx_node == -1) {
+        return;
+    }
+ 
+    action(tree.at(idx_node));
+ 
+    int left_idx = tree.left(idx_node);
+    _dfs_preorder(tree, left_idx, action);
+ 
+    int right_idx = tree.right(idx_node);
+    _dfs_preorder(tree, right_idx, action);
+}
+ 
+void CompleteBinaryTree::dfs_preorder(std::function<void (const TipoDato&)> action) const {
+    if (this->empty()) {
+        return;
+    }
+    else {
+        // Start recursion from the root node (idx=0)
+        _dfs_preorder(*this, 0, action);
+    }
+}
+ 
+int main() {
+    CompleteBinaryTree tree;
+    tree.push(...);
+    tree.push(...);
+    ...
+*************************************************************************************
+using TipoDato = int;
+
+class PriorityQueue {
+    public:
+        PriorityQueue();
+
+        bool empty() const;
+
+        void create_from(const std::vector<TipoDato>& values);
+        const std::vector<TipoDato>& get_underlying_vector() const;
+
+        void pop();
+};
+
+int main() {
+    std::vector<int> values{3, 5, 8, 1, 2};
+
+    PriorityQueue pqueue;
+    pqueue.create_from(values);
+    while (!pqueue.empty()) {
+        pqueue.pop();
+    }
+
+    auto& ordered_vector = pqueue.get_underlying_vector();
+    for (auto v: ordered_vector) {
+        std::cout << v << std::endl;
+    }
+}
+***********************************************************************************
+class AVLTree {
+    public:
+        AVLTree();
+
+        // ...
+
+    private:
+        void dfs_postorder(std::function<void (std::shared_ptr<ElementoArbolBinario>&)> action) const;
+};
+void AVLTree::rebalance() {
+    // This is the action we will execute on every node
+    std::function<void (std::shared_ptr<ElementoArbolBinario>&)> action = [](std::shared_ptr<ElementoArbolBinario>& elem) {
+        if (factor_equilibrio(elem) == -2) {
+            // TODO
+        }
+        else if (factor_equilibrio(elem) == 2) {
+            // TODO
+        }
+    };
+
+    // Traverse the tree using DFS post-order strategy
+    dfs_postorder(action);
+}
+****************************************************************************************
+include "Graph.h"
+
+int main() {
+    // Map with 50 cities. The nodes will store the name of the city
+    //  and edges will store the distance between them.
+    Graph<std::string, int, 50> map;
+    map.add_node(0, "Madrid");
+    map.add_node(1, "Salamanca");
+    map.add_node(2, "Málaga");
+    map.add_node(3, "Zaragoza");
+
+    map.add_egde(0, 1, 200); // 200 km from Madrid to Salamanca
+    map.add_egde(0, 2, 500); // 500 km from Madrid to Málaga
+    // ...
+}
+ 
+    dfs_preorder(tree, [](const TipoDato& dato){
+        std::cout << dato << std::endl;
+    });
+}

@@ -1,0 +1,213 @@
+ElementoArbol.h
+Cada elemento contiene datos y punteros a los hijos
+class ElementoArbol {
+    public:
+        // Members      
+        TipoDato dato;
+        std::vector<std::shared_ptr<ElementoArbol>> children;
+    public:
+        // Constructor 
+        ElementoArbol(const TipoDato& dato_) : dato{dato_} {};
+};
+*******************************************************************
+Tree.h
+El árbol es el puntero al nodo raíz y las operaciones que pueden realizarse con él (*).
+	
+class Tree {	
+    protected:	
+        std::shared_ptr<ElementoArbol> root = nullptr;	
+ 	
+    public:	
+        Tree();  // Creates empty tree	
+        Tree(const TipoDato& dato);  // Creates tree with root node	
+ 	
+        // Member functions (properties of the tree structure)	
+        int height() const;	
+        int size() const; // Returns number of nodes
+	 	
+        // A way to add subtrees to an existing tree	
+        void add_subtree(const Tree& subtree);	
+        
+}
+Así como para las listas, colas y pilas existen en la biblioteca estándard de C++, los árboles (en general) no, así que no podemos referirnos a una interfaz estándard. 
+
+Creando un árbol: con la interfaz de que disponemos tenemos que ir nivel a nivel 🤷‍♂️	
+#include <iostream>	
+#include "Tree.h"
+		
+int main() {	
+    // Nivel 3	
+    Tree g{TipoDato{"g"}};
+	
+    // Nivel 2	
+    Tree e{TipoDato{"e"}};	
+    Tree f{TipoDato{"f"}};	
+    f.add_subtree(g);	
+	
+    // Nivel 1	
+    Tree b{TipoDato{"b"}};	
+    Tree c{TipoDato{"c"}};	
+    Tree d{TipoDato{"d"}};	
+    c.add_subtree(e);	
+    c.add_subtree(f);	
+ 	
+    // Nivel 0	
+    Tree a{TipoDato{"a"}};	
+    a.add_subtree(b);	
+    a.add_subtree(c);	
+    a.add_subtree(d);	
+    
+    // Get some properties	
+    std::cout << "Altura: " << a.height() << std::endl;	
+    std::cout << "Tamaño/peso: " << a.size() << std::endl;	
+}
+*********************************************************************************************
+Tree.cpp
+Sabemos cómo implementar algunas funciones
+
+// Constructor for an empty tree
+Tree::Tree() {}
+
+// Constructor for a tree with the root node
+Tree::Tree(const TipoDato& dato) {
+    root = std::make_shared<ElementoArbol>(ElementoArbol{dato});
+}
+
+void Tree::add_subtree(const Tree& subtree) {
+    if (subtree.root != nullptr) {
+        root->children.push_back(subtree.root);
+    }
+}
+********************************************************************************************
+.. algunas son recursivas 🤓
+#include <algorithm>
+
+int _height(std::shared_ptr<ElementoArbol> element) {
+    if (element->children.empty()) {
+        return 0;
+    }
+    else {
+        int height = 0;
+        for (auto child: element->children) {
+            height = std::max(height, _height(child));
+        }
+        return 1 + height;
+    }
+}
+*********************************************************************************************
+Añadimos funciones miembro para recorrer el árbol
+	
+class Tree {
+	
+    protected:	
+        std::shared_ptr<ElementoArbol> root = nullptr;	
+	
+    public:	
+        Tree();  // Creates empty tree	
+        Tree(const TipoDato& dato);  // Creates tree with root node	
+	
+        // ... more functions
+	
+        // Different traverse strategies	
+        void dfs_preorder(std::function<void (TipoDato&)> action) const;	
+        void dfs_postorder(std::function<void (TipoDato&)> action) const;	
+        void dfs_inorder(std::function<void (TipoDato&)> action) const;
+	
+}
+******************************************************************************************
+[DFS] pre-order (recursivo)
+void _dfs_preorder(std::shared_ptr<ElementoArbol> root,
+                   std::function<void (TipoDato&)> action) {
+    action(root->dato);
+    for (auto child: root->children) {
+        _dfs_preorder(child, action);
+    }
+}
+
+void Tree::dfs_preorder(std::function<void (TipoDato&)> action) const {
+    _dfs_preorder(root, action);
+}
+*****************************************************************************************
+[DFS] pre-order (iterativo)
+void dfs_preorder_iterativo(std::shared_ptr<ElementoArbol> root,
+                            std::function<void (TipoDato&)> action) {
+    Stack stack;  // You can reuse your Stack.h
+    stack.push(root);
+
+    while(!stack.empty()) {
+        auto elem = stack.top();
+        stack.pop();
+        action(elem->dato);
+        // Iterate backwards
+        for (auto it = elem->children.rbegin(); it != elem->children.rend(); it++) {
+            stack.push(*it);
+        }
+    }
+}
+*****************************************************************************************
+[DFS] post-order (recursivo)
+void _dfs_postorder(std::shared_ptr<ElementoArbol> root,
+                    std::function<void (TipoDato&)> action) {
+    for (auto child: root->children) {
+        _dfs_postorder(child, action);
+    }
+    action(root->dato);
+}
+
+void Tree::dfs_postorder(std::function<void (TipoDato&)> action) const {
+    _dfs_postorder(root, action);
+}
+******************************************************************************************
+[DFS] in-order (recursivo):
+void _dfs_inorder(std::shared_ptr<ElementoArbol> root,
+                  std::function<void (TipoDato&)> action) {
+    if (!root->children.empty()) {
+        _dfs_inorder(root->children[0], action);
+    }
+    action(root->dato);
+
+    for (int i=1; i<root->children.size(); i++) {
+        _dfs_inorder(root->children[i], action);
+    }
+}
+
+void Tree::dfs_inorder(std::function<void (TipoDato&)> action) const {
+    _dfs_inorder(root, action);
+}
+*******************************************************************************************
+Añadimos funciones miembro para recorrer el árbol
+
+	
+class Tree {	
+    protected:	
+        std::shared_ptr<ElementoArbol> root = nullptr;
+	
+    public:	
+        Tree();  // Creates empty tree
+        Tree(const TipoDato& dato);  // Creates tree with root node
+	
+	
+        // ... more functions
+	
+        // Breadth-first search	
+        void bfs(std::function<void (TipoDato&)> action) const;
+	
+}
+******************************************************************************************
+Breadth-first search (iterativo)
+void Tree::bfs(std::function<void (TipoDato&)> action) const {
+    Queue queue;  // We need a queue!
+    queue.push(root);
+    while (!queue.empty()) {
+        QueueTipoDato elem = queue.front();
+        queue.pop();
+        action(elem->dato);
+        for (auto child: elem->children) {
+            queue.push(QueueTipoDato{child});
+        }
+    }
+}
+*******************************************************************************************
+
+
+

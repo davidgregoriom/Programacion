@@ -1,0 +1,236 @@
+Bubble sort:Método de la burbuja:
+
+
+#include <iostream>
+#include <vector>
+	
+void bubble_sort(std::vector<int>& elements) {	
+  for (int i=0; i<elements.size()-1; i++) {  // 'n-1' iterations	
+    for (int k=0; k<elements.size()-1; k++) {  // 'n-1' iterations
+      if (elements[k] > elements[k+1]) { // compare adyacent values
+        std::swap(elements[k], elements[k+1]);
+      }	
+    }	
+  }	
+}	
+ 	
+int main() {	
+  std::vector<int> elements{9, 8, 7, 6, 5, 4, 3, 2, 1};	
+  bubble_sort(elements);	
+}
+*******************************************************************************
+Optimización #1
+
+En la pasada i-ésima, todos los últimos i elementos ya están ordenados 🤔
+
+#include <iostream>	
+#include <vector>
+		
+void bubble_sort(std::vector<int>& elements) {	
+  for (int i=0; i<elements.size()-1; i++) {  // 'n-1' iterations	
+    for (int k=0; k<elements.size()-1-i; k++) {  // 'n-1-i' iterations	
+      if (elements[k] > elements[k+1]) { // compare adyacent values	
+        std::swap(elements[k], elements[k+1]);	
+      }	
+    }	
+  }	
+}
+		
+int main() {	
+  std::vector<int> elements{9, 8, 7, 6, 5, 4, 3, 2, 1};	
+  bubble_sort(elements);	
+}
+*******************************************************************************
+Optimización #2
+
+Si en una pasada no intercambio ningún elemento es que todos YA están ordenados 🤔🤔
+	
+#include <iostream>	
+#include <vector>
+		
+void bubble_sort(std::vector<int>& elements) {	
+  for (int i=0; i<elements.size()-1; i++) {  // 'n-1' iterations	
+    bool any_swap = false;	
+    for (int k=0; k<elements.size()-1-i; k++) {  // 'n-1-i' iterations	
+      if (elements[k] > elements[k+1]) { // compare adyacent values	
+        std::swap(elements[k], elements[k+1]);	
+        any_swap = true;	
+      }	
+    }	
+    if (!any_swap) { break;} // return early	
+  }	
+}
+		
+int main() {	
+  std::vector<int> elements{9, 8, 7, 6, 5, 4, 3, 2, 1};	
+  bubble_sort(elements);	
+}
+*******************************************************************************
+Selection sort
+Método de selección:
+
+
+Implementación:
+	
+#include <iostream>	
+#include <vector>
+		
+void selection_sort(std::vector<int>& elements) {	
+  for (int i=0; i<elements.size(); i++) {  // 'n' iterations	
+    // Search for the minimum element in the right (unordered) section	
+    int indexMin = i;	
+    for (int k=i+1; k<elements.size(); k++) {  // 'n-i' iterations
+      if (elements[k] < elements[indexMin]) { // keep index of min element
+        indexMin = k;
+      }
+    }
+    // Swap current element with the min
+    std::swap(elements[i], elements[indexMin]);
+  }	
+}
+	
+int main() {	
+  std::vector<int> elements{9, 8, 7, 6, 5, 4, 3, 2, 1};	
+  selection_sort(elements);	
+}
+*******************************************************************************
+Mergesort
+Ordenamiento por mezcla (fusión):
+
+
+Implementación
+
+	
+#include <iostream>	
+#include <vector>
+	
+// A function to merge two ordered lists
+std::vector<int> merge(const std::vector<int>& lhs, const std::vector<int>& rhs)
+// Merge-sort algorithm
+std::vector<int> merge_sort(const std::vector<int>& elements) {
+    // Check for base/trivial case
+    if (elements.size() <= 1) {
+        return elements;
+    }
+    else {
+        // Split the vector in two
+        auto middle = elements.size()/2;
+        std::vector<int> left{elements.begin(), elements.begin() + middle};
+        std::vector<int> right{elements.begin() + middle, elements.end()};
+	
+        // Apply merge_sort to each of them
+        left = merge_sort(left);
+        right = merge_sort(right);
+	
+        // Merge those two (already) ordered vectors	
+        return merge(left, right);	
+    }	
+}
+	
+int main() {	
+  std::vector<int> elements{9, 8, 7, 6, 5, 4, 3, 2, 1};	
+  elements = merge_sort(elements);	
+}
+*******************************************************************************
+La función para mergear dos listas ordenadas
+
+	
+#include <iostream>
+#include <vector>
+	
+// A function to merge two ordered lists
+
+std::vector<int> merge(const std::vector<int>& lhs,const std::vector<int>& rhs) 
+{
+    std::vector<int> ret;
+    auto left_iterator = 0;
+    auto right_iterator = 0;
+	
+    // Iterate the two vectors at the same time, adding the lowest element
+    while (left_iterator != lhs.size() && right_iterator != rhs.size()) {
+        if (lhs[left_iterator] < rhs[right_iterator]) {
+            ret.push_back(lhs[left_iterator]);
+            left_iterator++;
+        }
+        else {
+            ret.push_back(rhs[right_iterator]);
+            right_iterator++;
+        }
+    }
+	
+    // Add remaining elements
+    for (int i=left_iterator; i<lhs.size(); i++) {
+        ret.push_back(lhs[i]);
+    }	
+    for (int i=right_iterator; i<rhs.size(); i++) {	
+        ret.push_back(rhs[i]);	
+    }	
+    return ret;	
+}
+		
+int main() {	
+  std::vector<int> lhs{2, 8, 11};	
+  std::vector<int> rhs{1, 3};	
+  auto result = merge(lhs, rhs);	
+}
+*******************************************************************************
+Quicksort
+Ordenamiento rápido:
+
+Implementación:
+
+	
+#include <iostream>
+#include <vector>
+		
+// A function to merge two ordered lists	
+int partition(std::vector<int>& elements, int left_index, int right_index)
+	
+// Quick-sort algorithm	
+void quick_sort(std::vector<int>& elements, int left_index, int right_index) {	
+    // Check for base/trivial case	
+    if (left_index >= right_index) {	
+        return;	
+    }
+    else {
+        // Compute the pivot
+        int pivot_index = partition(elements, left_index, right_index);
+	
+        // Apply quick-sort to both sides (pivot is already in place)
+        quick_sort(elements, left_index, pivot_index-1);
+        quick_sort(elements, pivot_index+1, right_index);
+    }
+}
+	
+int main() {
+  std::vector<int> elements{9, 8, 7, 6, 5, 4, 3, 2, 1};
+  quick_sort(elements, 0, elements.size()-1);
+}
+*******************************************************************************
+La función para ejecutar la partición
+
+#include <iostream>
+#include <vector>
+ 
+// A function to compute the partition
+int partition(std::vector<int>& elements, int left_index, int right_index)
+{
+    auto pivot = elements.at(left_index);
+    int i = left_index, j = right_index;
+	
+    while(true) {
+        while( elements.at(i) <= pivot && i < j ) ++i;
+        while( elements.at(j) > pivot ) --j;
+        if( i >= j ) break;
+        std::swap(elements.at(i), elements.at(j));	
+    }	
+    std::swap(elements.at(left_index), elements.at(j));	
+    return j;	
+}
+		
+int main() {	
+  std::vector<int> elements{2, 8, 11, 1, 3};
+	
+	
+  auto pivot_index = partition(elements, 0, elements.size()-1);	
+}

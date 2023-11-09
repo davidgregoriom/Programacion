@@ -1,0 +1,119 @@
+Ej.: Grafo no dirigido (matriz de adyacencia)
+	
+template <typename TipoNode, typename TipoEdge, int N>	
+class Graph {	
+    public:	
+        Graph();	
+ 
+	
+        void add_node(int node, const TipoNode& dato_node);	
+        void remove_node(int node);
+	
+ 	
+        bool add_edge(int origin, int target, const TipoEdge& dato_edge);	
+        void remove_edge(int origin, int target);
+	
+    private:
+        std::array<std::shared_ptr<TipoNode>, N> nodes;
+        std::array<std::array<std::shared_ptr<TipoEdge>, N>, N> edges;
+};
+
+1) El grafo de tamaño fijo.
+2) Utilizamos punteros para indicar la existencia del nodo o la arista
+*******************************************************************************
+Constructor
+
+Inicializamos todos los miembros con nullptr.
+	
+template <typename TipoNode, typename TipoEdge, int N>	
+Graph::Graph() {	
+    // Nodes	
+    for (int i=0; i<N; i++) {	
+        nodes[i] = nullptr;	
+    }
+	
+    // Edges	
+    for (int i=0; i<N; i++) {	
+        for (int j=0; j<N; j++) {	
+            edges[i][j] = nullptr;
+        }
+    }
+}
+*******************************************************************************
+Graph::add_node
+	
+template <typename TipoNode, typename TipoEdge, int N>	
+void Graph::add_node(int node, const TipoNode& dato_node) {
+    auto dato = std::make_shared<TipoNode>(dato_node);
+    nodes[node] = dato;
+}
+*******************************************************************************
+Graph::remove_node
+	
+template <typename TipoNode, typename TipoEdge, int N>	
+void Graph::remove_node(int node) {	
+    nodes[node] = nullptr;	
+    // Remove all the edges that use this node!	
+    for (int i=0; i<N; i++) {	
+        this->remove_edge(node, i); // It is undirected, no need to remove (i, node) as well.	
+    }	
+}
+*******************************************************************************
+Graph::add_edge
+	
+template <typename TipoNode, typename TipoEdge, int N>	
+bool Graph::add_edge(int origin, int target, const TipoEdge& dato_edge) {	
+    // Check if nodes exists:	
+    if (!nodes[origin] || !nodes[target]) {	
+        return false;	
+    }	
+    auto edge = std::make_shared<TipoEdge>(dato_edge);
+    edges[origin][target] = edge;	
+    edges[target][origin] = edge;	
+    return true;	
+}
+*******************************************************************************
+Graph::remove_edge
+	
+template <typename TipoNode, typename TipoEdge, int N>	
+void Graph::remove_edge(int origin, int target) {	
+    edges[origin][target] = nullptr;	
+    edges[target][origin] = nullptr;	
+}
+*******************************************************************************
+Búsqueda y acceso a nodos
+	
+template <typename TipoNode, typename TipoEdge, int N>	
+class Graph {	
+    public:	
+        Graph();	
+        /* ... more methods */	 
+	
+        int find_node(const TipoNode& dato_node) const;	
+        const TipoNode& get_node(int node) const;		
+};
+*******************************************************************************
+Nodos adyacentes
+
+template <typename TipoNode, typename TipoEdge, int N>
+class Graph {
+    public:
+        Graph();
+	
+        /* ... more methods */
+        std::vector<int> adjacents(int node) const;	
+};
+*******************************************************************************
+Acceso a aristas
+
+template <typename TipoNode, typename TipoEdge, int N>
+class Graph {
+    public:
+        Graph();
+	
+        /* ... more methods */
+        std::shared_ptr<TipoEdge> get_edge(int origin, int target) const;	
+};
+Utilizamos un puntero porque podría no existir conexión entre esas aristas. También podrías añadir una función para comprobarlo primero.
+*******************************************************************************
+

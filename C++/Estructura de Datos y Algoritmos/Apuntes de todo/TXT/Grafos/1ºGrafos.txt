@@ -1,0 +1,182 @@
+Implementación - Matriz de adyacencia
+Ej. Implementación C++
+
+Grafo no etiquetado. Identificamos los nodos por su posición (índice en un array)
+
+	
+template <int N>
+	
+class Graph {	
+    public:	
+        Graph();	
+
+        void add_edge(int origin, int target) {	
+            edges[origin][target] = true;	
+        }
+	
+        void remove_edge(int origin, int target) {	
+            edges[origin][target] = false;	
+        }	
+ 	
+    private:	
+        std::array<std::array<bool, N>, N> edges;	
+};
+Y el grafo tiene un tamaño fijo
+**********************************************************************************
+DFS - Recorrido en profundidad (recursivo)
+	
+template <int N>	
+class Graph {	
+    public:	
+        Graph();
+	
+        // ...
+	
+        void dfs(std::function<void (int node)> action) {	
+            std::array<bool, N> visited;	
+            for (int i=0; i<N; i++) { visited[i] = false; }
+	
+            for (int i=0; i<N; i++) {	
+                _dfs(i, visited, action);	
+            }	
+        }	
+ 	
+    private:	
+        void _dfs(int node, std::array<bool, N>& visited, std::function<void (int node)> action) {	
+          if (!visited[node]) {	
+            action(node);	
+            visited[node] = true;	
+            for (int i=0; i<N; i++) {	
+              if (edges[node][i]) {	
+                _dfs(i, visited, action);	
+              }	
+            }	
+          }	
+        }	
+    private:	
+        std::array<std::array<bool, N>, N> edges;	
+};
+********************************************************************************************
+BFS - Recorrido en anchura (iterativo, con queue)
+
+	
+template <int N>
+	
+class Graph {
+    public:	
+        Graph();
+	
+        // ...
+        void bfs(std::function<void (int node)> action) {
+            std::array<bool, N> visited;
+            for (int i=0; i<N; i++) { visited[i] = false; }
+ 
+	
+            std::queue<int> queue;
+            for (int i=0; i<N; i++) {
+                queue.push(i);
+                while (!queue.empty()) {
+                    int node = queue.front(); queue.pop();
+                    if (!visited[node]) {
+                        action(node);
+                        visited[node] = true;	
+                       for (int i=0; i<N; i++) {
+                            if (edges[node][i]) { // may exclude those already visited	
+                                queue.push(i);	
+                            }	
+                        }	
+                    }	
+                }	
+            }	
+        }	
+    private:	
+        std::array<std::array<bool, N>, N> edges;	
+};
+***********************************************************************************
+Implementación - Listas de adyacencia
+Ej. Implementación C++
+
+Grafo no etiquetado. Identificamos los nodos por su posición (índice en un array)
+	
+template <int N>	
+class GraphLists {	
+    public:	
+        GraphLists() {};
+		
+        void add_edge(int origin, int target) {	
+            adj_lists[origin].insert(target);	
+        }
+	
+        void remove_edge(int origin, int target) {	
+          adj_lists[origin].remove(target);
+	      }
+	
+    private:	
+        std::array<std::set<int>, N> adj_lists;	
+};
+
+Y el grafo tiene un tamaño fijo
+*******************************************************************************
+DFS - Recorrido en profundidad (recursivo)
+
+	
+template <int N>	
+class GraphLists {	
+    public:
+      GraphLists() {};
+		
+        // ...
+	
+        void dfs(std::function<void (int node)> action) {
+            std::array<bool, N> visited;	
+            for (int i=0; i<N; i++) { visited[i] = false; }	
+            for (int i=0; i<N; i++) {	
+                _dfs(i, visited, action);	
+            }	
+        }
+	
+    private:	
+        void _dfs(int node, std::array<bool, N>& visited, std::function<void (int node)> action) {	
+          if (!visited[node]) {	
+            action(node);	
+            visited[node] = true;	
+            for (auto i: adj_lists[node]) {	
+              _dfs(i, visited, action);	
+            }	
+          }	
+        }	
+    private:	
+        std::array<std::set<int>, N> adj_lists;	
+};
+*******************************************************************************
+BFS - Recorrido en anchura (iterativo, con queue)
+	
+template <int N>	
+class GraphLists {	
+    public:	
+        GraphLists() {};	
+        // ...
+	
+        void bfs(std::function<void (int node)> action) {
+            std::array<bool, N> visited;
+            for (int i=0; i<N; i++) { visited[i] = false; }
+	
+          std::queue<int> queue;	
+            for (int i=0; i<N; i++) {	
+                queue.push(i);	
+                while (!queue.empty()) {	
+                    int node = queue.front(); queue.pop();	
+                    if (!visited[node]) {	
+                        action(node);	
+                        visited[node] = true;	
+                        for (auto i: adj_lists[node]) {	
+                            queue.push(i);  // may exclude those already visited	
+                        }	
+                    }	
+                }	
+            }	
+        }
+		
+    private:	
+        std::array<std::set<int>, N> adj_lists;	
+};
