@@ -1,0 +1,20 @@
+Code Smells:
+
+Bloaters:
+Los bloaters son código, métodos y clases que han aumentado a proporciones tan gigantescas que es difícil trabajar con ellos. Por lo general, estos olores no surgen de inmediato, sino que se acumulan con el tiempo a medida que el programa evoluciona (y especialmente cuando nadie hace un esfuerzo por erradicarlos).Long method, Large class, Primitive obsession, long parameter list, data clumps
+
+
+Object-Orientation Abusers:
+Todos estos smells son aplicaciones incompletas o incorrectas de los principios de programación orientada a objetos.Alternative Classes with Different Interfaces, Refused Bequest, Switch Statements, Temporary Field
+
+
+Change preventers:
+Estos smells significan que si necesita cambiar algo en un lugar de su código, también debe realizar muchos cambios en otros lugares. Como resultado, el desarrollo del programa se vuelve mucho más complicado y costoso.Divergent Change, Parallel Inheritance Hierarchies, Shotgun Surgery
+
+
+Dispensables:
+Un prescindible es algo sin sentido e innecesario cuya ausencia haría que el código fuera más limpio, más eficiente y más fácil de entender.Comments, Duplicate Code, Data Class, Dead Code, Lazy Class, Speculative Generality
+
+
+Couplers:
+Todos los smells de este grupo contribuyen al acoplamiento excesivo entre clases o muestran lo que sucede si el acoplamiento se reemplaza por una delegación excesiva. Feature Envy, Inappropriate Intimacy,Incomplete Library Class, Message Chains, Middle Man

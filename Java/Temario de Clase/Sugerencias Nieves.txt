@@ -1,0 +1,27 @@
+Hola David,
+
+Deberías repasar:
+
+- Programación en java. Repasa sintaxis. Plantéate cualquier problema de cualquier lenguaje y trata de resolverlo en java. Clases, interfaces, etc
+- Patrones de diseño, repasa la página que os di de referencia (guru99). Entiende para qué el cada patrón, qué estructuras siguen, en qué principios se basan
+- repasa los 5 principios básicos que vimos ..
+
+Intenta hacer el videojuego de cero.
+
+
+Un saludo,
+
+
+
+Dra. Nieves Cubo Mateo
+
+Associate Professor and Head of ARIES 
+
+(Artificial Intelligence and Emergent System Research Group)
+
+ 
+
+Universidad Nebrija
+
+Campus Madrid-Princesa
+C. de Sta. Cruz de Marcenado, 27, 28015 Madrid
