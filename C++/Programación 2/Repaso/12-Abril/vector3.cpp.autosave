@@ -1,0 +1,46 @@
+#include "vector3.h"
+
+Vector3::Vector3()
+{
+
+}
+
+float Vector3::getA() const
+{
+    return a;
+}
+
+void Vector3::setA(float value)
+{
+    a = value;
+}
+
+float Vector3::getB() const
+{
+    return b;
+}
+
+void Vector3::setB(float value)
+{
+    b = value;
+}
+
+float Vector3::getC() const
+{
+    return c;
+}
+
+void Vector3::setC(float value)
+{
+    c = value;
+}
+
+vector<Complejo> Vector3::getVector() const
+{
+    return Vector;
+}
+
+void Vector3::setVector(const vector<Complejo> &value)
+{
+    Vector = value;
+}

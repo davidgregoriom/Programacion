@@ -1,0 +1,39 @@
+#include <iostream>
+#include <array>
+using namespace std;
+
+int main() {
+
+  array <array<int,3>, 3> mat;
+
+  cout << "Matriz 1: \n";
+  for(int fila{0}; fila < 3; fila++){
+    for(int col{0}; col < 3; col++){
+      cout << "Introduce el elemento " << fila << ", " << col << ": ";
+      int num;
+      cin >> num;
+      mat.at(fila).at(col) = num;
+    }
+  }
+
+  
+  array <array<int,3>, 3> mat2;
+  cout << "Matriz 2: \n";
+  for(int fila{0}; fila < 3; fila++){
+    for(int col{0}; col < 3; col++){
+      cout << "Introduce el elemento " << fila << ", " << col << ": ";
+      int num;
+      cin >> num;
+      mat2.at(fila).at(col) = num;
+    }
+  }
+
+  array <array<int,3>, 3> mat3;
+  cout << "Matriz suma: \n";
+  for(int fila{0}; fila < 3; fila++){
+    for(int col{0}; col < 3; col++){
+        mat3.at(fila).at(col) =  mat.at(fila).at(col) +  mat2.at(fila).at(col) ;
+        cout <<  mat3.at(fila).at(col) << " ";
+    }
+    cout << "\n";
+  }

@@ -1,0 +1,14 @@
+Se desea crear un programa para operar con vectores de 3 coordenadas: x, y ,z.
+
+Se pide:
+
+Crear una clase Vector que pueda almacenar vectores de tres coordenadas.
+El constructor por defecto debe inicializar el vector a [0,0,0], además debe haber un constructor parametrizado para inicializar el vector con los valores deseados.
+Crear las funciones getter y setter para acceder a cada uno de los miembros del vector.
+Crear un método de la clase getModule que devuelva el módulo del vector.
+Sobrecargar los operadores +, -, * para sumar, restar y multiplicar escalarmente dos vectores.
+Sobrecargar el operador << para mostrar por pantalla el vector en formato [x,y,z]
+Sobrecargar el operador == que nos debe indicar si dos vectores son iguales.
+Sobrecargar el operador >> para poder introducir por teclado el vector usando cin, de modo que se introduzcan las tres coordenadas por teclado.
+Hacer un programa que pida al usuario 2 vectores y muestre por pantalla: módulo, suma, resta, producto escalar. Además debe indicar si los vectores introducidos son iguales.
+Cada apartado vale 1 punto. Si se tienen todos los apartados bien se obtendrá un punto adicional.

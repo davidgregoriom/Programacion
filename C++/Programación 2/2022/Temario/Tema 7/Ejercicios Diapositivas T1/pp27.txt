@@ -1,0 +1,31 @@
+#include <iostream>
+#include <memory>
+
+class Figura{
+public:
+  Figura(){};
+  virtual ~Figura(){};
+
+  virtual float getArea() = 0; //DeclaraciÃ³n mÃ©todo virtual
+
+};
+
+class Cuadrado: public Figura{
+public:
+  Cuadrado(float a):lado{a} {}
+  float getArea(){return lado*lado;}  //ImplementaciÃ³n del mÃ©todo virtual de la clase base Figura
+private:
+  float lado;
+};
+
+int main()
+{
+  //a es un puntero inteligente Ãºnico a la clase base Figura
+  //Lo inicializamos con la direcciÃ³n de un objeto Cuadrado (recibe como entrada a travÃ©s del contructor lado de valor 4
+  std::unique_ptr<Figura> puntero = std::make_unique<Cuadrado>(4);
+  //Invocamos al mÃ©todo de getArea de figura (ya que el continente es un puntero a Figura)
+  //Pero como es mÃ©todo virtual la defininciÃ³n estÃ¡ en la clase derivada Cuadrado y nos devuelve lado*lado
+  std::cout << puntero->getArea() <<std::endl; // -> 16
+
+  return 0;
+}

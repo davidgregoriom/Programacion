@@ -1,0 +1,16 @@
+#include <iostream>
+
+template<typename T>		//Indicamos que vamos a hacer un templete de tipo T
+void print(T const & a){		//Declaramos la funciÃ³n con valor de ret. y el tipo T
+                        //Como no sabemos quÃ© va a ser T lo pasamos por ref y cte
+                        //AsÃ­ seguro que no lo podemos modificar
+  std::cout << a << "\n";	//...Cuerpo de la funciÃ³n...
+}
+
+int main() {
+    
+  print<>(3);
+  print<>("hola");
+  
+  return 0;
+}

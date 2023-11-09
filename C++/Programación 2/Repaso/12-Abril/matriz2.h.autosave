@@ -1,0 +1,13 @@
+#ifndef MATRIZ2_H
+#define MATRIZ2_H
+
+
+class Matriz2
+{
+public:
+    Matriz2();
+private:
+    vector<vector<float>>Matriz;
+};
+
+#endif // MATRIZ2_H

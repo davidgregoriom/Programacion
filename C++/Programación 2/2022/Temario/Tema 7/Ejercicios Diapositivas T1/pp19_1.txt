@@ -1,0 +1,46 @@
+#include <iostream>
+
+//Caso 1 Herencia
+
+struct base               {void fun(){std::cout << "Soy la base" << std::endl;}};
+struct der1 : public base {void fun1(){std::cout << "Soy derivada 1" << std::endl;}};
+struct der2 : public base {void fun2(){std::cout << "Soy derivada 2" << std::endl;}};
+
+
+//Caso 2 Herencia
+/*
+struct base               {void fun(){std::cout << "Soy la base" << std::endl;}};
+struct der1 : public base {void fun(){std::cout << "Soy derivada 1" << std::endl;}};
+struct der2 : public base {void fun(){std::cout << "Soy derivada 2" << std::endl;}};
+*/
+
+int main()
+{
+    base MiBase;
+    der1 MiDerivada1;
+    der2 MiDerivada2;
+
+    MiBase.fun();           //Base puede acceder a su metodo fun
+    std::cout<<std::endl;
+    MiDerivada1.fun();      //der1 puede acceder al metodo que hereda de base fun
+    MiDerivada1.fun1();     //der1 puede acceder a su metodo fun1
+    std::cout<<std::endl;
+    MiDerivada2.fun();      //der2 puede acceder al metodo que hereda de base fun
+    MiDerivada2.fun2();     //der2 puede acceder a su metodo fun1
+    std::cout<<std::endl;
+
+
+/*
+    //Si ahora cambiamos la definiciÃ³n de las estructuras al caso2 y hacemos esto...
+    MiBase.fun();       //Â¿Que muestra por pantalla?
+    MiDerivada1.fun();  //Â¿Que muestra por pantalla?
+    MiDerivada2.fun();  //Â¿Que muestra por pantalla?
+
+    //superposiciÃ³n u overriding -> La definiciÃ³n de la funcion en la clase derivada oculta la definiciÃ³n previa en la clase base
+    //Podemos acceder a las funciones que oculta? SI, pero con su "ruta" completa <objeto>.<clase_base>::<mÃ©todo>
+
+    //MiDerivada1.base::fun();
+*/
+
+    return 0;
+}

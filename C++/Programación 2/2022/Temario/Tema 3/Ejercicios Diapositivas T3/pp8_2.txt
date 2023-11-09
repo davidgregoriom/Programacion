@@ -1,0 +1,97 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class CuentaBanco
+{
+public:
+    CuentaBanco(const std::string& n, float s, double h, float i);
+    CuentaBanco(const std::string& n, float s);
+    std::string getNombreCliente() const;
+    void setNombreCliente(const std::string &value);
+
+    float getSaldo() const;
+    void setSaldo(float value);
+
+    double getHipoteca() const;
+    void setHipoteca(double value);
+
+    float getInteres() const;
+    void setInteres(float value);
+
+private:
+    std::string NombreCliente;
+    float saldo;
+    double hipoteca;
+    float interes;
+};
+
+
+int main()
+{
+    CuentaBanco MiCuenta("Jose",5,-100000,0.01);
+    CuentaBanco MiOtraCuenta("J",1000000);
+    
+    cout<<MiCuenta.getNombreCliente()<<"_"<<MiCuenta.getInteres()<<"_"<<MiCuenta.getHipoteca()<<endl;
+    cout<<MiOtraCuenta.getNombreCliente()<<"_"<<MiOtraCuenta.getInteres()<<"_"<<MiOtraCuenta.getHipoteca()<<endl;
+
+    return 0;
+}
+
+CuentaBanco::CuentaBanco(const string& n, float s, double h, float i)
+{
+    setNombreCliente(n);
+    setSaldo(s);
+    setHipoteca(h);
+    setInteres(i);
+}
+
+CuentaBanco::CuentaBanco(const string& n, float s)
+{
+    setNombreCliente(n);
+    setSaldo(s);
+    //hipoteca=0;  //Ojo, si no inicializais esto que pasarÃ­a? Que hipoteca y tipo de interÃ©s tendrÃ­a nuestro cliente?
+    //interes=0;
+}
+
+std::string CuentaBanco::getNombreCliente() const
+{
+return NombreCliente;
+}
+
+void CuentaBanco::setNombreCliente(const std::string &value)
+{
+NombreCliente = value;
+}
+
+float CuentaBanco::getSaldo() const
+{
+return saldo;
+}
+
+void CuentaBanco::setSaldo(float value)
+{
+saldo = value;
+}
+
+double CuentaBanco::getHipoteca() const
+{
+return hipoteca;
+}
+
+void CuentaBanco::setHipoteca(double value)
+{
+hipoteca = value;
+}
+
+float CuentaBanco::getInteres() const
+{
+return interes;
+}
+
+void CuentaBanco::setInteres(float value)
+{
+interes = value;
+}

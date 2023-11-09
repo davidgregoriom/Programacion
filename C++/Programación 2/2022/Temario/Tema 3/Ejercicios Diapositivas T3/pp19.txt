@@ -1,0 +1,18 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    std::vector<int> MiVec{0,1,2,3};
+
+    for(int i=1;i<=MiVec.size();i++)
+    {
+        MiVec.at(i)=i;
+    }
+
+    std::cout<<"Terminando..."<<std::endl;
+
+    return 0;
+}

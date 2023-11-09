@@ -1,0 +1,30 @@
+#include <iostream>
+
+class ClaseA
+{
+public: 
+    void Incrementar(){std::cout<<"Suma 1"<<std::endl; } 
+    void Incrementar(int n){ std::cout <<"Suma "<<n<<std::endl; }
+};
+
+class ClaseB:public ClaseA
+{
+public:
+    void Incrementar(){std::cout<<"Suma 2"<<std::endl; }
+};
+
+int main()
+{
+    ClaseB objeto;
+    
+    objeto.Incrementar();
+    objeto.Incrementar(8); //Existe?
+    
+    //Si, pero no es posible acceder a ninguna de las funciones superpuestas de la clase base, 
+    //aunque tengan distintos valores de retorno o distinto nÃºmero o tipo de parÃ¡metros. 
+    //Todas las funciones "incrementar" de la clase base han quedado ocultas, y sÃ³lo son accesibles mediante el nombre completo.
+    
+    //objeto.ClaseA::Incrementar();
+    //objeto.ClaseA::Incrementar(8);
+    
+}

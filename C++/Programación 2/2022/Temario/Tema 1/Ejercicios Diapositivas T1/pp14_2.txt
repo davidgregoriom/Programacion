@@ -1,0 +1,25 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+   int mivariable=600;
+   int *mipuntero{nullptr};
+
+    mipuntero=&mivariable;
+
+    std::cout<<"Mi variable es: "<<mivariable<<std::endl;
+    //std::cout<<"La direccion de mi variable es: "<<&mivariable<<std::endl;
+    //std::cout<<"Mi puntero vale: "<<mipuntero<<std::endl;
+    //std::cout<<"El contenido de mi puntero vale: "<<*mipuntero<<std::endl;
+
+    //*mipuntero=22; //Cambio
+
+    //std::cout<<"Mi variable ahora es: "<<mivariable<<std::endl;
+    //std::cout<<"La direccion de mi variable ahora es: "<<&mivariable<<std::endl;
+    //std::cout<<"Mi puntero ahora vale: "<<mipuntero<<std::endl;
+    //std::cout<<"El contenido de mi puntero ahora vale.... "<<*mipuntero<<std::endl;
+
+ return 1;
+}

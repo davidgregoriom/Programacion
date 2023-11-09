@@ -1,0 +1,24 @@
+#include <iostream>
+
+ int main()
+ {
+    int* p_num{new int}; //Reservamos memoria para un entero
+    int* otro_p_num;
+
+    *p_num = 23; //Guardamos en esa posiciÃ³n de memoria el valor 23
+    std::cout << *p_num << "_"<<p_num <<"\n"; //Mostramos por terminal el contenido de la posiciÃ³n de memoria y la posiciÃ³n de memoria
+
+    delete p_num;  //Liberamos memoria
+
+    std::cout << *p_num << "_"<<p_num <<"\n"; // Hemos perdido la informaciÃ³n que contenÃ­a la memoria reservada
+
+    //Podemos volver a reservar memoria
+    //Pero el contenido inicial de p_num (el valor entero 23 lo hemos perdido)
+    p_num=new int;
+    std::cout << *p_num << "_"<<p_num <<"\n";
+
+    otro_p_num=new int;
+    std::cout << *otro_p_num << "_"<<otro_p_num <<"\n";
+
+    return 0;
+ }

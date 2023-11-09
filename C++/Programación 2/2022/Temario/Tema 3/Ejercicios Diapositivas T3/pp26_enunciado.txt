@@ -1,0 +1,15 @@
+#include <iostream>
+#include <array>
+
+using namespace std;
+
+int main()
+{
+    std::array<int,5> MiArray{0,1,2,3,4};
+    
+    //std::cout<<MiArray[6]<<std::endl; //Ojo, aquÃ­ no pasa
+    std::cout<<MiArray.at(6)<<std::endl;
+
+	std::cout<<"Terminando..."<<std::endl;
+	return 0;
+}

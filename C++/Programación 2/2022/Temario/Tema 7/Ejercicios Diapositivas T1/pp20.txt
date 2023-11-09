@@ -1,0 +1,57 @@
+#include <iostream>
+
+class Persona
+{
+public:
+    Persona(const std::string &n){nombre=n;}
+    void VerNombre(){std::cout<<"Esta persona se llama: "<<nombre<<std::endl;}
+protected:
+    std::string nombre;
+};
+
+class Empleado:public Persona
+{
+public:
+    Empleado(const std::string &n):Persona(n){}
+    void VerNombre(){std::cout<<"El empleado se llama: "<<nombre<<std::endl;}
+};
+
+class Becario:public Persona
+{
+public:
+    Becario(const std::string &n):Persona(n){}
+    void VerNombre(){std::cout<<"El becario se llama: "<<nombre<<std::endl;}
+};
+
+int main()
+{
+    Persona *Pepe= new Empleado("Jose");
+    Persona *Felipe= new Becario("Felipe");
+    //Empleado *Pepe= new Empleado("Jose");
+    //Becario *Felipe= new Becario("Felipe");
+
+    //Para el caso de Pepe y Felipe personas
+    Pepe->VerNombre();  //Esta persona se llama: Jose
+    Felipe->VerNombre();//Esta persona se llama: Felipe
+    //Se ejecuta el VerNombre de la base, ya que la llamada se resuelve en tiempo de ejecuciÃ³n. Y se atiende el tipo de apuntador en lugar del objeto apuntado
+
+    //Para el caso de Pepe y Felipe empleado y becario
+    //Pepe->VerNombre();  //El empleado se llama: Jose
+    //Felipe->VerNombre();//El becario se llama: Felipe
+    //Por la misma razÃ³n que antes en este caso se ejecuta el VerNombre superpuesto
+
+    //Si lo hacemos con referencias pasa igual
+    Becario Paco("Francisco");
+    Persona *puntPaco=&Paco;
+    puntPaco->VerNombre();
+    //Atendiendo al recipiente y no a lo apuntado, se usarÃ¡ VerNombre de la clase Persona, aunque puntPaco apunta a un Becario
+
+    //Como hemos podido ver los objetos se comportan de manera distinta en funciÃ³n de con que se le apunte
+    
+    //SerÃ­a interesante que cada objeto se comporte como debe independientemente del "recipiente" Esto no lleva de lleno al concepto de polimorfismo con mÃ©todos virtuales
+
+    delete Pepe;
+    delete Felipe;
+
+    return 0;
+}

@@ -1,0 +1,18 @@
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+int main(){
+  std::unique_ptr<std::string> pString;
+  std::unique_ptr<int> pInt;
+
+  pString = std::make_unique<std::string>("hola");
+  pInt = std::make_unique<int>(3);
+
+    std::cout<<"Muestro por pantalla el contenido del puntero..."<<std::endl;
+    std::cout<<*pString<<std::endl;
+    std::cout<<*pInt<<std::endl;
+
+  return 0;
+}

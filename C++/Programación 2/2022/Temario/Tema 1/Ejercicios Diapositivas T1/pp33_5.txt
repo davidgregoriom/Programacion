@@ -1,0 +1,18 @@
+#include <iostream>
+#include <memory>
+#include <vector>
+
+
+int main(){
+  std::vector<std::unique_ptr<int>> v;
+  v.push_back(std::make_unique<int>(21));
+  v.push_back(std::make_unique<int>(22));
+  v.push_back(std::make_unique<int>(23));
+
+  for(auto const & elem: v)  //Y en este caso?
+  {
+    std::cout << *elem << "\n";
+  }
+
+  return 0;
+}

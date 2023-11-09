@@ -1,0 +1,52 @@
+#include <iostream>
+
+using namespace std;
+
+class VehiculoRodante{
+
+private:
+    int nRuedas;
+    int nPasajeros;
+    string nMatricula;
+
+public:
+    VehiculoRodante(const string& matr, int nPax, int nW)
+    {
+        setRuedas(nW);
+        setPasajeros(nPax);
+        setMatricula(matr);
+    }
+    void setRuedas(int num)
+     {
+        nRuedas=num;
+     }
+    void setPasajeros(int num)
+    {
+        nPasajeros=num;
+    }
+    void setMatricula(const string& matr)
+    {
+        nMatricula=matr;
+    }
+
+    int getRuedas()
+    {
+        return nRuedas;
+    }
+    int getPasajeros()
+    {
+        return nPasajeros;
+    }
+    string getMatricula()
+    {
+        return nMatricula;
+    }
+};
+
+int main()
+{
+    cout << "Hello World!" << endl;
+    VehiculoRodante Coche("1080FQA",5,4);
+
+    return 0;
+}

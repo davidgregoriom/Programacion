@@ -1,0 +1,16 @@
+#include <iostream>
+ using namespace std;
+
+  struct Cuadrado{
+     float lado;
+     int posicion;
+   };
+  struct Triangulo_isosceles{
+     int base;
+     float altura;
+     int posicion;
+   };
+  struct Circulo{
+     int radio;
+     int posicion;
+   };

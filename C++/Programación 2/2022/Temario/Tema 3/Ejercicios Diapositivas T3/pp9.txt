@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class CuentaBanco
+{
+public:
+    CuentaBanco(const std::string& n);
+
+private:
+    std::string NombreCliente;
+    float saldo;
+    double hipoteca;
+    float interes;
+};
+
+
+int main()
+{
+    CuentaBanco MiCuenta=CuentaBanco("pepe");
+    CuentaBanco MiCuenta2=CuentaBanco();
+
+    return 0;
+}
+
+
+
+CuentaBanco::CuentaBanco(const string& n)
+{
+    NombreCliente=n;
+}

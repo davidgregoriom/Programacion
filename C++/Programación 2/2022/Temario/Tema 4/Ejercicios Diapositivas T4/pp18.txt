@@ -1,0 +1,73 @@
+#include <iostream>
+
+using namespace std;
+
+class Tiempo
+{
+private:
+    int horas;
+    int minutos;
+    int segundos;
+public:
+
+   Tiempo();
+   Tiempo(int h,int m, int s);
+   void Mostrar(void);
+   
+   int getHoras(void) const{return horas;} 
+   int getMinutos(void) const{return minutos;}
+   int getSegundos(void) const{return segundos;}
+
+   Tiempo operator +(const Tiempo &t);
+};
+
+ostream& operator<<(ostream &os, const Tiempo &t)
+{
+    os<<t.getHoras()<<"h, "<<t.getMinutos()<<"m, "<<t.getSegundos()<<"s.";
+    //Ojo, si los getter no son const darÃ¡ error
+    return os;
+}
+
+int main()
+{
+    Tiempo T1(8,3,50),T2(2,17,10),Tr;
+
+    Tr=T1+T2;
+    std::cout<<"Los tiempos a sumar son: "<<T1<<" y "<<T2<<std::endl; //usando sobrecarga operador << para Tiempo
+    Tr.Mostrar(); //Usando mÃ©todo dentro de la clase
+    
+    //Â¿Â¿Â¿Cual creeis que es mejor utilizar y por quÃ©???
+    
+    return 0;
+}
+
+
+Tiempo::Tiempo()
+{
+    horas=0;
+    minutos=0;
+    segundos=0;
+}
+
+Tiempo::Tiempo(int h, int m, int s)
+{
+    horas=h;
+    minutos=m;
+    segundos=s;
+}
+
+void Tiempo::Mostrar()
+{
+    std::cout<<horas<<"h, "<<minutos<<"m, "<<segundos<<"s."<<std::endl;
+}
+
+Tiempo Tiempo::operator +(const Tiempo &t)
+{
+    Tiempo OtroTiempo;
+
+    OtroTiempo.horas=t.horas+this->horas;
+    OtroTiempo.minutos=t.minutos+this->minutos;
+    OtroTiempo.segundos=t.segundos+this->segundos;
+
+    return OtroTiempo;
+}

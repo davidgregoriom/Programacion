@@ -1,0 +1,165 @@
+#include <iostream>
+
+using namespace std;
+
+
+class Padre{
+public: //...
+    int publicoPadre{0};
+private://...
+    int privadoPadre{0};
+protected://...
+    int protegidoPadre{0};
+};
+
+class Hijo: private Padre{
+public: //...
+    int publicoHijo{1};
+
+    void AccesoHerenciaPrivada()
+    {
+        cout<<"Accedemos a la herencia recibida de Padre..."<<endl;
+            cout<<publicoPadre<<endl;
+            cout<<protegidoPadre<<endl;
+            //cout<<privadoPadre<<endl; //A lo privado no podemos acceder tabla de herencia privada
+    }
+private://...
+    int privadoHijo{1};
+protected://...
+    int protegidoHijo{1};
+};
+
+class Nieto: public Hijo{
+public: //...
+    int publicoNieto{2};
+
+    void AccesoHerenciaPublica()
+    {
+        cout<<"Accedemos a la herencia recibida del Hijo del padre..."<<endl;
+            cout<<publicoHijo<<endl;
+            cout<<protegidoHijo<<endl;
+            //cout<<privadoHijo<<endl; //A lo privado no podemos acceder tabla de herencia publica
+    }
+
+    void AccesoHerenciaAbuelo()
+    {
+        cout<<"Accedemos a la herencia recibida de Abuelo a travÃ©s de Padre..."<<endl;
+            //cout<<publicoPadre<<endl;  //No puedo acceder porque en Hijo es privada [Hijo lo heredÃ³ de Padre en modo :private]
+            //cout<<protegidoPadre<<endl;//No puedo acceder porque en Hijo es privada [Hijo lo heredÃ³ de Padre en modo :private]
+            //cout<<privadoPadre<<endl; //A lo privado no podemos acceder tabla de herencia privada
+
+            //Como Hijo (la base de Nieto), heredÃ³ privadamente => Nieto (derivada de Hijo) no puede acceder a lo heredado por su base
+    }
+private://...
+    int privadoNieto{2};
+protected://...
+    int protegidoNieto{2};
+};
+
+
+int main()
+{
+    Padre pepon;
+    Hijo pepe;
+    Nieto pepin;
+
+    cout<<pepon.publicoPadre<<endl;
+    //cout<<pepon.privadoPadre<<endl; //Desde fuera no tengo acceso a privado
+    //cout<<pepon.protegidoPadre<<endl; //Ni a protegidoPadre
+
+    cout<<pepe.publicoHijo<<endl;
+    //Hijo hereda privadamente de Padre => Lo que hereda de el pasa a ser privado en Hijo=> desde fuera no podemos acceder
+    //cout<<pepe.publicoPadre<<endl;
+    //cout<<pepe.privadoPadre<<endl;
+    //cout<<pepe.protegidoPadre<<endl;
+
+
+
+    return 0;
+}
+
+/*
+//El mismo ejemplo pero Hijo hereda de manera protegida
+
+class Padre{
+public: //...
+    int publicoPadre{0};
+private://...
+    int privadoPadre{0};
+protected://...
+    int protegidoPadre{0};
+};
+
+class Hijo: protected Padre{
+public: //...
+    int publicoHijo{1};
+
+    void AccesoHerenciaPrivada()
+    {
+        cout<<"Accedemos a la herencia recibida de Padre..."<<endl;
+            cout<<publicoPadre<<endl;
+            cout<<protegidoPadre<<endl;
+            //cout<<privadoPadre<<endl; //A lo privado no podemos acceder tabla de herencia privada
+    }
+private://...
+    int privadoHijo{1};
+protected://...
+    int protegidoHijo{1};
+};
+
+class Nieto: public Hijo{
+public: //...
+    int publicoNieto{2};
+
+    void AccesoHerenciaPublica()
+    {
+        cout<<"Accedemos a la herencia recibida del Hijo del padre..."<<endl;
+            cout<<publicoHijo<<endl;
+            cout<<protegidoHijo<<endl;
+            //cout<<privadoHijo<<endl; //A lo privado no podemos acceder tabla de herencia publica
+    }
+
+    void AccesoHerenciaAbuelo()
+    {
+        cout<<"Accedemos a la herencia recibida de Abuelo a travÃ©s de Padre..."<<endl;
+            cout<<publicoPadre<<endl;  //Puedo acceder porque Hijo heredÃ³ de manera protegida
+            cout<<protegidoPadre<<endl;//No puedo acceder porque en Hijo es privada [Hijo lo heredÃ³ de Padre en modo :private]
+            //cout<<privadoPadre<<endl; //A lo privado no podemos acceder tabla de herencia privada
+
+            //Como Hijo (la base de Nieto), heredÃ³ protegidamente => Nieto (derivada de Hijo) puede acceder a lo heredado por su base
+    }
+private://...
+    int privadoNieto{2};
+protected://...
+    int protegidoNieto{2};
+};
+
+
+int main()
+{
+    Padre pepon;
+    Hijo pepe;
+    Nieto pepin;
+
+    cout<<pepon.publicoPadre<<endl;
+    //cout<<pepon.privadoPadre<<endl; //Desde fuera no tengo acceso a privado
+    //cout<<pepon.protegidoPadre<<endl; //Ni a protegidoPadre
+
+    cout<<pepe.publicoHijo<<endl;
+    //Hijo hereda privadamente de Padre => Lo que hereda de el pasa a ser privado en Hijo=> desde fuera no podemos acceder
+    //cout<<pepe.publicoPadre<<endl;
+    //cout<<pepe.privadoPadre<<endl;
+    //cout<<pepe.protegidoPadre<<endl;
+
+
+    //Nieto tiene acceso a la herencia que Hijo recibiÃ³ de Padre (ya que heredo de manera protegida), pero....
+    //SÃ³lo es accesible desde el interior de Nieto
+    //Desde fuera solo puedo acceder a la parte parte publica de Padre, Hijo y Nieto
+    //cout<<pepin.Hijo::publicoPadre<<endl; //Con esta expresiÃ³n estarÃ­amos accediendo a la variable publicoPadre que pertenece a Hijo (tema7 polimorfismo)
+
+    //Sin embargo desde un nieto podemos acceder desde fuera a la parte heredada de su base (Hijo) siempre que la herencia sea publica (tabla herencia publica)
+    cout<<pepin.Hijo::publicoHijo<<endl;
+    //cout<<pepin.Hijo::protegidoHijo<<endl; //Desde fuera no podremos acceder ni a privado ni protegido
+    return 0;
+}
+*/

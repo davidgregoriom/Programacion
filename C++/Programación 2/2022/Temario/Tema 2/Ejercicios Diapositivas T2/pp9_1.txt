@@ -1,0 +1,28 @@
+struct complejo{
+    double real;
+    double imag;
+};
+
+double modulo(const complejo& num)
+{
+    return sqrt(pow(num.real,2)+pow(num.imag,2));
+}
+
+void ImprimirComplejo(const complejo& num)
+{
+    std::cout<<num.real<<"+"<<num.imag<<"*i"<<std::endl;
+}
+
+int main()
+{
+    complejo miComplejo;
+    miComplejo.real=3;
+    miComplejo.imag=5;
+    
+    cout<<"miComplejo es: ";
+    ImprimirComplejo(miComplejo);
+    cout<<"El modulo de miComplejo es: "<< modulo(miComplejo)<<endl;
+    
+
+    return 0;
+}

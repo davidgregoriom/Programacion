@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+//DeclaraciÃ³n clase templatizada
+template <class T>
+class Par{
+private:
+  T _x; //atributos de tipo T
+  T _y;
+
+public:
+  Par(T x=0, T y=0);//parÃ¡metros de tipo T
+
+  T getX(){
+      return _x;
+  }
+  T getY(){
+      return _y;
+  }
+  void setX(T x){
+      _x = x;
+  }
+  void setY(T y){
+      _y = y;
+  }
+};
+
+//Definicion mÃ©todos de clase templatizada
+template <class T>
+Par<T>::Par(T x, T y){
+  _x = x;
+  _y = y;
+};
+
+struct cosas{
+    int cosa1;
+    double cosa2;
+    int *punteroCosa;
+    std::string NombreCosas;
+};
+
+int main()
+{
+    Par<int> P1(8,5);
+    Par<double> P2(8.8,5.5);
+
+    //Estas cosas sin mucho sentido... Â¿compilan?
+    Par<char> P3('a','b');
+    Par<std::string> P4("hola","Â¿que tal?");
+
+    cosas c1{22,2.2,&c1.cosa1,"SoyCosa"},c2;
+    Par<cosas> P5(c1,c2);
+
+    return 0;
+}

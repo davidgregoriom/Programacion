@@ -1,0 +1,120 @@
+#include <iostream>
+#include <string>
+
+struct Point{
+    //En C++ son clases con todos los atributos pÃºblicos
+    Point(){X=0;Y=0;}  //Constructor por defecto
+    Point(double x,double y){X=x;Y=y;} //Constructor con parÃ¡metros
+    Point(const Point& obj){
+        X=obj.X;
+        Y=obj.Y;
+    }
+    
+    double X;
+    double Y;
+};
+
+class Rectangulo{
+    private:
+        double ladoLargo;
+        double ladoCorto;
+        Point vertice; //Esta declaraciÃ³n usarÃ¡ el  constructor por defecto de la estructura
+    public:
+        //Sobrecargamos los constructores
+        Rectangulo(void){ladoLargo=0;ladoCorto=0;}
+        Rectangulo(double ladoL,double ladoC){ladoLargo=ladoL;ladoCorto=ladoC;}
+        Rectangulo(double ladoL,double ladoC, Point vert){
+            ladoLargo=ladoL;
+            ladoCorto=ladoC;
+            vertice=vert; //UtilizarÃ¡ en constructor copia de la estructura Point
+        }
+        Rectangulo(const Rectangulo& rect){
+            ladoLargo=rect.ladoLargo;
+            ladoCorto=rect.ladoLargo;
+            vertice=rect.vertice;
+        }
+        //No definimos destructor->Nos darÃ¡n uno de oficio
+        
+        double getLargo(void){return ladoLargo;}
+        double getCorto(void){return ladoCorto;}
+        Point getVertice(void){return vertice;}
+        /*void setLargo(double lado){ladoLargo=lado;}
+        void setCorto(double lado){ladoCorto=lado;}*/
+        void setLargo(double lado);
+        void setCorto(double lado);
+        void getVertice(Point vert){vertice=vert;}
+        
+        double getArea();
+        double getPerimetro();
+};
+
+double Rectangulo::getArea()
+{
+    return ladoCorto*ladoLargo;
+}
+
+double Rectangulo::getPerimetro()
+{
+    return 2*ladoCorto+2*ladoLargo;
+}
+
+void Rectangulo::setLargo(double lado)
+{
+    if(lado<=0)
+    {
+        ladoLargo=0;
+        throw std::string{"DimensiÃ³n menor o igual a cero en lado Largo"};
+    }
+    else
+    {
+        ladoLargo=lado;
+    }
+}
+
+void Rectangulo::setCorto(double lado)
+{
+    if(lado<=0)
+    {
+        ladoCorto=0;
+        throw std::string{"DimensiÃ³n menor o igual a cero en lado Corto"};
+    }
+    else
+    {
+        ladoCorto=lado;
+    }
+}
+
+int main()
+{
+    std::cout<<"Ejemplo Rectangulo"<<std::endl;
+    
+    Point V1(10,10);
+    
+    Rectangulo r1; //Creamos un objeto inicializando con constructor por defecto
+    Rectangulo r2(2,4); //Creamos un objeto inicializando con 1 de los constructores con parÃ¡metros
+    Rectangulo r3(5,10,V1); //Creamos un objeto con el otro constructor con parÃ¡metros
+
+    Rectangulo r=r2; //Creamos un objeto e inicializamos con constructor copia
+
+    std::cout<<"Area de r2: "<<r2.getArea()<<std::endl;
+    std::cout<<"PerÃ­metro de r3: "<<r3.getArea()<<std::endl;
+
+    //Hago mÃ¡s cosas de rectangulos....
+    try
+    {//Vigilamos la asignaciÃ³n de lados en r1
+        r1.setCorto(-3); //AtenciÃ³n cuando ocurre un throw vamos al catch y no ejecutamos lo que estÃ© despuÃ©s
+        r1.setLargo(0); //Este no se llega a ejecutar
+    }
+    catch(std::string error){//Gestionamos el error en el caso de existir
+        std::cout<<"Error capturado:\n";
+        std::cout<<error<<std::endl;
+    }
+    
+    //Rectangulo otroRectangulo(-3.1,-7.2); //DarÃ¡ error?
+    //std::cout<<"El perimetro de otroRectangulo es: "<<otroRectangulo.getPerimetro()<<std::endl;
+    //El constructor no lanza excepciones, asÃ­ que "cuela" perfectamente
+    //Para evitar este caso podemos usar los metodos setter de los lados en los propios constructores :)
+    
+    std::cout<<"terminando..."<<std::endl;
+    return 0;
+}

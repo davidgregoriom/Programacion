@@ -1,0 +1,61 @@
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+struct Cosa{
+    int entero1{11};
+    int entero2{22};
+};
+
+int main(){
+    std::unique_ptr<Cosa> pElemento1,pElemento2; //Declaramos 2 punteros tipo unique que van a apuntar a variables tipo Cosa
+
+    Cosa Elemento,iniStructCosa{33,44}; //Declaramos una variable tipo Cosa sin inicializar
+                                          //Declaramos e inicializamos una variable tipo Cosa con los valores 31 y 32 en sus campos
+
+    pElemento1 =std::make_unique<Cosa>(Cosa{31,32}); //Inicializamos pElemento2 con un puntero unique que apuntara a una Cosa con entero1 valiendo 31 y entero2 valiento 32
+    std::cout<<"Muestro por pantalla el los campos de pElemento1..."<<std::endl;
+    std::cout<<Elemento.entero1<<"_"<<Elemento.entero2<<std::endl;
+
+    //Para acceder al contenido de la direcciÃ³n a la que apunta un puntero se usa el operador ->
+    std::cout<<"Muestro por pantalla el contenido de la variable a la que apunta pElemento1..."<<std::endl;
+    std::cout<<pElemento1->entero1<<"_"<<pElemento1->entero2<<std::endl;
+
+    //pElemento2 no estÃ¡ inicializado=> apunta a nullptr
+    //Si indireccionais un puntero nulo el programa "se rompe" segmentation fault
+    //std::cout<<"Muestro por pantalla el contenido de la variable a la que apunta pElemento2..."<<std::endl;
+    //std::cout<<pElemento2->entero1<<std::endl;
+    //std::cout<<pElemento2->entero2<<std::endl;
+
+    //Todas las variables de c++ tienen una direcciÃ³n (incluido la variable de tipo puntero inteligente o de tipos puntero "clasico")
+    std::cout<<"Muestro por pantalla la direccion de Elemento..."<<std::endl;
+    std::cout<<&Elemento<<std::endl; //DirecciÃ³n de la variable Elemento de tipo cosa
+    std::cout<<"Muestro por pantalla la direccion de pElemento1..."<<std::endl;
+    std::cout<<&pElemento1<<std::endl; //DirecciÃ³n de la variable pElemento1 de tipo unique_ptr<Cosa>
+    std::cout<<"Muestro por pantalla la direccion de pElemento2..."<<std::endl;
+    std::cout<<&pElemento2<<std::endl; //DirecciÃ³n de la variable pElemento2 de tipo unique_ptr<Cosa>
+
+    std::cout<<"Muestro por pantalla la direccion a la que apunta pElemento1..."<<std::endl;
+    std::cout<<pElemento1.get()<<std::endl;
+    std::cout<<"Muestro por pantalla la direccion a la que apunta pElemento2..."<<std::endl;
+    std::cout<<pElemento2.get()<<std::endl;
+
+    //Estos serÃ­an los punteros "clÃ¡sicos" que encapsulan los inteligentes
+    Cosa* p1=pElemento1.get();
+    Cosa* p2=pElemento2.get();
+
+    p1->entero1=666;
+    p1->entero2=555;
+    //En p2 tenemos un nullptr (0x00) y si intentamos indireccionarlo tendremos segmentation fault
+    //p2->entero1=666;
+    //p2->entero2=555;
+
+    std::cout<<"Muestro por pantalla el contenido de la variable a la que apunta pElemento1 una vez que lo he modificado a traves de p1 y p2..."<<std::endl;
+    std::cout<<pElemento1->entero1<<std::endl;
+    std::cout<<pElemento1->entero2<<std::endl;
+
+    std::cout<<std::endl;
+    std::cout<<"Terminando...."<<std::endl;
+  return 0;
+}

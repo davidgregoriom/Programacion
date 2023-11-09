@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Persona{
+
+public:
+  //constructor
+  Persona(const string& _nombre, unsigned short int _edad, unsigned short int _altura)
+  {
+    nombre = _nombre;
+    edad = _edad;
+    altura = _altura;
+  }
+
+  //variables miembro (atributos)
+  string nombre;
+  unsigned short edad;
+  unsigned short altura;
+};
+
+int main()
+{
+    string op, nombre;
+    unsigned short int edad,alt;
+    vector<Persona> grupo;
+
+    std::cout<< "Crear persona [s/n]?";
+    std::cin>> op;
+
+    if(op=="s")
+    {
+        cin.ignore();
+        std::cout<<"Nombre?";
+        getline(std::cin,nombre);
+        
+        std::cout<<"Edad?";
+        std::cin>> edad;
+        std::cout<<"Altura?";
+        std::cin>>alt;
+        cin.ignore();
+        Persona pp(nombre,edad,alt);
+
+        grupo.push_back(pp);
+    }
+    else
+    {
+        std::cout<<"Opcion incorrecta.";
+        return 0;
+    }
+
+    std::cout<<"Hola "<<grupo.at(0).nombre<<
+                ". Tienes "<<grupo.at(0).edad<<"aÃ±os"<<
+                ", y mides "<<grupo.at(0).altura<<"cm."<<std::endl;
+    return 0;
+}

@@ -1,0 +1,8 @@
+Crear una clase Complejo que albergue un número complejo.
+Crear las funciones miembro de la clase
+modulo -> devuelve el modulo del numero complejo
+getReal -> devuelve la parte real
+getImaginario -> devuelve la parte imaginaria
+Crear el constructor parametrizado que permita inicializar el número complejo
+El constructor por defecto pondrá la parte real e imaginaria a 0
+Crear las funciones globales sumar y multiplicar, que sumarán y multiplicarán 2 números complejos 

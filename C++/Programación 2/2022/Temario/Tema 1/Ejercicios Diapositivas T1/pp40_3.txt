@@ -1,0 +1,19 @@
+#include <iostream>
+#include <memory>
+#include <vector>
+
+
+int main(){
+  std::vector<std::shared_ptr<int>> v;
+
+  v.push_back(std::make_shared<int>(21));
+  v.push_back(std::make_shared<int>(22));
+  v.push_back(std::make_shared<int>(23));
+
+  for(auto elem: v) //Con shared_ptr no hay problema
+  {
+    std::cout << *elem << "\n";
+  }
+
+  return 0;
+}

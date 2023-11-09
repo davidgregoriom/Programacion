@@ -1,0 +1,22 @@
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+int main(){
+  std::shared_ptr<std::string> pString;
+  std::shared_ptr<int> pInt;
+
+  int miEntero=6;
+  int *PuntAentero;
+
+  pString = std::make_shared<std::string>("hola");
+  pInt = std::make_shared<int>(3);
+
+  PuntAentero=&miEntero;
+  //pInt=&miEntero; //No puede convertir un int* a std::shared_ptr
+  
+  pInt=std::make_shared<int>(miEntero); //Esto si podemos hacerlo
+
+  return 0;
+}

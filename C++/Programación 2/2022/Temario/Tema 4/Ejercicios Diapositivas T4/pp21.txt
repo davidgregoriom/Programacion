@@ -1,0 +1,59 @@
+#include <iostream>
+
+using namespace std;
+
+struct nComplejo
+{
+    float pReal=100;
+    float pImag=100;
+};
+
+nComplejo operator +(const nComplejo &n1, const nComplejo &n2)
+{
+   nComplejo r;
+
+   r.pReal=n1.pReal+n2.pReal;
+   r.pImag=n1.pImag+n2.pImag;
+
+   return r;
+}
+
+nComplejo operator -(const nComplejo &n1, const nComplejo &n2)
+{
+   nComplejo r;
+
+   r.pReal=n1.pReal-n2.pReal;
+   r.pImag=n1.pImag-n2.pImag;
+
+   return r;
+}
+
+nComplejo operator *(const nComplejo &n1, const nComplejo &n2)
+{
+   nComplejo r;
+
+   r.pReal=n1.pReal*n2.pReal-n1.pImag*n2.pImag;
+   r.pImag=n1.pReal*n2.pImag+n1.pImag*n2.pReal;
+
+   return r;
+}
+
+ostream &operator <<(ostream &o,const nComplejo &n)
+{
+    o << n.pReal<<"_"<<n.pImag<<"j";
+    return o;
+}
+
+int main()
+{
+    nComplejo A,B,res;
+
+    res=A+B;
+    cout<<"Resultado suma es:"<< res<<endl;
+    res=A-B;
+    cout<<"Resultado resta es:"<<res<<endl;
+    res=A*B;
+    cout<<"Resultado multiplicacion es:"<<res<<endl;
+
+    return 0;
+}

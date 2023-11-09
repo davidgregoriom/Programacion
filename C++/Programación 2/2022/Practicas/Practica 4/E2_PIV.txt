@@ -1,0 +1,166 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+template<typename T>
+class Pila{
+private:
+    std::vector<T> MiContenedor;
+public:
+    T pop(void){ //Eliminamos el elemento alto
+
+        if(MiContenedor.size()==0)
+        {//si no hay elementos que sacar de la pila
+            throw string{"Pila vacia"};
+        }
+        else
+        {//Eliminamos Top Of Stack
+            T aux=MiContenedor.back();
+            MiContenedor.pop_back();
+            
+            return aux;
+        }
+
+    };
+    void push(const T &dato){
+        MiContenedor.push_back(dato);
+    };
+
+    void imprimir(void){
+        for(T aux: MiContenedor)
+        {
+            std::cout<< aux <<" || ";
+        }
+        std::cout<<std::endl;
+    };
+};
+
+struct colores{
+    std::string nombre;
+    int R,G,B;
+};
+
+template<typename T>
+struct nodo{
+    std::string nombre;
+    int IdNodo;
+    T infoNodo;
+};
+
+std::ostream &operator <<(std::ostream & os, colores const &c)
+{//Sobrecarga operador << para mostrar información de un struct colores
+    os<<"***********"<<"\n";
+    os<<"Nombre color: "<<c.nombre<<endl;
+    os<<"Color R G B: "<<c.R<<" | "<<c.G<<" | "<<c.B<<"\n";
+    os<<"***********"<<"\n";
+    
+    return os;
+}
+
+template<typename T>
+std::ostream & operator <<(std::ostream & os, nodo<T> const &n)
+{//La sobrecarga del  << tiene que ser templatizada ya que nodo tiene un campo "comodin"
+
+    os<<"***Comienzo informacion nodo***"<<"\n";
+    os<< "Nombre: "<<n.nombre<<" | Id Nodo: "<< n.IdNodo<<"\n";
+    os<<n.infoNodo; //infoNodo en el caso del ejemplo será un struct colores => necesitamos sobrecarga para mostrar
+    os<<"***Fin informacion nodo***"<<"\n";
+
+    return os;
+}
+
+struct persona{
+  int edad=0;
+  string nombre;
+
+  persona(int e,const string& n){edad=e;nombre=n;} //Constructor
+
+  bool operator >(persona const &per)
+  {//Sobregarga del operador > para que Contenedor::Ordenar pueda hacer la comparación if(ordenado.at(j)>ordenado.at(j+1))
+      return edad>per.edad;
+  }
+};
+
+ostream & operator<<(ostream &os,persona const &per)
+{//Sobrecarga para poder mostrar por terminal personas
+    os<<per.nombre<<"|"<<per.edad;
+    
+    return os;
+}
+
+template<typename T>
+ostream& operator<<(ostream &os, vector<T> const &v)
+{
+    for(auto e:v)
+    {
+        os<<e<<" ";
+    }
+    return os;
+}
+
+int main()
+{
+    Pila<int> MiPilaEnteros;  //Me creo una pila de enteros
+    Pila<double> MiPilaDoubles;//Me creo una pila de doubles
+    Pila<std::string> MiPilaStrings; //Me creo una pila de strings
+    Pila<nodo<colores>> MiPilaAmedida; //Y ahora una de nodos con información de colores
+    Pila<vector<double>> OtraPila;
+    Pila<vector<persona>> OtraMas;
+
+    /*try{
+        MiPilaEnteros.pop();
+    }
+    catch(string s)
+    {
+        cout<<"Atrapada excepcion: "<<s<<endl;
+    }*/
+    
+    MiPilaEnteros.push(8);MiPilaEnteros.push(7);MiPilaEnteros.push(6); //Apilamos enteros
+    MiPilaEnteros.imprimir();
+    MiPilaEnteros.pop(); //Sacamos entero
+    MiPilaEnteros.imprimir();
+
+    MiPilaDoubles.push(8.888); MiPilaDoubles.push(7.777); MiPilaDoubles.push(6.666); //Apilamos doubles
+    MiPilaDoubles.imprimir();
+    MiPilaDoubles.pop(); //Sacamos double
+    MiPilaDoubles.imprimir();
+
+    MiPilaStrings.push("Como estais?");MiPilaStrings.push("majos");MiPilaStrings.push("Hola"); //Apilamos strings
+    MiPilaStrings.imprimir();
+    MiPilaStrings.pop(); //Sacamos strings
+    MiPilaStrings.imprimir();
+
+    //Apilamos nodos de colores
+    MiPilaAmedida.push({"Nodo 1",101,{"Rojo",255,0,0}});MiPilaAmedida.push({"Nodo 2",102,{"Verde",0,255,0}});MiPilaAmedida.push({"Nodo 3",103,{"Otro",120,60,85}});
+    MiPilaAmedida.imprimir();
+    MiPilaAmedida.pop(); //Sacamos nodo de colores
+    MiPilaAmedida.imprimir();
+
+    //Y si ahora quiero hacer una pila de personas??? no hay problema!! es un template... lo unico cuidado con imprimir...
+    //Pero en ordenar ya habíamos sobrecargado << para mostrar por terminal personas ^^
+    
+    persona Paco({23,"Paco"});
+    persona Luis({34,"Luis"});
+    persona Ana({23,"Ana"});
+    
+    Pila<persona> Montonera;
+    Montonera.push(Paco);Montonera.push(Luis);Montonera.push(Ana);
+    Montonera.imprimir();
+    Montonera.pop();
+    Montonera.imprimir();
+    
+    OtraPila.push({1.3,2.0});
+    OtraPila.push({0.0});
+    OtraPila.push({4.1,2.5,7.0});
+    
+    OtraPila.imprimir();
+    
+    OtraMas.push({Paco,Luis});
+    OtraMas.push({Ana});
+    OtraMas.push({Paco,Luis,Ana});
+    OtraMas.imprimir();
+    OtraMas.pop();
+    OtraMas.imprimir();
+
+    return 0;
+}

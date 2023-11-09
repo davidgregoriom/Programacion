@@ -1,0 +1,119 @@
+#include <iostream>
+
+using namespace std;
+
+class Padre{
+public:
+    int Publico;
+
+    Padre(int pub,int pri, int pro){Publico=pub;Privado=pri;Protegido=pro;}
+    void MetodoPublico(int entrada){std::cout<<"Padre dice: "<<entrada<<std::endl;}
+
+    int getPrivado(void){return Privado;}
+    int getProtegido(void){return Protegido;}
+    int getPublico(void){return Publico;}
+
+    void setPrivado(int in){Privado=in;}
+    void setProtegido(int in){Protegido=in;}
+    void setPublico(int in){Publico=in;}
+
+private:
+    int Privado;
+
+protected:
+    int Protegido;
+};
+
+class HijoPublico:public Padre{
+public:
+    HijoPublico():Padre(5,55,555){std::cout<<"Constructor de hijo"<<std::endl;}
+    void AccesoApublicoDeMiBase(void){std::cout<<"A publico de mi base: "<<Publico<<std::endl;}
+    //void AccesoAprivadoDeMiBase(void){std::cout<<"A privado de mi base: "<<Privado<<std::endl;}
+    void AccesoAprotegidoDeMiBase(void){std::cout<<"A protegido de mi base: "<<Protegido<<std::endl;}
+};
+
+class HijoPrivado:private Padre{
+public:
+    HijoPrivado():Padre(6,66,666){std::cout<<"Constructor de hijo"<<std::endl;}
+    void AccesoApublicoDeMiBase(void){std::cout<<"A publico de mi base: "<<Publico<<std::endl;}
+    //void AccesoAprivadoDeMiBase(void){std::cout<<"A privado de mi base: "<<Privado<<std::endl;}
+    void AccesoAprotegidoDeMiBase(void){std::cout<<"A protegido de mi base: "<<Protegido<<std::endl;}
+};
+
+class HijoProtegido:protected Padre{
+public:
+    HijoProtegido():Padre(7,77,777){std::cout<<"Constructor de hijo"<<std::endl;}
+    void AccesoApublicoDeMiBase(void){std::cout<<"A publico de mi base: "<<Publico<<std::endl;}
+    //void AccesoAprivadoDeMiBase(void){std::cout<<"A privado de mi base: "<<Privado<<std::endl;}
+    void AccesoAprotegidoDeMiBase(void){std::cout<<"A protegido de mi base: "<<Protegido<<std::endl;}
+};
+
+int main()
+{
+    cout << "Probando..." << endl;
+
+    Padre MiPadre(8,88,888);
+    HijoPublico EsHijoPubl;
+    HijoPrivado EsHijoPriv;
+    HijoProtegido EsHijoProt;
+
+    std::cout<<"Prueba de acceso a miembros de una clase sin herencia de por medio...."<<std::endl;
+    std::cout<<"Prueba de acceso a miembros desde dentro de la misma clase: "<<std::endl;
+    std::cout<<"A miembro publico: "<<MiPadre.getPublico()<<std::endl;
+    std::cout<<"A miembro privado: "<<MiPadre.getPrivado()<<std::endl;
+    std::cout<<"A miembro protegido: "<<MiPadre.getProtegido()<<std::endl;
+
+    std::cout<<"Prueba de acceso a miembros de una clase desde fuera de la clase: "<<std::endl;
+    std::cout<<"A miembro publico: "<<MiPadre.Publico<<std::endl;
+    //std::cout<<"A miembro privado: "<<MiPadre.Privado<<std::endl; //No podemos acceder
+    //std::cout<<"A miembro protegido: "<<MiPadre.Protegido<<std::endl;//No podemos acceder
+
+    std::cout<<"Prueba de acceso a miembros desde una clase derivada (hereda de la base)..."<<std::endl;
+    std::cout<<"Desde clase derivada que hereda de manera publica de la base: "<<std::endl;
+    EsHijoPubl.AccesoApublicoDeMiBase();
+    EsHijoPubl.AccesoAprotegidoDeMiBase();
+
+    std::cout<<"Desde clase derivada que hereda de manera privada de la base: "<<std::endl;
+    EsHijoPriv.AccesoApublicoDeMiBase();
+    EsHijoPriv.AccesoAprotegidoDeMiBase();
+
+    std::cout<<"Desde clase derivada que hereda de manera protegida de la base: "<<std::endl;
+    EsHijoProt.AccesoApublicoDeMiBase();
+    EsHijoProt.AccesoAprotegidoDeMiBase();
+
+    std::cout<<std::endl;std::cout<<std::endl;
+    std::cout<<"Prueba de acceso a miembros de una clase base desde una clase derivada de manera publica...."<<std::endl;
+    std::cout<<"Desde el exterior de la clase derivada:"<<std::endl;
+    std::cout<<"A miembro publico: "<<EsHijoPubl.Publico<<std::endl;
+    //std::cout<<"A miembro privado: "<<EsHijoPubl.Privado<<std::endl;     //No es accesible desde el exterior
+    //std::cout<<"A miembro protegido: "<<EsHijoPubl.Protegido<<std::endl; //No es accesible desde el exterior
+    std::cout<<"Desde el interior de la clase derivada:"<<std::endl;
+    std::cout<<"A miembro publico: "<<EsHijoPubl.getPublico()<<std::endl;
+    std::cout<<"A miembro privado: "<<EsHijoPubl.getPrivado()<<std::endl;
+    std::cout<<"A miembro protegido: "<<EsHijoPubl.getProtegido()<<std::endl;
+
+    std::cout<<std::endl;std::cout<<std::endl;
+    std::cout<<"Prueba de acceso a miembros de una clase base desde una clase derivada de manera privada: "<<std::endl;
+    std::cout<<"Desde el exterior de la clase derivada:"<<std::endl;
+    //std::cout<<"A miembro publico: "<<EsHijoPriv.Publico<<std::endl;
+    //std::cout<<"A miembro privado: "<<EsHijoPriv.Privado<<std::endl;
+    //std::cout<<"A miembro protegido: "<<EsHijoPriv.Protegido<<std::endl; //No es accesible desde el exterior
+    std::cout<<"Desde el interior de la clase derivada:"<<std::endl;
+    //std::cout<<"A miembro publico: "<<EsHijoPriv.getPublico()<<std::endl;
+    //std::cout<<"A miembro privado: "<<EsHijoPriv.getPrivado()<<std::endl;  //getPrivado es privado en EsHijoPrivado-> No puede ser accedido desde el exterior
+    //std::cout<<"A miembro protegido: "<<EsHijoPriv.getProtegido()<<std::endl; //Igual que getPrivado
+
+    std::cout<<std::endl;std::cout<<std::endl;
+    std::cout<<"Prueba de acceso a miembros de una clase base desde una clase derivada de manera protegido: "<<std::endl;
+    std::cout<<"Desde el exterior de la clase derivada:"<<std::endl;
+    //std::cout<<"A miembro publico: "<<EsHijoProt.Publico<<std::endl; //Publico es heredado por EsHijoProt de manera protegida-> No accesible desde el exterior
+    //std::cout<<"A miembro privado: "<<EsHijoProt.Privado<<std::endl;
+    //std::cout<<"A miembro protegido: "<<EsHijoProt.Protegido<<std::endl;//Protegido es heredado por EsHijoProt de manera protegida-> No accesible desde el exterior
+    std::cout<<"Desde el interior de la clase derivada:"<<std::endl;
+    //std::cout<<"A miembro publico: "<<EsHijoProt.getPublico()<<std::endl;//getPublico es heredado por EsHijoProt de manera protegida-> No accesible desde el exterior
+    //std::cout<<"A miembro privado: "<<EsHijoProt.getPrivado()<<std::endl;
+    //std::cout<<"A miembro protegido: "<<EsHijoProt.getProtegido()<<std::endl;//getProtegido es heredado por EsHijoProt de manera protegida-> No accesible desde el exterior
+/**/
+    cout << "Terminando..." << endl;
+    return 0;
+}

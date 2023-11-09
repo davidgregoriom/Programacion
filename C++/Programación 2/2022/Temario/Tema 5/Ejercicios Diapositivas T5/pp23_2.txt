@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+template <typename T>
+class Coordenada{
+private:
+  T x; //atributos de tipo T
+  T y;
+
+public:
+  Coordenada(T x=0, T y=0);//parÃ¡metros de tipo T
+
+  T getX(){
+      return x;
+  }
+  T getY(){
+      return y;
+  }
+  void setX(T x){
+      this -> x = x;
+  }
+  void setY(T y){
+      this -> y = y;
+  }
+};
+
+template <typename T>
+Coordenada<T>::Coordenada(T x, T y){
+  this -> x = x;
+  this -> y = y;
+};
+
+struct cosas{
+    int cosa1;
+    double cosa2;
+    int *punteroCosa;
+    std::string NombreCosas;
+};
+
+int main()
+{
+    Coordenada<> P1(8,5);
+    Coordenada<> P2(8.8,5.5);
+
+    return 0;
+}

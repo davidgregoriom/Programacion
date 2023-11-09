@@ -1,0 +1,26 @@
+#include "complejo.h"
+
+Complejo::Complejo(float a,float b){
+    a=a;
+    b=b;
+}
+
+float Complejo::getA() const
+{
+    return a;
+}
+
+void Complejo::setA(float value)
+{
+    a = value;
+}
+
+float Complejo::getB() const
+{
+    return b;
+}
+
+void Complejo::setB(float value)
+{
+    b = value;
+}

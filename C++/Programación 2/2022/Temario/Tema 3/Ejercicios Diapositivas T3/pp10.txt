@@ -1,0 +1,56 @@
+#include<iostream>
+using namespace std;
+
+class Foo
+{
+    private:
+        int x, y, z;
+    public:
+        Foo(void);
+        Foo(int, int, int); //Constructor con parÃ¡metros
+        Foo(const Foo&); //Constructor copia
+                         //Existe por defecto en la clase aunque no se defina
+        void Mostrar();
+
+        void setX(int X){x=X;};
+};
+
+Foo::Foo(void)
+{
+    x = 0;
+    y = 0;
+    z = 0;
+}
+
+Foo::Foo(int a, int b, int c)
+{
+    x = a;
+    y = b;
+    z = c;
+}
+
+Foo::Foo(const Foo& obj)
+{
+    x = obj.x;
+    y = obj.y;
+    z = obj.z;
+}
+
+void Foo::Mostrar(void)
+{
+    cout<<"x: "<<x<<", y: "<<y<<", z: "<<z<<endl;
+}
+
+int main()
+{
+    Foo objeto(10,20,30); //InicializaciÃ³n con parÃ¡metros de entrada
+    Foo objetoCopiado(objeto); //InicializaciÃ³n de objetoCopiado con los valores de objeto
+    objetoCopiado.Mostrar();
+
+    objeto.setX(666); //Modificamos el valor de x de objeto
+
+    Foo objetoCopiado2=objeto;
+    objetoCopiado2.Mostrar();
+
+    return 0;
+}

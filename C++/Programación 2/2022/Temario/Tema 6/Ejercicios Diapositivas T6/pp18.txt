@@ -1,0 +1,128 @@
+#include <iostream>
+
+using namespace std;
+
+class Operacion{
+public:
+    void mostrarRes(); //Muestra el resultado de la operaciÃ³n
+    void cargarN1(); //Pide el valor n1 y lo asigna a su variable
+    void cargarN2(); //Pide el valor n2 y lo asigna a su variable
+
+    //getter y setters
+    double getN1() const;
+    void setN1(double value);
+
+    double getN2() const;
+    void setN2(double value);
+
+    double getResultado() const;
+    void setResultado(double value);
+
+private:
+    double n1,n2,resultado; //Operandos n1, n2 y el resultado
+};
+
+class Suma:public Operacion
+{//Suma hereda de manera publica de Operacion y aÃ±ade el mÃ©todo Opera()
+public:
+    double Opera();
+};
+
+class Multiplica:public Operacion
+{//Multiplica  hereda de manera publica de Operacion y aÃ±ade el mÃ©todo Opera()
+public:
+    double Opera();
+};
+
+int main()
+{
+    cout << "Ejemplo de herencia" << endl;
+
+    Suma miSuma;
+    Multiplica miMultiplicacion;
+
+    std::cout<<"Vamos a sumar..."<<std::endl;
+    miSuma.cargarN1(); //Pedimos los valores
+    miSuma.cargarN2();
+
+    miSuma.Opera(); //Ejecutamos la operaciÃ³n
+    miSuma.mostrarRes(); //Mostramos el resultado
+
+    std::cout<<"Vamos a multiplicar..."<<std::endl;
+    miMultiplicacion.cargarN1(); //Pedimos los valores
+    miMultiplicacion.cargarN2();
+
+    miMultiplicacion.Opera(); //Ejecutamos la operaciÃ³n
+    miMultiplicacion.mostrarRes(); //Mostramos el resultado
+
+    //Debug para ver paso a paso :)
+
+    return 0;
+}
+
+//MÃ©todos de la clase Operacion
+void Operacion::mostrarRes()
+{//mostrarRes pertenece a Operacion (operador ::, no confundir con operador :)
+    std::cout<<"El resultado es: "<<getResultado()<<std::endl;
+}
+
+void Operacion::cargarN1()
+{
+    double numero=0;
+    std::cout<<"Introduce el valor de N1:"<<std::endl;
+    std::cin>>numero;
+
+    setN1(numero);
+}
+
+void Operacion::cargarN2()
+{
+    double numero=0;
+    std::cout<<"Introduce el valor de N2:"<<std::endl;
+    std::cin>>numero;
+
+    setN2(numero);
+}
+
+double Operacion::getN1() const
+{
+    return n1;
+}
+
+void Operacion::setN1(double value)
+{
+    n1 = value;
+}
+
+double Operacion::getN2() const
+{
+    return n2;
+}
+
+void Operacion::setN2(double value)
+{
+    n2 = value;
+}
+
+double Operacion::getResultado() const
+{
+    return resultado;
+}
+
+void Operacion::setResultado(double value)
+{
+    resultado = value;
+}
+
+//MÃ©todos de la clase Suma
+double Suma::Opera()
+{
+    setResultado(getN1()+getN2()); //Asignamos a resultado el valor de la suma de N1 y N2
+    return getResultado();
+}
+//MÃ©todos de la clase Multiplica
+double Multiplica::Opera()
+{
+    setResultado(getN1()*getN2()); //Asignamos a resultado el valor de la multiplicaciÃ³n de N1 y N2
+    return getResultado();
+}

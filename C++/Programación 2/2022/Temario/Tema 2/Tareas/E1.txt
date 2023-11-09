@@ -1,0 +1,36 @@
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+struct Complejo{
+    double real{0.0};
+    double imaginario{0.0};
+};
+
+auto suma(const Complejo& c)
+{
+    Complejo aux;
+
+    aux.real=c.real+10;
+    aux.imaginario=c.imaginario+10;
+
+    return make_shared<Complejo>(aux);
+}
+
+void Imprimir(const shared_ptr<Complejo>& C)
+{
+    std::cout<<C->real<<"_"<<C->imaginario<<"j"<<std::endl;
+}
+
+int main(){
+    Complejo MiComplejo{22,22};
+
+    auto miPunt=suma(MiComplejo);
+
+    Imprimir(miPunt);
+
+    cout<<"terminando";
+
+    return 0;
+}

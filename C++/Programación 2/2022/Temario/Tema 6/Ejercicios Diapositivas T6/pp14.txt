@@ -1,0 +1,93 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Cuenta
+{
+    private:
+        std::string nombre;
+        double saldo;
+    public:
+        Cuenta(){
+            saldo=0.0;
+        }
+        Cuenta(const std::string& _nombre, double _saldo)
+        {
+            nombre=_nombre;
+            saldo=_saldo;
+        }
+        
+        double getSaldo(){return saldo;}
+        
+        void saludo()
+        {
+             std::cout<<"Hola "<<nombre<<std::endl;
+        }
+};
+
+class CuentaAhorro: public Cuenta
+{//El operador : indica que CuentaAhorro hereda de Cuenta
+//Esta en concreto hereda de manera pÃºblica (ya veremos las diferentes formas de heredar)
+    private:
+        double cuotaMantenimiento;
+        double tipoInteres;
+    public:
+        CuentaAhorro(){ //Constructor por defecto
+            cuotaMantenimiento=0;
+            tipoInteres=0;
+        }
+        
+        //Como la clase CuentaAhorro hereda de Cuenta tendrÃ¡ sus variables y mÃ©todos
+        //Que necesitarÃ¡n ser inicializados con un constructor adecuado
+        //El siguiente constructor invoca al de la clase cuenta
+        CuentaAhorro(const std::string& _n, double _s):Cuenta(_n,_s)
+        {//Le pasamos al constructor de su cuenta padre(la general) lo parÃ¡metros que necesite
+            cuotaMantenimiento=30.0;
+            tipoInteres=0.001;
+        }
+        
+        CuentaAhorro(const std::string& _n, double _s, double tipo):Cuenta(_n,_s)
+        {//Podemos sobrecargar el constructor segÃºn nuestras necesidades
+            cuotaMantenimiento=30.0;
+            tipoInteres=tipo;
+        }
+
+        double getCuota(void){//getter
+            return cuotaMantenimiento;
+        }
+
+        void setCuota(double cuota){//setter
+            cuotaMantenimiento=cuota;
+        }
+        
+        double getTipo(){return tipoInteres;}
+        void setTipo(double t){tipoInteres=t;}
+};
+
+
+int main()
+{
+
+    Cuenta unaCuenta;
+    
+    CuentaAhorro CuentaPepe("Pepe",150.0,1.51);
+    CuentaAhorro CuentaJuan("Juan",100);
+
+    unaCuenta.saludo();
+    std::cout<<"Tu saldo es de: "<<unaCuenta.getSaldo()<<std::endl;
+
+    std::cout<<std::endl;
+
+    CuentaPepe.saludo();
+    std::cout<<"Tu saldo es de: "<<CuentaPepe.getSaldo()<<std::endl;
+    std::cout<<"Tu tipo es de: "<<CuentaPepe.getTipo()<<std::endl;
+    
+    CuentaJuan.saludo();
+    std::cout<<"Tu saldo es de: "<<CuentaJuan.getSaldo()<<std::endl;
+    std::cout<<"Tu tipo es de: "<<CuentaJuan.getTipo()<<std::endl;
+    
+    //A que clase pertenece cada uno de los mÃ©todos que estamos llamando???
+
+    return 0;
+}

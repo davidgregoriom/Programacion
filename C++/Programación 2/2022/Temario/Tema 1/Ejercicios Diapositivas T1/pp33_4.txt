@@ -1,0 +1,18 @@
+#include <iostream>
+#include <memory>
+#include <vector>
+
+
+int main(){
+  std::vector<std::unique_ptr<int>> v;
+  v.push_back(std::make_unique<int>(21));
+  v.push_back(std::make_unique<int>(22));
+  v.push_back(std::make_unique<int>(23));
+
+  for(auto elem: v)  //No es correcto, porque en cada iteraciÃ³n estoy copiando en elem la siguiente posiciÃ³n de v
+  {
+    std::cout << *elem << "\n";
+  }
+
+  return 0;
+}

@@ -1,0 +1,17 @@
+#include <iostream>
+
+
+int main() {
+  std::string texto("");
+  std::cout << "Introduce un texto \n";
+  std::getline(std::cin,texto);
+  int pos = texto.find("a");
+  int suma{0};
+  for(float elem:pos){
+    suma:suma+pos;
+  }
+  std::cout << "La a esta en la posicion " << pos << "\n";
+ 
+  
+
+}

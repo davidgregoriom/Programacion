@@ -1,0 +1,97 @@
+#include <iostream>
+
+using namespace std;
+
+class nComplejo
+{
+private:
+    float pReal;
+    float pImag;
+public:
+
+    nComplejo();
+    nComplejo(float r,float i);
+
+    float getPReal() const;
+    void setPReal(float value);
+    float getPImag() const;
+    void setPImag(float value);
+
+    nComplejo& operator ++(); //preincremento
+    nComplejo operator++(int); //postincremento
+    friend ostream& operator<<(ostream&,const nComplejo&);
+    //https://en.cppreference.com/w/cpp/language/friend
+};
+
+int main()
+{
+
+    //int A=1000,B=100,res=0;
+    nComplejo kk;
+    nComplejo A(10.0,100.0),B(100.0,10.0),res;
+
+    ++A;
+    B++; //Este es otro operador... posincremento
+
+    cout << "A pre incrementado es: " <<A<< endl;
+    cout <<"B post incrementado es: "<<B<<endl;
+    
+    /*cout << "A pre incrementado otra vez es: " <<++A<< endl; //Primero incremento A y luego "lo que sea" (muestro por terminal)
+    cout <<"B post incrementado otra vez es: "<<B++<<endl; //Primero "lo que sea" y despuÃ©s incremento
+    
+    cout <<"B vale finalmente: "<<B<<endl;*/
+    
+    return 0;
+}
+
+float nComplejo::getPImag() const
+{
+return pImag;
+}
+
+void nComplejo::setPImag(float value)
+{
+    pImag = value;
+}
+
+nComplejo& nComplejo::operator ++()
+{//Preincremento
+    pReal+=1;
+    pImag+=1;
+    return *this;
+}
+
+nComplejo nComplejo::operator++(int)
+{//posincremento
+    nComplejo temp = *this;
+    ++*this;
+    return temp;
+}
+
+ostream& operator<<(ostream &o,const nComplejo &n)
+{
+    o<<"preal=" <<n.getPReal()<<", pimaginaria=" <<n.getPImag()<<endl;
+    return o;
+}
+
+nComplejo::nComplejo()
+{
+    pReal=0;
+    pImag=0;
+}
+
+nComplejo::nComplejo(float r, float i)
+{
+    pReal=r;
+    pImag=i;
+}
+
+float nComplejo::getPReal() const
+{
+return pReal;
+}
+
+void nComplejo::setPReal(float value)
+{
+pReal = value;
+}

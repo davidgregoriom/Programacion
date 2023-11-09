@@ -1,0 +1,46 @@
+#include <iostream>
+
+using namespace std;
+
+int sumar(int a, int b)
+{
+    return a+b;
+}
+
+double sumar(double a, double b)
+{
+    return a+b;
+}
+
+struct Complejo{
+  double pReal;
+  double pImag;
+};
+
+Complejo sumar(const Complejo &a,const Complejo &b)
+{
+    Complejo aux{a.pReal+b.pReal,a.pImag+b.pImag};
+    
+    return aux;
+}
+
+//Tenemos 3 funciones con el mismo nombre sumar=> Hemos sobrecargado la funciÃ³n sumar
+
+int main()
+{
+    int o1{10},o2{20},res;
+    double o3{10.1},o4{20.2},res2;
+    Complejo o5{20,30},o6{30.3,11.1},res3;
+    
+    res=sumar(o1,o2); //Estamos llamando a la funciÃ³n int sumar(int, int)
+    res2=sumar(o3,o4);//Estamos llamando a la funciÃ³n double sumar(double,double)
+    res3=sumar(o5,o6);//Estamos llamando a la funciÃ³n Complejo sumar(const Complejo&,const Complejo&)
+    
+    std::cout<<res<<std::endl;
+    std::cout<<res2<<std::endl;
+    //std::cout<<res3<<std::endl; //El estandar de C++ "no sabe" mostrar por terminal un tipo Complejo
+                                //Podemos "enseÃ±arle" mediante sobrecarga de  <<
+    
+
+    return 0;
+}

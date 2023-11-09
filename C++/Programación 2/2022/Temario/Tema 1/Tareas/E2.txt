@@ -1,0 +1,65 @@
+#include <iostream>
+#include <memory>
+#include <vector>
+
+struct Persona{
+    std::string nombre;
+    int telefono{0};
+};
+
+std::unique_ptr<Persona> Add(const std::string Nombre, int num)
+{
+    std::unique_ptr<Persona> aux;
+    aux= std::make_unique<Persona>(Persona{Nombre,num});
+    return aux;
+}
+
+void print(const std::unique_ptr<Persona> &per)
+{
+    std::cout<<per->nombre<<"_"<<per->telefono<<std::endl;
+}
+
+void print(const std::string Nombre, int num)
+{
+    std::cout<<Nombre<<"_"<<num<<std::endl;
+}
+
+int main()
+{
+    int continuar{1};
+    std::string name;
+    int phone{0};
+    std::vector<std::unique_ptr<Persona>> Agenda;
+
+    while(true)
+    {
+        std::cout<<"Quieres aÃ±adir personas a la agenda?[1 si, 0 no]:";
+        std::cin>>continuar;
+        if(continuar==0)
+        {
+            break;
+        }
+        else
+        {
+            std::cin.ignore();
+            std::cout<<"\nnombre?:";
+            getline(std::cin,name);
+            std::cout<<"\ntelefono?:";
+            std::cin>>phone;
+
+            Agenda.push_back(Add(name,phone));
+        }
+    }
+
+    std::cout<<"La informacion almacenada en la agenda es: "<<std::endl;
+    for(const auto &e:Agenda)
+    {
+        //std::cout<<e->nombre<<"_"<<e->telefono<<std::endl;
+        print(e);
+        print(e->nombre,e->telefono);
+    }
+
+    std::cout<<"Terminando..."<<std::endl;
+
+  return 0;
+}

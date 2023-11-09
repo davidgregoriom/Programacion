@@ -1,0 +1,22 @@
+#include <iostream>
+
+class Padre{
+    public:
+        Padre()
+        {
+            std::cout << "Constructor Padre\n";
+        }
+};
+
+class Hija: public Padre{
+    public:
+        Hija()
+        {
+            std::cout << "Constructor Hija\n";
+        }
+};
+
+int main()
+{
+    Hija miClase;
+}

@@ -1,0 +1,46 @@
+#include <iostream>
+
+class Figura{
+public:
+  Figura(){};
+  virtual ~Figura(){}
+  virtual float getArea()=0;
+
+  void saludar(){std::cout<<"hola maj@s"<<std::endl;}
+};
+
+class Cuadrado: public Figura{
+public:
+  Cuadrado(float a):lado{a} {}
+  float getArea(){return lado*lado;}
+private:
+  float lado;
+};
+
+class Triangulo: public Figura{
+public:
+    Triangulo(float b, float a){base=b;altura=a;}
+    float getArea(){return (base*altura)/2;}
+private:
+    float base, altura;
+};
+
+int main(){
+  //Figura h; //No podemos instanciar un objeto de una clase abstracta
+
+  Cuadrado a{4};
+  Triangulo b{2.0,1.0};
+
+  Figura* ptrC=new Cuadrado(4);
+  Figura* ptrT=new Triangulo(4.0,5);
+
+  std::cout<<"Area de un objeto cuadrado: ";
+  std::cout << a.getArea()<<std::endl; // -> 16
+
+  std::cout<<"Area de un puntero clasico a figura que tiene la direccion de un objeto cuadrado: ";
+  std::cout<<ptrC->getArea()<<std::endl;
+  std::cout<<"Area de un puntero clasico a figura que tiene la direccion de un objeto triÃ¡ngulo: ";
+  std::cout<<ptrT->getArea()<<std::endl;
+
+  ptrT->saludar();
+}

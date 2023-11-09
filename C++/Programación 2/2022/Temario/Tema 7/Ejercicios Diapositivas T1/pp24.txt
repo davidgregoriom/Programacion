@@ -1,0 +1,28 @@
+#include <iostream>
+
+class Figura{
+public:
+  Figura(){};
+  virtual ~Figura(){}
+  virtual float getArea(){
+    std::cout << "No implementado\n";
+    return 0;
+  };
+};
+
+class Cuadrado: public Figura{
+public:
+  Cuadrado(float a):lado{a} {}
+  float getArea(){
+    return lado*lado;
+  }
+private:
+  float lado;
+};
+
+int main(){
+  Figura h;
+  h.getArea(); // Â¿QuÃ© muestra?
+  Cuadrado a{4};
+  std::cout << a.getArea(); // Â¿QuÃ© muestra?
+}

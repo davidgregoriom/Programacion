@@ -1,0 +1,49 @@
+class persona{
+private:
+    unsigned int edad;
+    string nombre;
+public:
+    persona();
+    persona(const string & no,unsigned int e){setEdad(e); setNombre(no);}
+    unsigned int getEdad() const;
+    void setEdad(unsigned int value);
+    string getNombre() const;
+    void setNombre(const string &value);
+};
+
+
+int main(){
+    set<persona> mimultitud;
+    mimultitud.insert(persona("pepe",40));
+    mimultitud.insert(persona("juan",41));
+    mimultitud.insert(persona("paco",39));
+
+    for(auto elem:mimultitud){
+        cout<<elem.getNombre()<<"_"<<elem.getEdad<<endl;
+    }
+    return 0;
+}
+int operator <(persona const &iz,persona const & de){
+    return iz.getEdad()<de.getEdad();
+}
+
+string persona::getNombre() const
+{
+    return nombre;
+}
+
+void persona::setNombre(const string &value)
+{
+    nombre = value;
+}
+
+unsigned int persona::getEdad() const
+{
+    return edad;
+}
+
+void persona::setEdad(unsigned int value)
+{
+    edad = value;
+}
+

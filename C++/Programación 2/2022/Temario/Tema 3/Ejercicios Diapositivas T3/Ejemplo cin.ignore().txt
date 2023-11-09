@@ -1,0 +1,20 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int contador{0},numero;
+    string frase;
+    while(contador<5)
+    {
+        cout<<"Introduce un numero..."<<endl;
+        cin>>numero;
+        //cin.ignore(); //Sin el ignore() el enter se "cuela" en el getline haciendo a nuestro programa saltar
+        //https://es.stackoverflow.com/questions/193829/porque-es-necesario-usar-el-comando-cin-ignore-despu%C3%A9s-de-usar-cin-y-lue
+        cout<<"Introduce una frase..."<<endl;
+        getline(cin,frase);
+    }
+
+    return 0;
+}

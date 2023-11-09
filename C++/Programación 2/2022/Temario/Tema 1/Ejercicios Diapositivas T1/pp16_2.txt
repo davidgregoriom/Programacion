@@ -1,0 +1,24 @@
+#include <iostream>
+
+int main() {
+   int * p_num{new int}; // se reserva la memoria
+
+   for(int i{0}; i < 1000 ; i++)
+   {
+       p_num = new int; //Reservamos memoria para entero
+       *p_num = i;     //Guardamos el Ã­ndice en esa posiciÃ³n de memoria
+   }
+   //Habremos reservado 1000*tamaÃ±o de un entero en memoria
+
+   //Si en este punto liberamos la memoria sÃ³lo estarÃ­amos liberando la Ãºltima reserva que hicimos en el bucle
+   //las otras 999 siguen reservadas
+   //delete p_num;
+
+   //Cada "new tiene que ir con su delete" para evitar memory leaks
+   //En este ejemplo la Ãºnica manera de evitarlo serÃ­a almacenar los punteros en una variable contenedor std::vector<int*> vecPunteros;
+   //Para poder recorrerlo y liberar las posiciones reservadas
+   //Ya que si metiÃ©ramos el delete p_num; dentro del bucle for perderÃ­amos la informaciÃ³n contenida en las
+   //diferentes posiciones de memoria que vamos reservando
+
+   return 0;
+}

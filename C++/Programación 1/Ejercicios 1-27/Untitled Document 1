@@ -1,0 +1,33 @@
+#include <iostream>
+#include <functional>
+​
+​
+std::function<void(std::string)> sayHello(std::string greeting){
+    return [=](std::string name)->void {
+        std::cout << greeting << " " << name << "\n";
+    };
+}
+//La función sayHello no es una función Lambda, es una función "normal" que recibe como parámetro de entrada
+    //Un string
+    //Y devuelve un tipo function
+    //En el cuerpo de la función tenemos una declaración en línea de una función lambda que devolvemos
+        //Esa función lambda en línea muestra por pantalla el string que le pasamos por parámetro de entrada a la función sayHello
+        //Seguido de un espacio y el string nombre (el parámetro de entrada de la función lambda)
+​
+int main(){
+​
+    auto greetInSpanish = sayHello("hola"); //¿Que tipo es greetInSpanish?... lo que devuelva sayHello...
+    auto greetInEnglish = sayHello("hello");
+    auto greetInItalian = sayHello("ciao");
+
+    //greetInSpanish,...InEnglish,...InItalian son std::function que no devuelven nada y reciben por entrada un string
+    //Estamos llamando a esa lambda pasándole el string Alberto
+    //[=](std::string name)->void {std::cout << greeting << " " << name << "\n";};
+    //¿Por qué permitimos acceso por copia?... Para permitir el acceso a greeting
+    greetInSpanish("Alberto"); // hola Alberto
+    greetInEnglish("Alberto"); // hello Alberto
+    greetInItalian("Alberto"); // ciao Alberto
+
+
+    return 0;
+}

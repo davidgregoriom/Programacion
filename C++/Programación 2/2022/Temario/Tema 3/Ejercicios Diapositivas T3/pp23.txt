@@ -1,0 +1,30 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+   try {
+       try{
+           try{
+               throw 0.1;
+           }
+           catch(int e) 
+           {
+                cout << "Excepcion tipo int: " << e << endl;
+           }
+        }
+        catch(char c) 
+        {
+            cout << "Excepcion tipo char: " << c << endl;
+        }
+   
+   }
+   catch(double d)
+   {
+       cout << "Excepcion tipo double: " << d << endl;
+   }
+
+   std::cout<<"Terminando..."<<std::endl;
+
+   return 0;
+}

@@ -1,0 +1,77 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class CuentaBanco
+{
+public:
+    CuentaBanco(const std::string& nombre, int saldo, int hipoteca); //Constructor. 
+                                                              //Tiene mismo nombre que la clase y no tiene valor de retorno
+
+    //Getters y setters
+    std::string getNombreCliente() const;
+    void setNombreCliente(const std::string &value);
+
+    float getSaldo() const;
+    void setSaldo(float value);
+
+    double getHipoteca() const;
+    void setHipoteca(double value);
+
+private: //Atributos
+    std::string NombreCliente;
+    float saldo;
+    double hipoteca;
+};
+
+
+int main()
+{
+    CuentaBanco MiCuenta=CuentaBanco("Jose",5,-1000000);
+    CuentaBanco MiOtraCuenta("J",10000000,0);
+    
+    cout<<"Nombre: "<<MiCuenta.getNombreCliente()<<", saldo neto: "<<MiCuenta.getSaldo()+MiCuenta.getHipoteca()<<endl;
+    cout<<"Nombre: "<<MiOtraCuenta.getNombreCliente()<<", saldo neto: "<<MiOtraCuenta.getSaldo()+MiOtraCuenta.getHipoteca()<<endl;
+
+    return 0;
+}
+
+
+CuentaBanco::CuentaBanco(const string& nombre, int saldo, int hipoteca)
+{
+    setNombreCliente(nombre);
+    setSaldo(saldo);
+    setHipoteca(hipoteca);
+}
+
+std::string CuentaBanco::getNombreCliente() const
+{
+    return NombreCliente;
+}
+
+void CuentaBanco::setNombreCliente(const std::string &value)
+{
+    NombreCliente = value;
+}
+
+float CuentaBanco::getSaldo() const
+{
+    return saldo;
+}
+
+void CuentaBanco::setSaldo(float value)
+{
+    saldo = value;
+}
+
+double CuentaBanco::getHipoteca() const
+{
+    return hipoteca;
+}
+
+void CuentaBanco::setHipoteca(double value)
+{
+    hipoteca = value;
+}

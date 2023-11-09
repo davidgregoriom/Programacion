@@ -1,0 +1,22 @@
+#ifndef COMPLEJO_H
+#define COMPLEJO_H
+
+#include <vector>
+using namespace std;
+
+class Complejo
+{
+public:
+    Complejo(float a, float b);
+    float getA() const;
+    void setA(float value);
+    
+    float getB() const;
+    void setB(float value);
+    
+private:
+    float a,b;
+    
+};
+
+#endif // COMPLEJO_H

@@ -1,0 +1,15 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int * p_num{new int}; //Declaro un puntero y lo inicializo con la direcciÃ³n que me asigne el Sistema Operativo
+    std::cout << p_num<<std::endl; //0x.... la direcciÃ³n que sea
+    
+    *p_num = 23; // Con el operador * delante de la etiqueta del puntero "resuelvo su direcciÃ³n" (indirecciÃ³n)
+                 // y asigno el valor 23 en la direcciÃ³n de memoria donde apunta p_num 
+    std::cout << *p_num; // 23 . Muestra por pantalla el valor que hay en la memoria donde apunta p_num
+
+    return 0;
+}

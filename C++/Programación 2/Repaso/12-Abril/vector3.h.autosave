@@ -1,0 +1,26 @@
+#ifndef VECTOR3_H
+#define VECTOR3_H
+#include "complejo.h"
+#include <vector>
+using namespace std;
+
+class Vector3
+{
+public:
+    Vector3();
+   
+    
+    float getA() const;
+    void setA(float value);
+    
+    float getB() const;
+    void setB(float value);
+    
+    float getC() const;
+    void setC(float value);
+    
+private:
+    float a,b,c;
+};
+
+#endif // VECTOR3_H

@@ -1,0 +1,132 @@
+#include <iostream>
+#include <memory>
+#include <vector>
+
+class Vehiculo{
+public:
+    virtual ~Vehiculo(){}
+
+    virtual void DarDeAlta()=0;
+    virtual std::string Identificacion()=0;
+};
+
+class VehiculoRodante: public Vehiculo{
+public:
+    VehiculoRodante(std::string m, int n){matricula=m;numRuedas=n;}
+    VehiculoRodante(){numRuedas=0;}
+
+    void DarDeAlta(){std::cout<<"matricula?: ";
+                    std::cin>>matricula;
+                    std::cout<<"numero de ruedas?: ";
+                    std::cin>>numRuedas;}
+    std::string getMatriculas(){return matricula;}
+    int getNumRuedas(){return numRuedas;}
+    //virtual std::string Identificacion();
+
+protected:
+    std::string matricula;
+    int numRuedas;
+};
+
+class Camion: public VehiculoRodante{
+public:
+    Camion(int c, int e,std::string m, int r):VehiculoRodante(m,r){Carga=c;}
+    Camion():VehiculoRodante(){Carga=0;}
+
+    void DarDeAlta(){std::cout<<"Carga?: ";
+                     std::cin>>Carga;
+                    VehiculoRodante::DarDeAlta();}
+    std::string Identificacion(){return "camion";}
+
+    int getCarga(){return Carga;}
+protected:
+    int Carga;
+
+};
+
+class Coche: public VehiculoRodante{
+public:
+    Coche(int pax,std::string m, int r):VehiculoRodante(m,r){numPasajeros=pax;}
+    Coche():VehiculoRodante(){numPasajeros=0;}
+
+    void DarDeAlta(){std::cout<<"Numero pasajeros?: ";
+                     std::cin>>numPasajeros;
+                    VehiculoRodante::DarDeAlta();}
+    std::string Identificacion(){return "coche";}
+
+    int getNumPasajeros(){return numPasajeros;}
+protected:
+    int numPasajeros;
+};
+
+int menu(void)
+{
+    int in=0;
+    std::cout<<"0.- Salir"<<std::endl;
+    std::cout<<"1.- Registrar coche"<<std::endl;
+    std::cout<<"2.- Registrar camion"<<std::endl;
+    std::cout<<"Opcion?: ";
+    std::cin>>in;
+
+    std::cout<<std::endl;
+
+    return in;
+}
+
+int main(){
+
+    std::vector<std::shared_ptr<VehiculoRodante>> flota;
+
+    std::shared_ptr<Coche> pCoche;
+    std::shared_ptr<Camion> pCamion;
+    int op=1;
+
+    while(op!=0)
+    {
+        op=menu();
+        switch(op)
+        {
+        case 0:
+            std::cout<<"Saliendo..."<<std::endl;
+            break;
+        case 1://Registramos coche
+            pCoche=std::make_shared<Coche>();
+            pCoche->DarDeAlta();
+
+            flota.push_back(pCoche);
+            break;
+        case 2://Registramos camion
+            pCamion=std::make_shared<Camion>();
+            pCamion->DarDeAlta();
+
+            flota.push_back(pCamion);
+            break;
+        default:
+            std::cout<<"OpciÃ³n incorrecta"<<std::endl;
+        }
+    }
+
+    std::cout<<"Los vehiculos de la flota son: "<<std::endl;
+    for(auto vehic:flota)
+    {
+        std::cout<<"La matricula del vehiculo es: ";
+        std::cout<<vehic->getMatriculas()<<std::endl;
+        std::cout<<"El vehiculo tiene ";
+        std::cout<<vehic->getNumRuedas()<<" ruedas"<<std::endl;
+        if(vehic->Identificacion()=="camion")
+        {
+            Camion* ca = dynamic_cast<Camion*>(vehic.get());
+            std::cout<<"El vehiculo es un camion de carga: ";
+            std::cout<<ca->getCarga()<<std::endl;;
+        }
+        else if(vehic->Identificacion()=="coche")
+        {
+            Coche* co = dynamic_cast<Coche*>(vehic.get());
+            std::cout<<"El vehiculo es un coche de ";
+            std::cout<<co->getNumPasajeros()<<" plazas"<<std::endl;
+        }
+        std::cout<<"******************************"<<std::endl;
+    }
+
+  return 0;
+}

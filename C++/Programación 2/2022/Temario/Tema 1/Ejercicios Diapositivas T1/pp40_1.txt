@@ -1,0 +1,22 @@
+
+#include <iostream>
+#include <memory>
+
+void foo(std::shared_ptr<int> p){
+  std::cout << *p << "\n";
+}
+
+void fii(std::shared_ptr<int> & p){
+  std::cout << *p << "\n";
+}
+
+
+int main(){
+  auto p = std::make_shared<int>(21);
+
+  auto h = p; // CORRECTO, h y p apuntan a lo mismo
+  foo(p); // CORRECTO, el parÃ¡metro lo estoy pasando como copia
+  fii(h); // CORRECTO, el parametro no se copia, es referencia
+
+  return 0;
+}

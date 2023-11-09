@@ -1,0 +1,73 @@
+#include <iostream>
+
+using namespace std;
+
+class nComplejo
+{
+private:
+    float pReal;
+    float pImag;
+public:
+    nComplejo();
+    nComplejo(float,float);
+
+    float getPReal() const;
+    void setPReal(float value);
+    float getPImag() const;
+    void setPImag(float);
+
+    nComplejo operator +(const nComplejo&);
+};
+
+int main()
+{
+    nComplejo kk;
+    nComplejo A(10.0,100.1),B(100.0,10.0),res;
+
+    res=A+B;
+
+    //cout << "Resultado es: " <<res<< endl; //Error, de momento
+    return 0;
+}
+
+float nComplejo::getPImag() const
+{
+return pImag;
+}
+
+void nComplejo::setPImag(float value)
+{
+    pImag = value;
+}
+
+nComplejo nComplejo::operator +(const nComplejo &n1)
+{//Esta sobrecarga pertenece(::) a la clase nComplejo
+//El otro operando es el encapsulado en la clase
+    nComplejo res;
+    res.setPReal(n1.getPReal()+pReal); //pReal estÃ¡ encapsulado en la clase
+    res.setPImag(n1.getPImag()+pImag);
+
+    return res;
+}
+
+nComplejo::nComplejo()
+{
+    pReal=0;
+    pImag=0;
+}
+
+nComplejo::nComplejo(float r, float i)
+{
+    pReal=r;
+    pImag=i;
+}
+
+float nComplejo::getPReal() const
+{
+return pReal;
+}
+
+void nComplejo::setPReal(float value)
+{
+pReal = value;
+}

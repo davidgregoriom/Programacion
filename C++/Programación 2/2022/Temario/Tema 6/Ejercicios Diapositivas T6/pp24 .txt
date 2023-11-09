@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+
+/*class Abuelo{
+public:
+    int z;
+private:
+    int priv;
+};*/
+
+class Padre{
+//class Padre:public Abuelo{
+    public:
+        int q;
+        Padre(int _n){n=_n;}
+    private:
+        int n;
+        void pr(int _q){q=_q;}
+};
+
+class Hijo:public Padre{
+    public:
+        int masEnteros;
+        Hijo():Padre(0){};
+};
+
+int main()
+{
+    Hijo miHijo;
+
+    //Vamos a ver a que cosas tenemos acceso
+   //miHijo.;
+
+    return 0;
+}

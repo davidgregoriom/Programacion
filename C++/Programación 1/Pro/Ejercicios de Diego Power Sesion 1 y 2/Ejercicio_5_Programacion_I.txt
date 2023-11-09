@@ -1,0 +1,34 @@
+Realizar un programa que recorra un array de valores enteros y busque si contiene el número 7. En caso de que lo contenga imprimir por pantalla la primera posición en la que aparezca.
+
+
+
+
+#include <iostream>
+#include <string>
+#include <array>
+
+int main() {
+  std::array <int,7> notas = {2,3,5,7,1,2,7};
+  int pos = -1; // Se inicializa este int con valor -1 porque despues con el vamos a comrpobar en el if que se cumple o no se cumple
+  bool encontrado = false;
+ 
+
+  for (int num: notas) {
+    pos = pos + 1;
+
+
+    if (num == 7) {
+      encontrado = true;
+      std::cout << "El array tiene el " << num << "\n";
+      std::cout << "Esta en la posicion " << pos << "\n";
+      break;
+  }
+  
+  }
+ if (!encontrado) {
+   std::cout << "El array no tiene 7\n";
+ }
+
+
+  
+}

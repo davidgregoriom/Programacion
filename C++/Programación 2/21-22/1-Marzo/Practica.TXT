@@ -1,0 +1,12 @@
+1 punto cada apartado.
+
+Hacer una clase Complejo para representar un número complejo (con parte real y parte imaginaria) 
+Crear un constructor que tome como parametros la parte real y la parte imaginaria.
+Crear un constructor que no tome parámetros e inicialice el número complejo a 0.
+Realizar una función print() que muestra por pantalla el número complejo.
+Crear un método de la clase module() que devuelva el módulo del número complejo.
+Crear un método de la clase getReal() que devuelva la parte real.
+Crear un método de la clase getImg() que devuelva la parte imaginaria.
+Crear un método de la clase add que reciba por referencia constante otro número complejo y se lo sume a la clase.
+Crear una función global add, que reciba dos números complejos por referencia constante y devuelva la suma de ambos.
+Pedir al usuario que introduzca un número complejo y mostrarlo por pantalla usando el método print.

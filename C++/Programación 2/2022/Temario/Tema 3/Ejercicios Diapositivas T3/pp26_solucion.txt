@@ -1,0 +1,23 @@
+#include <iostream>
+#include <array>
+
+using namespace std;
+
+int main()
+{
+    std::array<int,5> MiArray{0,1,2,3,4};
+
+    try {
+        std::cout<<MiArray.at(6)<<std::endl;
+    } catch (std::exception& error) {
+        //https://en.cppreference.com/w/cpp/container/array/at
+        //https://es.cppreference.com/w/cpp/language/try_catch
+
+        std::cout << "Atrapada excepcion. Mensaje: " <<error.what() <<std::endl;
+    }
+
+    //std::cout<<MiArray[6]<<std::endl; //Ojo, aquÃ­ no pasa
+
+    std::cout<<"Terminando..."<<std::endl;
+    return 0;
+}

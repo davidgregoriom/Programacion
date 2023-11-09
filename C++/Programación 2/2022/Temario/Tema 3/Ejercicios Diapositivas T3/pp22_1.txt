@@ -1,0 +1,21 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main(void)
+{
+      //Codigo
+      try
+      {
+        // mÃ¡s codigo....
+        throw 125; //lanzamos una excepciÃ³n Â¿de tipo? -> int
+      }
+      catch(int) // catch de enteros
+      {
+        std::cout << "Excepcion tipo entero..." << std::endl; // y se muestra por pantalla
+      }
+    
+      std::cout << "Fin de programa" << std::endl;
+      return 0;
+}

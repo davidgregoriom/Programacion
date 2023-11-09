@@ -1,0 +1,163 @@
+#include <iostream>
+
+using namespace std;
+
+class VehiculoRodante{
+
+private:
+    int nRuedas;
+    int nPasajeros;
+    string nMatricula;
+
+public:
+    VehiculoRodante(const string& matr, int nPax, int nW)
+    {
+        setRuedas(nW);
+        setPasajeros(nPax);
+        setMatricula(matr);
+    }
+    void setRuedas(int num)
+     {
+        nRuedas=num;
+     }
+    void setPasajeros(int num)
+    {
+        nPasajeros=num;
+    }
+    void setMatricula(const string& matr)
+    {
+        nMatricula=matr;
+    }
+
+    int getRuedas()
+    {
+        return nRuedas;
+    }
+    int getPasajeros()
+    {
+        return nPasajeros;
+    }
+    string getMatricula()
+    {
+        return nMatricula;
+    }
+};
+
+int main()
+{
+    cout << "Hello World!" << endl;
+    VehiculoRodante Coche("1080FQA",5,4);
+
+    return 0;
+}#include<iostream>
+using namespace std;
+
+class Triangulo{
+
+private:
+    float base=0, altura=0;
+
+public:
+    Triangulo()//(float b, float a)
+    {
+        //setBase(b);
+        //setAltura(a);
+    }
+    float area()
+    {
+        return (base*altura/2);
+    }
+    void setBase(float b)
+     {
+        base=b;
+     }
+    void setAltura(float a)
+    {
+        altura=a;
+    }
+
+    int getBase()
+    {
+        return base;
+    }
+    int getAltura()
+    {
+        return altura;
+    }
+
+};
+
+class Rectangulo{
+
+private:
+    float lado1=0, lado2=0;
+
+public:
+    Rectangulo()//(float b, float a)
+    {
+        //setBase(b);
+        //setAltura(a);
+    }
+    float area()
+    {
+        return lado1*lado2;
+    }
+    float perimetro()
+    {
+        return 2*lado1+2*lado2;
+    }
+    void setLado1(float l1)
+     {
+        lado1=l1;
+     }
+    void setLado2(float l2)
+    {
+        lado2=l2;
+    }
+
+    float getLado1()
+    {
+        return lado1;
+    }
+    float getAltura()
+    {
+        return lado2;
+    }
+
+};
+
+int main()
+{
+
+    Triangulo miTriangulo;
+    Rectangulo miRectangulo;
+    float base,altura,lado1,lado2;
+
+    cout << "Introduce Base triangulo:" << endl;
+    cin>>base;
+
+    cout<< "Introduce Altura triangulo:" << endl;
+    cin>>altura;
+
+    miTriangulo.setBase(base);
+    miTriangulo.setAltura(altura);
+
+    cout<<"El area del triangulo es: "<<miTriangulo.area()<<endl;
+
+    cout<<endl;cout<<endl;//////////////////////////
+
+    cout << "Introduce lado1 del rectangulo:" << endl;
+    cin>>lado1;
+
+    cout<< "Introduce lado2 rectangulo:" << endl;
+    cin>>lado2;
+
+    miRectangulo.setLado1(lado1);
+    miRectangulo.setLado2(lado2);
+
+    cout<<"El area del rectangulo es: "<<miRectangulo.area()<<endl;
+    cout<<"El perimetro del rectangulo es: "<<miRectangulo.perimetro()<<endl;
+
+
+    return 0;
+}

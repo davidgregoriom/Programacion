@@ -1,0 +1,13 @@
+#include <iostream>
+#include <memory>
+#include <vector>
+
+int main()
+{
+  std::vector<std::unique_ptr<int>> v; //Vector de punteros Ãºnicos a enteros
+  
+  auto p = std::make_unique<int>(21); //Tenemos en p un puntero a entero
+  v.push_back(p);  //Insertamos el puntero en el vector... y?
+
+  return 0;
+}

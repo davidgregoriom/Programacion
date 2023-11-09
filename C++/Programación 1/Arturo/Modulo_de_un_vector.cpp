@@ -1,0 +1,25 @@
+#include <iostream>
+#include <functional>
+#include <vector>
+#include <math.h>
+using namespace std;
+
+int main(){
+
+  //primer float = devuelve un numero decimal
+  // tercer y cuarto float = recibe 2 decimales
+  //float a y float b son los parametros 
+  // return a + b lo que realiza la function
+  
+   function<float(vector<float>)> modulo = [] (vector<float> v){
+    float suma{0};
+    for(auto elem: v){
+      suma +=elem*elem;
+    }
+    return sqrt(suma);
+  };
+
+
+  return 0;
+  
+}

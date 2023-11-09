@@ -1,0 +1,20 @@
+#include <iostream>
+
+using namespace std;
+
+struct nComplejo
+{
+    float pReal=100;
+    float pImag=100;
+};
+
+int main()
+{
+
+    nComplejo A,B,res;
+
+    res=A+B; //Error
+
+    cout << "Resultado es: " <<res<< endl;
+    return 0;
+}

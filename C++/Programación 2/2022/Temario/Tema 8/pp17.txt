@@ -1,0 +1,44 @@
+#include<iostream>
+using namespace std;
+
+class Miclase
+{
+private:
+    int valor;
+public:
+    Miclase()
+    {
+        std::cout<<"Estoy en el Constructor"<<std::endl;
+        valor=666;
+    }
+    ~Miclase()
+    {
+        std::cout<<"Estoy en el Destructor"<<std::endl;
+    }
+};
+
+void fun(void)
+{
+    std::cout<<"Comienzo funcion..."<<std::endl;
+
+    Miclase funcion;
+
+    std::cout<<"Fin funcion..."<<std::endl;
+}
+
+int main()
+{
+    std::cout<<"Comienzo main..."<<std::endl;
+    //Objeto en main
+    Miclase principal; //Que mostrarÃ¡?
+
+    //Objeto en funcion
+    //fun();
+
+    //Objeto con reserva dinamica de memoria
+    //Miclase *ReserDina=new Miclase;
+
+    std::cout<<"Fin main..."<<std::endl;
+    //delete ReserDina; //Objeto con reserva dinamica de memoria
+    return 0;
+}

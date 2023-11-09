@@ -1,0 +1,26 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class CuentaBanco
+{
+
+private:
+    std::string NombreCliente;
+    float saldo;
+    double hipoteca;
+    float interes;
+};
+
+
+int main()
+{
+	//Que le pasa a las variables de mi cuenta?
+    CuentaBanco MiCuenta;
+	//Y ahora?
+	//CuentaBanco MiCuentaB=CuentaBanco();
+
+    return 0;
+}

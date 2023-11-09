@@ -1,0 +1,71 @@
+#include <iostream>
+#include <memory>
+#include <vector>
+
+class Figura{
+public:
+  Figura(){};
+  virtual ~Figura(){};
+
+  virtual float getArea() const  = 0;
+  virtual std::string getTipo() const = 0;
+
+};
+
+class Cuadrado: public Figura{
+public:
+  Cuadrado(float a):lado{a} {}
+  float getArea() const{
+    return lado*lado;
+  }
+
+  std::string getTipo() const {
+    return "cuadrado";
+  }
+
+private:
+  float lado;
+};
+
+class Triangulo: public Figura{
+public:
+  Triangulo(float base, float altura): base{base}, altura{altura} {}
+
+  float getArea() const{
+    return base*altura/2;
+  }
+
+  std::string getTipo() const {
+    return "triangulo";
+  }
+
+  float getAltura() const {
+    return altura;
+  }
+
+private:
+  float base;
+  float altura;
+};
+
+int main(){
+  std::vector<std::unique_ptr<Figura>> figuras;
+
+  figuras.push_back(std::make_unique<Triangulo>(4,5));
+  figuras.push_back(std::make_unique<Cuadrado>(3));
+  figuras.push_back(std::make_unique<Cuadrado>(2));
+
+  for(auto const & elem: figuras)
+  {
+        std::cout<<"El area de la figura "<<elem->getTipo()<<" es: "<<elem->getArea()<<std::endl;
+        if(elem->getTipo() == "triangulo")
+        {//Si es un triÃ¡ngulo hacemos downcasting para poder acceder a getAltura
+                Triangulo* t = dynamic_cast<Triangulo*>(elem.get()); //elem es una figura (lo sabemos por getTipo())
+                                                                     //Triangulo hereda de figura
+                                                                     //Si no cumplieramos las 2 condiciones-> no "funcionarÃ­a" la conversiÃ³n
+                std::cout <<"...y su altura es: "<< t->getAltura()<<std::endl;
+        }
+  }
+  
+  return 0;
+}

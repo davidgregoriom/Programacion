@@ -1,0 +1,33 @@
+#include <iostream>
+
+using namespace std;
+
+struct nComplejo
+{
+    float pReal=100;
+    float pImag=100;
+};
+
+nComplejo operator +(const nComplejo& n1, const nComplejo& n2)
+{//Sobrecarga del operador + Para 2 variables tipo complejo
+   nComplejo r;
+
+   r.pReal=n1.pReal+n2.pReal;
+   r.pImag=n1.pImag+n2.pImag;
+
+   return r;
+}
+
+
+
+int main()
+{
+
+    //int A=1000,B=100,res=0;
+    nComplejo A,B,res;
+
+    res=A+B;
+
+    //cout << "Resultado es: " <<res<< endl; //Error
+    return 0;
+}

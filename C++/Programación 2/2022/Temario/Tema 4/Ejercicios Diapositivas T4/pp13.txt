@@ -1,0 +1,106 @@
+#include <iostream>
+
+using namespace std;
+
+class nComplejo
+{
+private:
+    float pReal;
+    float pImag;
+public:
+    nComplejo();
+    nComplejo(float,float);
+
+    float getPReal() const;
+    void setPReal(float);
+    float getPImag() const;
+    void setPImag(float);
+};
+
+//Estas sobrecargas estÃ¡ fuera de la clase
+nComplejo operator +(const nComplejo &n1, const nComplejo &n2)
+{
+   nComplejo r(n1.getPReal()+n2.getPReal(),n1.getPImag()+n2.getPImag());
+
+   return r;
+}
+
+//Sobrecarga << para std::cout
+ostream& operator << (ostream &o,const nComplejo &n)
+{//o no puede ser complejo, ya que necesitamos modificarlo...
+    if(n.getPImag()>=0)
+    {
+        o<< "(" <<n.getPReal()<<"+"<<n.getPImag()<<"j)";
+    }
+    else
+    {
+        o<< "(" <<n.getPReal()<<n.getPImag()<<"j)";
+    }
+    return o;
+}
+
+//Sobrecarga >> para std::cin
+istream& operator >>(istream &i, nComplejo &n)
+{//i no puede ser constante porque lo vamos a modificar...
+ //n tampoco puede ser constante, ya que necesitamos "devolver" lo que capturemos
+    float real{0},imag{0};
+    std::cout<<"Introduce valores para numero complejo (real, imaginario): ";
+    i>>real>>imag; //Cargamos el buffer de entrada i la captura
+    i.ignore();
+    
+    n.setPImag(imag); //Asignamos la parte imaginaria de nuestro complejo
+    n.setPReal(real); //Asignamos la parte real de nuestro complejo
+
+    return i;
+}
+////////////////////////////////////////////////////
+
+
+int main()
+{
+
+    //int A=1000,B=100,res=0;
+    nComplejo kk;
+    nComplejo A(10.0,100.0),B(100.0,10.0),res;
+
+    std::cin>>A; //Sobrecarga de >> para captura desde teclado
+    std::cin>>B;
+
+    res=A+B;
+
+    cout << "Resultado es: " <<res<< endl; //Ahora ya podemos mostrar por terminal tipos nComplejo!!!
+                                            //Sobrecarga de << para mostrar por terminal
+    return 0;
+}
+
+float nComplejo::getPImag() const
+{
+    return pImag;
+}
+
+void nComplejo::setPImag(float value)
+{
+    pImag = value;
+}
+
+nComplejo::nComplejo()
+{
+    pReal=0;
+    pImag=0;
+}
+
+nComplejo::nComplejo(float pReal, float pImag)
+{
+    this->pReal=pReal; //this es un puntero implicito al mismo objeto. this->pReal accede al pReal encapsulado en la clase
+    this->pImag=pImag; //pReal y pImag en este Ã¡mbito son los argumentos del constructor
+}
+
+float nComplejo::getPReal() const
+{
+    return pReal;
+}
+
+void nComplejo::setPReal(float value)
+{
+    pReal = value;
+}

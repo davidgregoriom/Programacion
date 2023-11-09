@@ -1,0 +1,7 @@
+Realizar un programa que haga lo siguiente:
+
+Crear un array arr1 de 10 elementos de punteros a números enteros
+Pedir al usuario que introduzca el valor de los 10 números.
+Mostrar los números por pantalla.
+A través de una función filter (programación funcional) generar un vector vec de punteros con los números pares.
+Mostrar por pantalla los números pares.

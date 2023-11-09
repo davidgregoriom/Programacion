@@ -1,0 +1,44 @@
+#include <iostream>
+#include <array>
+#include <memory>
+
+using namespace std;
+
+struct info{
+    std::string Nombre;
+    int prioridad;
+    std::array<int,8> fecha;
+};
+
+struct celda{
+    std::array<char,12> MAC;
+    int identificador;
+    float calidadSenal;
+
+    info *puntInfo;
+    //info infoCelda; //OcuparÃ¡ mÃ¡s o menos bytes? que usando un puntero clÃ¡sico?
+};
+
+
+
+int main()
+{
+    celda MiCelda;
+    celda *puntCelda;
+    info MiInfo;
+    info *puntInfo;
+
+    std::shared_ptr<celda> OtroPuntCelda;
+    std::shared_ptr<info> OtroPuntInfo;
+
+    //sizeof() da el tamaÃ±o en bytes
+    //https://en.cppreference.com/w/cpp/language/sizeof...
+    cout<<"Bytes que ocupa una celda: "<<sizeof(MiCelda)<<endl;    //TamaÃ±o de una variable Celda
+    cout<<"Bytes que ocupa un puntero clasico a celda: "<<sizeof(puntCelda)<<endl;  //TamaÃ±o de un puntero a Celda
+    cout<<"Bytes que ocupa info: "<<sizeof(MiInfo)<<endl;     //TamaÃ±o de una variable Info
+    cout<<"Bytes que ocupa un puntero clasico a info: "<<sizeof(puntInfo)<<endl;   //TamaÃ±o de un puntero a Info
+    cout<<"Bytes que ocupa un puntero inteligente a celda: "<<sizeof(OtroPuntCelda)<<endl; //Ocupa mÃ¡s que un puntero clÃ¡sico??
+    cout<<"Bytes que ocupa un puntero inteligente a info: "<<sizeof(OtroPuntInfo)<<endl;  //Ocupa mÃ¡s que un puntero clÃ¡sico??
+
+    return 0;
+}

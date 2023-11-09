@@ -1,0 +1,28 @@
+Crear un array de números enteros e indicar cuántas veces aparece el número 7.
+
+
+#include <iostream>
+#include <array>
+
+int main() {
+  std::array <int, 7> notas = {1,2,3,7,7,5,5};
+  int posicion = -1;
+  int numeroVecesEncontrado = 0;
+  bool encontradoNumero = false;
+
+  for (int num: notas) {
+    posicion = posicion + 1;
+
+    if (num == 7) {
+      encontradoNumero = true;
+      numeroVecesEncontrado = numeroVecesEncontrado + 1;
+
+    }
+  }
+
+  std::cout << "El numero 7 ha salido " << numeroVecesEncontrado << " veces";
+
+  if (!encontradoNumero) {
+    std::cout << "El numero 7 ha salido 0 veces";
+  }
+}

@@ -1,0 +1,48 @@
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+class Complejo{
+    public:
+        double real{0.0};
+        double imaginario{0.0};
+
+        auto sumar(void){ //No necesito parÃ¡metro de entrada. Ya tengo el complejo encapsulado en la clase
+            Complejo aux;
+
+            aux.real=real+10;
+            aux.imaginario=imaginario+10;
+
+            return make_shared<Complejo>(aux);
+        }
+
+        auto sumar(const Complejo& c){ //No necesito parÃ¡metro de entrada. Ya tengo el complejo encapsulado en la clase
+            Complejo aux;
+
+            aux.real=real+c.real;
+            aux.imaginario=imaginario+c.imaginario;
+
+            return make_shared<Complejo>(aux);
+        }
+};
+
+void Imprimir(const shared_ptr<Complejo>& C)
+{
+    std::cout<<C->real<<"_"<<C->imaginario<<"j"<<std::endl;
+}
+
+int main(){
+    Complejo MiComplejo{22,22};
+    Complejo MiOtroComplejo{-5,-5};
+
+    auto miPunt=MiComplejo.sumar();
+    auto miOtroPunt=MiComplejo.sumar(MiOtroComplejo);
+
+    Imprimir(miPunt);
+    Imprimir(miOtroPunt);
+
+    cout<<"terminando";
+
+    return 0;
+}

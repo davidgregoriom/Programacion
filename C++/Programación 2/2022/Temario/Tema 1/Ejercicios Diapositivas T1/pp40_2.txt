@@ -1,0 +1,14 @@
+#include <iostream>
+#include <memory>
+#include <vector>
+
+
+int main(){
+
+  std::vector<std::shared_ptr<int>> v;
+  auto p = std::make_shared<int>(21);
+
+  v.push_back(p); //Al ser shared_ptr ya no hay problema
+
+  return 0;
+}

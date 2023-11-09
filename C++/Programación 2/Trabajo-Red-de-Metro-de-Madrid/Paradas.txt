@@ -1,0 +1,50 @@
+1	Bambu
+2	Chamartin
+3	Plaza de Castilla
+4	Valdeacederas
+5	Tetuan
+6	Estrecho
+7	Alvarado
+8	Cuatro Caminos
+9	Rios Rosas
+10	Iglesia
+11	Bilbao
+12	Tribunal
+13	Gran Via
+14	Sol
+15	Tirso de Molina
+16	Anton Martin
+17	Atocha
+18	Atocha Renfe
+19	Menendez Pelayo
+20	Pacifico
+21	Puente de Vallecas
+22	Nueva Numancia
+23	Portazgo
+24	Buenos Aires
+25	Alto del Arenal
+26	Miguel Hernandez
+27	Sierra de Guadalupe
+28	Villa de Vallecas
+29	Congosto
+30	La Gavia
+31	Las Suertes
+32	Valdecarros
+33	Las Rosas
+34	Avenida de Guadalajara
+35	Alsacia
+36	La Almudena
+37	La Elipa
+38	Ventas
+39	Manuel Becerra
+40	Goya
+41	Principe de Vergara
+42	Retiro
+43	Banco de Espana
+44	Sevilla
+45	Sol
+46	opera
+47	Santo Domingo
+48	Noviciado
+49	San Bernardo
+50	Pinar de Chamartin

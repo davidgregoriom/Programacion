@@ -1,0 +1,346 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <memory>
+
+using namespace std;
+
+class Trabajador{
+private:
+    int IDempleado; //NÃºmero de empleado (serÃ¡ comÃºn a todos los trabajadores de la empresa)
+    std::string Nombre; //Nombre del empleado, todos los trabajadores tendrÃ¡n uno independientemente del rol
+
+    int horasDedicadas;  //Todos los trabajadores echan horas en la empresa
+                        //AsÃ­ que lo ponemos aquÃ­ para que en la herencia lo vayamos "pasando"
+                        //A las clases derivadas
+public:
+    Trabajador(){IDempleado=0;horasDedicadas=0;} //Constructor por defecto
+    Trabajador(int ID, const std::string &nom){ //Constructor con parÃ¡metros
+        IDempleado=ID;
+        Nombre=nom;
+        horasDedicadas=0;
+    }
+
+    //Metodo virtual puro => Trabajador es clase abstracta y no se puede instanciar
+    //WhoAmI() debe redefinirse en las clases derivadas, si no serÃ¡n tambiÃ©n clases abstractas
+    virtual string WhoAmI() const = 0;
+
+    int getIDempleado()const {return IDempleado;}
+    std::string getNombre() const{return Nombre;}
+
+    //Como ponemos las horasRealizadas en el Trabajador (clase base) sus getter/setter irÃ¡n aquÃ­
+    void setHorasRealizadas(int horas){horasDedicadas=horas;}
+    int getHorasRealizadas(void){return horasDedicadas;}
+};
+
+class Becario:public Trabajador{
+private:
+    //std::string Nombre; //No nos hace falta aquÃ­ por la herencia de Trabajador
+    std::string NombreResponsable;
+public:
+    Becario():Trabajador(){} //Constructor por defecto que usa el constructor por defecto de su base
+    Becario(std::string nom,int id,const std::string &jefe):Trabajador(id,nom){//Constructor con parÃ¡metros
+        NombreResponsable=jefe;}
+
+    //RedefiniciÃ³n de WhoAmI() en Becario
+    string WhoAmI() const{
+        return ("Becario");
+    }
+
+    std::string getResponsable() const{return NombreResponsable;}
+};
+
+class Empleado:public Trabajador{
+private:
+    std::string NombreResponsable;
+    std::shared_ptr<Becario> BecarioAsignado;
+public:
+    Empleado():Trabajador(){}
+
+    Empleado(string nom,int id,const std::string &jefe):Trabajador(id,nom), NombreResponsable{jefe}{
+        //NombreResponsable=jefe; //Para este contructor en lugar de inicializar NombreResponsable en su Ã¡mbito lo hacemos con el operador :
+    }
+
+    //RedefiniciÃ³n de WhoAmI() en Empleado
+    string WhoAmI() const{
+        return ("Empleado");
+    }
+
+    void setBecario(const std::shared_ptr<Becario> &bec){
+        BecarioAsignado=bec;
+    }
+    std::shared_ptr<Becario> getBecario(void) const{return BecarioAsignado;}
+
+    std::string getResponsable() const{return NombreResponsable;}
+
+};
+
+class ResponsableArea:public Trabajador{
+private:
+    std::vector<std::shared_ptr<Empleado>> Equipo;
+    std::string NombreProyecto;
+    int HorasProyecto; //Las horas que comercial va a facturar al cliente
+public:
+    ResponsableArea():Trabajador(){HorasProyecto=0;}
+    ResponsableArea(std::string nom,int id,const std::string &proyecto):Trabajador(id,nom), NombreProyecto{proyecto}, HorasProyecto{0}{
+        //NombreProyecto=proyecto;
+        //HorasProyecto=0;
+        //Al igual que en Empleado inicializamos las variables encapsuladas con el operador : en lugar de hacerlo en el Ã¡mbito
+    }
+    ResponsableArea(std::string nom,int id,const std::string &proyecto,const std::vector<std::shared_ptr<Empleado>> &eq):Trabajador(id,nom){
+        NombreProyecto=proyecto;
+        Equipo=eq;
+        HorasProyecto=0;
+    }
+
+    //RedefiniciÃ³n de WhoAmI() en Responsable
+    string WhoAmI() const{
+        return ("Responsable");
+    }
+
+    int CalculoHoras()
+    {
+        int horasEquipo{0};
+        for(auto elem:Equipo)
+        {
+            horasEquipo+=elem->getHorasRealizadas();
+            if(elem->getBecario()!=nullptr)
+            {//Si el Empleado tiene becario sumamos sus horas
+                horasEquipo+=elem->getBecario()->getHorasRealizadas();
+            }
+        }
+        horasEquipo+=this->getHorasRealizadas();  //AÃ±adimos las horas del responsable tambiÃ©n
+
+        if(horasEquipo>HorasProyecto)
+        {//Si nos hemos pasado de la asignaciÃ³n inicial lanzamos excepciÃ³n
+            throw std::string{"Comercial se enfada"};
+        }
+
+        return horasEquipo;
+    }
+
+    void setProyecto(const std::string &nom){NombreProyecto=nom;}
+    std::string getProyecto(void) const{return NombreProyecto;}
+    void setEquipo(const std::vector<std::shared_ptr<Empleado>> &eq){Equipo=eq;}
+    std::vector<std::shared_ptr<Empleado>> getEquipo() const{return Equipo;}
+
+};
+
+std::ostream& operator <<(std::ostream &os, std::shared_ptr<Trabajador> const &trab)
+{//Sobrecarga de << Para shared_ptr<Trabajador>
+
+    //La herencia de Trabajador es accesible
+    os<<"Nombre: "<<trab->getNombre()<<"\nId: "<<trab->getIDempleado()<<"\n"<<"Es "<< trab->WhoAmI()<<endl;
+
+    //Para el resto de atributos que dependen de cada rol derivado comprobamos que tipo de Trabajador tenemos con el mÃ©todo WhoAmI()
+    if(trab->WhoAmI() == "Becario"){
+        //El getter del responsable de becario no estÃ¡ heredado, pertenece a la clase becario=>downcasting
+        Becario *b = dynamic_cast<Becario*>(trab.get());
+        if(b!=nullptr)
+        {
+            os<<"\nResponsable: "<<b->getResponsable()<<endl;
+        }
+    }
+    else if(trab->WhoAmI() == "Empleado"){
+        //El getter de becario asignado no estÃ¡ heredado, pertenece a la clase Empleado=>downcasting
+        //Lo mismo para getter de responsable
+        Empleado *e = dynamic_cast<Empleado*>(trab.get());
+        if(e!=nullptr)
+        {
+            os<<"\nBecario asignado: "<<e->getBecario()<<"\nResponsable: "<<e->getResponsable()<<endl;
+        }
+    }
+    else if(trab->WhoAmI() == "Responsable"){
+        //Lo mismo que en el resto de roles...
+            ResponsableArea *r = dynamic_cast<ResponsableArea*>(trab.get());
+            if(r!=nullptr)
+            {
+                os<<"\nNombre del proyecto: "<<r->getProyecto()<<"\nHoras de proyecto: "<<r->getHorasRealizadas()<<"\nIntegrantes del proyecto: \n";
+                for(auto elem: r->getEquipo()){
+                    os<<elem->getNombre()<<endl;
+                }
+            }
+        }
+    else
+    {
+        os<<"Error\n";
+    }
+
+    return os;
+}
+
+//Funciones crear becario, empleado y responsable
+std::shared_ptr<Empleado> CrearEmpleado(const std::string &nombre,int ID, const std::string &jefe)
+{
+    std::shared_ptr<Empleado> empl=std::make_shared<Empleado>(nombre,ID,jefe);
+
+    return empl;
+}
+
+std::shared_ptr<Becario> CrearBecario(const std::string &nombre,int ID, const std::string &jefe)
+{
+    std::shared_ptr<Becario> resp=std::make_shared<Becario>(nombre,ID,jefe);
+
+    return resp;
+}
+
+std::shared_ptr<ResponsableArea> CrearResponsable(const std::string &nombre,int ID,const std::string &proyecto)
+{
+    std::shared_ptr<ResponsableArea> resp=std::make_shared<ResponsableArea>(nombre,ID,proyecto);
+
+    return resp;
+}
+
+int main()
+{
+    int opcion{-1},encontrado{0};
+    std::string nombreTrabajador;
+    std::string nombreResp;
+    std::string nombreProyecto;
+    int IDtrabajador;
+    int nPersonas{0};
+    std::vector<std::shared_ptr<Empleado>> equipo;
+
+    //Contenedor para almacenar punteros
+    //En un vector de punteros a Trabajado guardaremos becarios, empleados y responsables
+    vector<shared_ptr<Trabajador>> Plantilla;
+
+    while(opcion!=0)
+    {
+        cout << "Que opcion quieres?\n 1:Ingresa becario\n 2:Ingresa empleado\n 3:Ingresa responsable\n 4:Crea equipo\n 5:Buscar trabajador\n 0:Salir\n " << endl;
+        cin>>opcion;cin.ignore();
+
+        switch(opcion)
+        {
+        case 0:
+            cout<<"terminando..."<<endl;
+            break;
+        case 1: //Registramos becario
+            cout<<"\nIntroduce nombre: ";
+
+            getline(cin,nombreTrabajador); //Ojo que cin con los espacios se lleva mal.... :)
+            cout<<"\nIntroduce ID trabajador: ";
+            cin>>IDtrabajador;cin.ignore();  //Entre cin y getline usamos cin.ignore()
+
+            cout<<"\nIntroduce nombre del jefe: ";
+            getline(cin,nombreResp);
+
+            //Plantilla es vector de trabajadores y almacenamos un becario
+            Plantilla.push_back(CrearBecario(nombreTrabajador,IDtrabajador,nombreResp));
+            break;
+        case 2: //Registramos empleado
+            cout<<"\nIntroduce nombre: ";
+
+            getline(cin,nombreTrabajador);
+            cout<<"\nIntroduce ID trabajador: ";
+            cin>>IDtrabajador;cin.ignore();
+
+            cout<<"\nIntroduce nombre del jefe: ";
+            getline(cin,nombreResp);
+
+            //Plantilla es vector de trabajadores y almacenamos un empleado
+            Plantilla.push_back(CrearEmpleado(nombreTrabajador,IDtrabajador,nombreResp));
+            break;
+        case 3: //Registramos responsable
+            cout<<"\nIntroduce nombre: ";
+
+            getline(cin,nombreTrabajador);
+            cout<<"\nIntroduce ID trabajador: ";
+            cin>>IDtrabajador;cin.ignore();
+
+            cout<<"\nIntroduce nombre del proyecto: ";
+            getline(cin,nombreProyecto);
+
+            //Plantilla es vector de trabajadores y almacenamos un responsable
+            Plantilla.push_back(CrearResponsable(nombreTrabajador,IDtrabajador,nombreProyecto));
+            break;
+        case 4://Creamos equipo para asignar a Responsable
+            cout<<"cuantas personas van a formar el equipo?"<<endl;
+            cin>>nPersonas;cin.ignore();
+
+            //Buscamos en plantilla a la persona
+            while(nPersonas>0)
+            {
+                cout<<"\nNombre integrante equipo?:";
+                getline(cin,nombreTrabajador);
+                if(nombreTrabajador.size()==0)
+                {
+                    break;
+                }
+
+                for(unsigned int i{0};i<Plantilla.size();i++)
+                {//vector.size() devuelve un unsigned int. Si declaramos i como ese tipo quitaremos el warning
+                    if(Plantilla.at(i)->getNombre()==nombreTrabajador && Plantilla.at(i)->WhoAmI() == "Empleado")
+                    {//Si el nombre coincide y es empleado lo aÃ±adimos al equipo
+                        //Equipo es un vector de punteros a empleados, no admite otro rol
+                        cout<<"Encontrado!"<<endl;
+                        //Empleado *e = dynamic_cast<Empleado*>(Plantilla.at(i).get());
+                        //Para poder aÃ±adirlo al vector tenemos que hacerlo puntero shared a empleado
+                        //equipo.push_back(make_shared<Empleado>(*e));
+
+                        //O usamos dynamic_pointer_cast que devuelve un puntero inteligente
+                        auto emplInteligente=dynamic_pointer_cast<Empleado>(Plantilla.at(i));
+                        equipo.push_back(emplInteligente);
+
+                        nombreTrabajador.clear();
+                        nPersonas--;
+                        break;
+                    }
+                }
+            }
+            //Este bucle tiene un problema...
+            //
+            //
+            //Â¿Â¿QuÃ© pasa si no hay suficientes empleados para llenar el equipo??
+
+
+            cout<<"\nA que responsable le asignas el equipo?:";
+            getline(cin,nombreTrabajador);
+
+            for(unsigned int i{0};i<Plantilla.size();i++)
+            {//Recorremos la plantilla
+                if(Plantilla.at(i)->getNombre()==nombreTrabajador && Plantilla.at(i)->WhoAmI() == "Responsable")
+                {//Buscando el nombre del resposable al que vamos a asignar el equipo
+                    cout<<"Responsable encontrado!"<<endl;
+                    //Para usar el setEquipo tenemos que hacer downcasting para poder acceder
+                    //desde la clase base a la clase derivada
+                    ResponsableArea *r = dynamic_cast<ResponsableArea*>(Plantilla.at(i).get());
+                    r->setEquipo(equipo);
+
+                    equipo.clear();
+                    nombreTrabajador.clear();
+                    break;
+                }
+            }
+
+            break;
+        case 5: //Buscar persona
+            cout<<"\nA quien buscas?:";
+            getline(cin,nombreTrabajador);
+
+            for(auto elem: Plantilla)
+            {//Recorremos Plantilla
+                if(elem->getNombre() == nombreTrabajador)
+                {//Buscando el nombre indicado
+                    //No hace falta downcasting porque Trabajador tiene getNombre()
+                    cout<<"Trabajador "<<nombreTrabajador<<" encontrado\n"<<elem<<endl;
+                    encontrado = 1;
+                }
+            }
+
+            if(encontrado==1)
+            {
+                encontrado=0;
+            }
+            else
+            {
+                std::cout<<"No he encontrado a "<<nombreTrabajador<<std::endl;
+            }
+
+            break;
+        default:
+            cout<<"Opcion no contemplada."<<endl;
+        }
+    }
+    return 0;
+}

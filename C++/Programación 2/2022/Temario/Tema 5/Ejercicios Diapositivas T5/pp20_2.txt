@@ -1,0 +1,78 @@
+#include <iostream>
+#include <set>
+
+using namespace std;
+
+class Persona{
+private:
+    unsigned int edad;
+    std::string nombre;
+public:
+    Persona();
+    Persona(const std::string &_n, unsigned int _e);
+
+    unsigned int getEdad() const;
+    void setEdad(unsigned int value);
+    std::string getNombre() const;
+    void setNombre(const std::string &value);
+};
+
+//Sobrecarga operador <
+int operator < (Persona const &izq, Persona const &der)
+{//Para este caso una persona serÃ¡ < que otra cuando tenga menos aÃ±os
+    //Â¿Se os ocurre otra posibilidad?
+    return izq.getEdad() < der.getEdad();
+}
+
+std::string Persona::getNombre() const
+{
+    return nombre;
+}
+
+void Persona::setNombre(const std::string &value)
+{
+    nombre = value;
+}
+
+Persona::Persona()
+{
+    edad=0;
+    nombre="";
+}
+
+Persona::Persona(const string &_n, unsigned int _e)
+{
+    nombre=_n;
+    edad=_e;
+}
+
+unsigned int Persona::getEdad() const
+{
+    return edad;
+}
+
+void Persona::setEdad(unsigned int value)
+{
+    edad = value;
+}
+
+
+int main()
+{
+    std::set<Persona> MiMultitud;
+    //Set ordena de menor a mayor sus elementos, y C++ no sabe comparar si una Persona es menor que otra...
+    //Persona es un tipo de datos (una clase) que hemos definido nosotros 
+    //Podemos indicarle como tratar Persona1<Persona2 sobrecargando el operador <
+
+    MiMultitud.insert(Persona("Pepe Perez",40));
+    MiMultitud.insert(Persona("Juan",41));
+    MiMultitud.insert(Persona("Paco",40));
+    
+    for(auto elem:MiMultitud)
+    {
+        cout<<elem.getNombre()<<"_"<<elem.getEdad()<<endl;
+    }
+
+    return 0;
+
+}

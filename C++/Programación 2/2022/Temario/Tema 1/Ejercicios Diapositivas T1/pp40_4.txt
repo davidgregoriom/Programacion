@@ -1,0 +1,32 @@
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+void MiFuncion()
+{
+    //std::shared_ptr<int> MiPuntero(new int(3));
+    std::shared_ptr<int> MiPuntero= std::make_shared<int>(3);
+    std::cout<<"Mostramos cuantas veces estamos usando el puntero: ";
+    std::cout<<MiPuntero.use_count()<<std::endl;
+    //hacemos cosas con el puntero...
+        std::cout<<"El contenido del puntero es: "<<*MiPuntero<<std::endl;
+    //.....
+
+    std::shared_ptr<int> CopiaDePuntero = MiPuntero; //Hacemos una copia del puntero
+
+    std::cout<<"Mostramos cuantas veces estamos usando el puntero: ";
+    std::cout<<MiPuntero.use_count()<<std::endl;
+
+    std::cout<<"Esperando..."<<std::endl;
+} //Fin del scope para MiPuntero y CopiaDePuntero
+  //Ya no hay mÃ¡s referencias al dato original(.use_count==0)->Se libera la memoria
+
+int main()
+{
+    cout << "Prueba contador de shared_ptr..." << endl;
+    MiFuncion();
+
+    cout << "Terminando..." << endl;
+    return 0;
+}

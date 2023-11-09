@@ -1,0 +1,11 @@
+#include <iostream>
+#include <memory>
+#include <vector>
+
+
+int main(){
+  std::vector<std::unique_ptr<int>> v;
+  v.push_back(std::make_unique<int>(21));  //Esto es correcto?
+
+  return 0;
+}

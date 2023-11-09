@@ -1,0 +1,29 @@
+#include <iostream>
+
+using namespace std;
+
+class MiClase
+{
+public:
+    MiClase(){cout<<"Estoy en el contructor"<<endl;};
+    ~MiClase(){cout<<"Estoy en el destructor"<<endl;};
+
+private:
+};
+
+void fun(void)
+{
+    cout<<"Entro en fun"<<endl;
+    MiClase MiObjeto2;
+    
+    cout<<"Salgo de fun"<<endl;
+}
+
+int main()
+{
+    MiClase MiObjeto;
+    
+    //fun();
+
+    return 0;
+}

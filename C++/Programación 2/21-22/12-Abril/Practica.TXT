@@ -1,0 +1,6 @@
+Crear una clase Complejo, para albergar vectores complejos.
+Crear una clase Vector3 para albergar vectores de 3 coordenadas.
+Crear una clase Matriz2 para albergar matrices de 2x2
+Templatizar las funciones suma, resta, multiplicación (en el caso del vector debe ser el producto vectorial)
+Resolver las funciones templatizadas con sobrecarga de los operadores suma, resta y multiplicación.
+Resolver las funciones templatizadas particularizando la plantilla.

@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+
+class Persona{
+
+public:
+  //constructor
+  Persona(const string &_nombre, unsigned short int _edad, unsigned short int _altura)
+  {
+    nombre = _nombre;
+    edad = _edad;
+    altura = _altura;
+  }
+
+  //variables miembro (atributos)
+  string nombre;
+  unsigned short edad;
+  unsigned short altura;
+};
+
+int main()
+{
+    //Instanciamos una variable de tipo Persona
+    //Persona miPersona; //Error no encuentra constructor Persona()
+    Persona miPersona("Paco Perez",40,185); //Usamos el constructor disponible en la clase
+    
+    //Como los datos que encapsula la clase estÃ¡n en el nivel de acceso publico podemos acceder a ellos
+    std::cout<<miPersona.nombre<<"_"<<miPersona.edad<<"_"<<miPersona.altura<<std::endl;
+    
+    
+    return 0;
+}

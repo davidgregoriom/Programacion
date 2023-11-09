@@ -1,0 +1,96 @@
+#include <iostream>
+
+class animal{
+private:
+    std::string Nombre;
+    int edad;
+public:
+    animal(){edad=0;}
+    animal(int e){edad=e;}
+    animal(int e, const std::string &n){edad=e;Nombre=n;}
+
+    void setNombre(const std::string &nom){Nombre=nom;}
+    void setEdad(int e){edad=e;}
+
+    std::string getNombre(){return Nombre;}
+    int getEdad(){return edad;}
+};
+
+
+class invertebrados:public animal{
+    private:
+           bool proteccionCorporal; //0 no la tiene, 1 la tiene
+           //...
+    public:
+           invertebrados():animal(){proteccionCorporal=false;}
+           invertebrados(bool p):animal(){proteccionCorporal=true;}
+           invertebrados(int e):animal(e){proteccionCorporal=false;}
+           invertebrados(const std::string &n,int e,bool p):animal(e,n){
+               proteccionCorporal=p;
+           }
+           //....
+
+           void setProteccionCorp(bool p){proteccionCorporal=p;}
+           bool getProteccionCorp(void){return proteccionCorporal;}
+           //...
+
+};
+
+class artropodos:public invertebrados{
+    private:
+        int nPatas;
+    public:
+        artropodos():invertebrados(){nPatas=0;}
+        artropodos(int patas):invertebrados(){nPatas=patas;}
+        artropodos(const std::string &n,int e,bool p,int patas):invertebrados(n,e,p){
+            nPatas=patas;
+        }
+        //....
+
+        void setNpatas(int n){nPatas=n;}
+        int getNpatas(void){return nPatas;}
+        //...
+};
+
+class molusco:public invertebrados{
+    private: //...
+};
+
+//Artropodo, molusco, equinodermo....
+
+class insectos:public artropodos{
+    private:
+        int nAlas;
+    public:
+        insectos():artropodos(3*2){nAlas=0;} //Los insectos tienen 3 pares de patas y dos antenas
+        insectos(int alas):artropodos(3*2){nAlas=alas;}
+        //...
+};
+
+class aracnidos:public artropodos{
+
+};
+
+//Artropodos: inectos, arÃ¡cnidos, miriapodos, crustaceos
+
+class vertebrados:public animal{
+    private:
+        int nVertebras;
+};
+
+class mamiferos:public vertebrados{
+
+};
+
+class peces:public animal{
+
+};
+//aves, reptiles, anfibios...
+
+int main()
+{
+   std:: cout << "Ejemplo herencia de animales!" << std::endl;
+
+
+    return 0;
+}

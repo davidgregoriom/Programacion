@@ -1,0 +1,33 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+class Complejo{
+    public:
+    
+        double real;
+        double imag;
+        
+        double getModulo(){
+                return sqrt(pow(real,2)+pow(imag,2));
+        };
+        
+        void print()
+        {
+            std::cout<<real<<"+"<<imag<<"*i"<<std::endl;
+        };
+};
+
+int main()
+{
+    Complejo miComplejo;
+    
+    miComplejo.real=3;
+    miComplejo.imag=5;
+    
+    miComplejo.print();
+    cout<<miComplejo.getModulo()<<endl;
+    
+    return 0;
+}

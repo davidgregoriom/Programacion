@@ -1,0 +1,34 @@
+#include <iostream>
+#include <memory>
+
+class Figura{
+public:
+  Figura(){};
+  virtual ~Figura(){};
+
+  virtual float getArea(){std::cout << "No implementado\n";return 0;}
+};
+
+class Cuadrado: public Figura{
+public:
+  Cuadrado(float a):lado{a} {}
+  float getArea(){return lado*lado;}
+private:
+  float lado;
+};
+
+class Triangulo: public Figura{
+public:
+  Triangulo(float base, float altura): base{base}, altura{altura} {}
+private:
+  float base;
+  float altura;
+};
+
+int main(){
+  std::unique_ptr<Figura> puntT = std::make_unique<Triangulo>(4,5);
+  std::unique_ptr<Figura> puntC =std::make_unique<Cuadrado>(2.0);
+  
+  std::cout<<puntC->getArea()<<std::endl; //?
+  std::cout<<puntT->getArea()<<std::endl; //?
+}

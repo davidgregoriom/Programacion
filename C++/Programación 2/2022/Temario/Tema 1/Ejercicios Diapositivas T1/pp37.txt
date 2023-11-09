@@ -1,0 +1,31 @@
+#include <iostream>
+#include <memory>
+
+struct Foo{
+    int a{0};
+};
+
+int main()
+{//Ãmbito de la funciÃ³n principal
+  Foo miFoo{61};
+  auto fil = std::make_shared<int>(31);  //auto sabe lo que es un unique_ptr...
+  auto fol = std::make_shared<Foo>(Foo{61});
+
+  if(true)
+  {//Ãmbito de if
+    auto p = std::make_shared<int>(32);
+    auto q = std::make_shared<Foo>(Foo{62});
+    std::cout << *p << "\n"; // 32
+    std::cout << q->a << "\n"; // 62
+    std::cout << *fil << "\n"; // 31
+    std::cout << fol->a << "\n"; // 61
+  } // se libera la memoria de p y q, al terminar el ambito donde se usa
+
+  std::cout << *fil << "\n";
+  std::cout << fol->a << "\n";
+  //std::cout << *p << "\n"; //p no existe en este Ã¡mbito => error
+  //std::cout << q->a << "\n"; //q no existe en este Ã¡mbito => error
+
+  return 0;
+
+} // se libera la memoria de fil y fol al terminar su ambito

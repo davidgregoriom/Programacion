@@ -1,0 +1,24 @@
+#include <iostream>
+
+using namespace std;
+
+class Clase{
+    private:
+        int a{0};
+        double b{0.0};
+        char l{'f'};
+    public:
+        char mayor(char letra){if(a>letra) return a; else return letra;};
+        int mayor(int num){if(a>num) return a; else return num;};
+        double mayor(double num){if(a>num) return a; else return num;};
+};
+
+int main()
+{
+    Clase miObjeto;
+    cout<<miObjeto.mayor('w')<<endl;
+    cout<<miObjeto.mayor(3)<<endl;
+    cout<<miObjeto.mayor(-2.3)<<endl;
+
+    return 0;
+}

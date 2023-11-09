@@ -1,0 +1,22 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+   try {
+       throw 22;
+   }
+   catch(double d)
+   {
+       cout << "Excepcion tipo double: " << d << endl;
+   }
+   catch(...)
+   {
+       cout<<" Algo ha fallado y no esta contemplado en los catch"<<endl;
+   }
+   
+   
+   cout<<"Voy a terminar..."<<endl;
+
+   return 0;
+}

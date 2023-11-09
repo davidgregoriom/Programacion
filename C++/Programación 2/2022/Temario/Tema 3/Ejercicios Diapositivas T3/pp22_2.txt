@@ -1,0 +1,20 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+   try {
+      throw 'x'; // lanzamos excepciÃ³n Â¿tipo?
+                 //Â¿Â¿Â¿Â¿QuÃ© va a pasar??????
+                 //Y si lanzamos otra excepciÃ³n despues de throw 'x';? Â¿throw 22;?
+      throw 22;
+   }
+   catch(char c) {
+      cout << "Excepcion tipo char: " << c << endl;
+   }
+   catch(int n) {
+      cout << "Excepcion tipo int: " << n << endl;
+   }
+
+   return 0;
+}
